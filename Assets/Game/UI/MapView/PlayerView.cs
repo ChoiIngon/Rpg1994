@@ -13,55 +13,55 @@ public class PlayerView : CharacterView {
 		switch (armorInfo.type) {
 		case ArmorItemInfo.ItemType.Body :
 			ScrollView.Instance.Add (armorInfo.type.ToString(), () => {
-				Game.Instance.player.EquipArmorItem (slot.index, Character.ArmorPart.Body);
+				Game.Instance.player.EquipItem (slot.index, Character.EquipPart.Body);
 				ShowInventory();
 				ScrollView.Instance.Add ("You equip " + info.name + " on " + armorInfo.type.ToString() + "\n");
 			});
 			break;
 		case ArmorItemInfo.ItemType.Feet :
 			ScrollView.Instance.Add (armorInfo.type.ToString(), () => {
-				Game.Instance.player.EquipArmorItem (slot.index, Character.ArmorPart.Feet);
+				Game.Instance.player.EquipItem (slot.index, Character.EquipPart.Feet);
 				ShowInventory();
 				ScrollView.Instance.Add ("You equip " + info.name + " on " + armorInfo.type.ToString() + "\n");
 			});
 			break;
 		case ArmorItemInfo.ItemType.Hand :
 			ScrollView.Instance.Add (armorInfo.type.ToString(), () => {
-				Game.Instance.player.EquipArmorItem (slot.index, Character.ArmorPart.Hand);
+				Game.Instance.player.EquipItem (slot.index, Character.EquipPart.Hand);
 				ShowInventory();
 				ScrollView.Instance.Add ("You equip " + info.name + " on " + armorInfo.type.ToString() + "\n");
 			});
 			break;
 		case ArmorItemInfo.ItemType.Head :
 			ScrollView.Instance.Add (armorInfo.type.ToString(), () => {
-				Game.Instance.player.EquipArmorItem (slot.index, Character.ArmorPart.Head);
+				Game.Instance.player.EquipItem (slot.index, Character.EquipPart.Head);
 				ShowInventory();
 				ScrollView.Instance.Add ("You equip " + info.name + " on " + armorInfo.type.ToString() + "\n");
 			});
 			break;
 		case ArmorItemInfo.ItemType.Legs :
 			ScrollView.Instance.Add (armorInfo.type.ToString(), () => {
-				Game.Instance.player.EquipArmorItem (slot.index, Character.ArmorPart.Legs);
+				Game.Instance.player.EquipItem (slot.index, Character.EquipPart.Legs);
 				ShowInventory();
 				ScrollView.Instance.Add ("You equip " + info.name + " on " + armorInfo.type.ToString() + "\n");
 			});
 			break;
 		case ArmorItemInfo.ItemType.Neck :
 			ScrollView.Instance.Add (armorInfo.type.ToString(), () => {
-				Game.Instance.player.EquipArmorItem (slot.index, Character.ArmorPart.Legs);
+				Game.Instance.player.EquipItem (slot.index, Character.EquipPart.Legs);
 				ShowInventory();
 				ScrollView.Instance.Add ("You equip " + info.name + " on " + armorInfo.type.ToString() + "\n");
 			});
 			break;
 		case ArmorItemInfo.ItemType.Ring :
 			ScrollView.Instance.Add ("left hand", () => {
-				Game.Instance.player.EquipArmorItem (slot.index, Character.ArmorPart.LeftRing);
+				Game.Instance.player.EquipItem (slot.index, Character.EquipPart.LeftRing);
 				ShowInventory();
 				ScrollView.Instance.Add ("You equip " + info.name + " on left hand");
 			});
 			ScrollView.Instance.Add (" or ");
 			ScrollView.Instance.Add ("right hand\n", () => {
-				Game.Instance.player.EquipArmorItem (slot.index, Character.ArmorPart.RightRing);
+				Game.Instance.player.EquipItem (slot.index, Character.EquipPart.RightRing);
 				ShowInventory();
 				ScrollView.Instance.Add ("You equip " + info.name + " on right hand\n");
 			});
@@ -78,7 +78,7 @@ public class PlayerView : CharacterView {
 		switch (info.category) {
 		case ItemInfo.Category.Weapon:
 			ScrollView.Instance.Add ("equip", () => { 
-				Game.Instance.player.EquipWeaponItem (slot.index);	
+				Game.Instance.player.EquipItem (slot.index, Character.EquipPart.Weapon);	
 				ShowInventory();
 				ScrollView.Instance.Add ("You equip " + info.name + "\n");
 			});
@@ -144,5 +144,43 @@ public class PlayerView : CharacterView {
 				});
 			}
 		}
+	}
+	public override void ShowItemInfo(ItemData item) {
+		ItemInfo info = item.info;
+		ScrollView.Instance.AddTitle (item.info.name);
+		ScrollView.Instance.Add (ScrollView.MakeFixedLengthText("weight:" + info.weight, 10) + 
+		                         ScrollView.MakeFixedLengthText(", cost:" + info.cost, 10) + "\n");
+		ScrollView.Instance.Add (info.description + "\n");
+		ScrollView.Instance.Add ("\n");
+		ScrollView.Instance.Add ("You can ");
+		/*
+		switch (info.category) {
+		case ItemInfo.Category.Weapon:
+			ScrollView.Instance.Add ("unequip", () => { 
+				Game.Instance.player..EquipWeaponItem (slot.index);	
+					ScrollView.Instance.Add ("You equip " + info.name + "\n");
+					InventoryView view = new InventoryView (Game.Instance.player.inventory);
+					view.ShowInfo ();
+				});
+				break;
+			case ItemInfo.Category.Armor:
+				ShowArmorInfo(info);
+				break;
+			case ItemInfo.Category.Potion:
+				ScrollView.Instance.Add ("drink", () => { 
+					Game.Instance.player.UseItem (slot.index);	
+					ScrollView.Instance.Add ("You drink " + info.name + "\n");
+					InventoryView view = new InventoryView (Game.Instance.player.inventory);
+					view.ShowInfo ();
+				});
+				break;
+			}
+
+			ScrollView.Instance.Add (" or ");
+			ScrollView.Instance.Add ("drop\n", () => {
+			});
+		} 
+		*/
+		ScrollView.Instance.Add("\n");
 	}
 }

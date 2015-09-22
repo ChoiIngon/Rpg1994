@@ -6,25 +6,32 @@ public class CharacterView : ObjectView {
 		Character attacker = (Character)targetObject;
 		if (0 < damage) {
 			ScrollView.Instance.Add (attacker.name, () => { 
-				((CharacterView)attacker.view).ShowInfo();
+				((CharacterView)attacker.view).ShowCharacterInfo();
 			});
 			
 			ScrollView.Instance.Add (" damaged " + damage + " to ");
 			ScrollView.Instance.Add (defender.name + "\n", () => { 
-				((CharacterView)defender.view).ShowInfo();
+				((CharacterView)defender.view).ShowCharacterInfo();
 			});
 		} else {
 			ScrollView.Instance.Add (defender.name, () => { 
-				((CharacterView)attacker.view).ShowInfo();
+				((CharacterView)attacker.view).ShowCharacterInfo();
 			});
 			ScrollView.Instance.Add (" dodge!!\n");
 		}
 	}
-	private void ShowAttack() {
+	public void OnDetachBuff(BuffData buff) {
+		Character character = (Character)targetObject;
+		ScrollView.Instance.Add (character.name, () => {
+			((CharacterView)character.view).ShowCharacterInfo();
+		});
+		ScrollView.Instance.Add ("'s " + buff.info.name + " is expired");
+	}
+	public void ShowAttack() {
 		Character character = (Character)targetObject;
 		string item = "0";
-		if (null != character.weapon) {
-			WeaponItemInfo info = (WeaponItemInfo)character.weapon.info;
+		if (null != character.items[(int)Character.EquipPart.Weapon]) {
+			WeaponItemInfo info = (WeaponItemInfo)character.items[(int)Character.EquipPart.Weapon].info;
 			item = info.attack.ToString();
 		}
 		int buff = 0;
@@ -35,13 +42,18 @@ public class CharacterView : ObjectView {
 		}
 		ScrollView.Instance.Add ("attack:" + character.attack + " + " + item + " + " + buff + "\n");
 	}
-	private void ShowDefense() {
+	public void ShowDefense() {
 		Character character = (Character)targetObject;
 		int item = 0;
-		for (int i=0; i<(int)character.armor.Length; i++) {
-			if(null != character.armor[i]) {
-				ArmorItemInfo info = (ArmorItemInfo)character.armor[i].info;
-				item += info.defense;
+		for (int i=0; i<(int)character.items.Length; i++) {
+			if(null != character.items[i]) {
+				if(ItemInfo.Category.Armor != character.items[i].info.category)	{
+					continue;
+				}
+				ArmorItemInfo info = (ArmorItemInfo)character.items[i].info;
+				if(null != info) {
+					item += info.defense;
+				}
 			}
 		}
 		int buff = 0;
@@ -52,18 +64,24 @@ public class CharacterView : ObjectView {
 		}
 		ScrollView.Instance.Add ("defense:" + character.defense + " + " + item + " + " + buff + "\n");
 	}
-	private void ShowSpeed() {
+	public void ShowSpeed() {
 		Character character = (Character)targetObject;
 		int item = 0;
-		if (null != character.weapon) {
-			WeaponItemInfo info = (WeaponItemInfo)character.weapon.info;
-			item += info.speed;
-		}
-		
-		for (int i=0; i<(int)character.armor.Length; i++) {
-			if(null != character.armor[i]) {
-				ArmorItemInfo info = (ArmorItemInfo)character.armor[i].info;
-				item += info.speed;
+		for (int i=0; i<(int)character.items.Length; i++) {
+			if(null != character.items[i]) {
+				if(ItemInfo.Category.Weapon == character.items[i].info.category) {
+					WeaponItemInfo info = (WeaponItemInfo)character.items[i].info;
+					if(null != info) {
+						item += info.speed;
+					}
+				}
+				if(ItemInfo.Category.Armor == character.items[i].info.category) {
+					ArmorItemInfo info = (ArmorItemInfo)character.items[i].info;
+					if(null != info) {
+						item += info.speed;
+					}
+				}
+
 			}
 		}
 		int buff = 0;
@@ -85,25 +103,21 @@ public class CharacterView : ObjectView {
 	}
 	public void ShowItems() {
 		Character character = (Character)targetObject;
-		if (null != character.weapon) {
-			ScrollView.Instance.Add ("Weapon:" + character.weapon.info.name + "\n", () => {
-				ItemView view = new ItemView(character.weapon);
-				view.ShowInfo();
-			});
-		}
-		
-		for (int i=0; i<(int)character.armor.Length; i++) {
-			if(null != character.armor[i]) {
-				ArmorItemData data = character.armor[i];
-				ArmorItemInfo info = data.info as ArmorItemInfo;
-				ScrollView.Instance.Add (info.type.ToString() + ":" + info.name + "\n", () => {
+
+		for (int i=0; i<character.items.Length; i++) {
+			if(null != character.items[i]) {
+				ItemData data = character.items[i];
+				ItemInfo info = data.info as ItemInfo;
+				ScrollView.Instance.Add (((Character.EquipPart)i).ToString() + ":" + info.name + "\n", () => {
 					ItemView view = new ItemView(data);
 					view.ShowInfo();
 				});
 			}
 		}
 	}
-	public void ShowInfo() {
+
+	public virtual void ShowItemInfo(ItemData item) {}
+	public virtual void ShowCharacterInfo() {
 		Character character = (Character)targetObject;
 		ScrollView.Instance.AddTitle (character.name);
 		ScrollView.Instance.Add ("hp:" + character.health.current + "/" + character.health.max + "\n");

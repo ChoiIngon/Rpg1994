@@ -13,8 +13,22 @@ public class MonsterView : CharacterView {
 		base.Destroy ();
 		MonsterData monster = (MonsterData)targetObject;
 		ScrollView.Instance.Add (monster.name, () => { 
-			((MonsterView)monster.view).ShowInfo();
+			((MonsterView)monster.view).ShowCharacterInfo();
 		});
 		ScrollView.Instance.Add (" die\n");
+	}
+
+	public override void ShowCharacterInfo() {
+		MonsterData monster = (MonsterData)targetObject;
+		ScrollView.Instance.AddTitle (monster.name);
+		ScrollView.Instance.Add (monster.info.description + "\n");
+		ScrollView.Instance.Add ("\n");
+		ScrollView.Instance.Add ("hp:" + monster.health.current + "/" + monster.health.max + "\n");
+		ShowAttack ();
+		ShowDefense ();
+		ShowSpeed ();
+		ShowBuffs ();
+		ShowItems ();
+
 	}
 }

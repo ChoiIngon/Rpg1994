@@ -8,8 +8,9 @@ public class Character : Object {
 		East, West, South, North, Max
 	}
 
-	public enum ArmorPart
+	public enum EquipPart
 	{
+		Weapon,
 		LeftRing,
 		RightRing,
 		Neck,
@@ -47,16 +48,17 @@ public class Character : Object {
 	public int defense;
 
 	public List<BuffData> buffs = new List<BuffData> ();
-	public WeaponItemData weapon = null;
-	public ArmorItemData[] armor = new ArmorItemData[(int)ArmorPart.Max];
+
+	public EquipmentItemData[] items = new EquipmentItemData[(int)EquipPart.Max];
 	public int updateTime = 0;
 	public StateData state = null;
 	public DirectionType direction;
 
 	public int GetAttack() {
 		int attack = this.attack;
+		WeaponItemData weapon = (WeaponItemData)items [(int)EquipPart.Weapon];
 		if (null != weapon) {
-			WeaponItemInfo info = (WeaponItemInfo)weapon.info;
+			WeaponItemInfo info = (WeaponItemInfo)(weapon.info);
 			attack += info.attack;
 		} 
 		for (int i=0; i<buffs.Count; i++) {
@@ -71,9 +73,15 @@ public class Character : Object {
 	}
 	public int GetDefense() {
 		int defense = this.defense;
-		for (int i=0; i<(int)armor.Length; i++) {
-			if(null != armor[i]) {
-				ArmorItemInfo info = (ArmorItemInfo)armor[i].info;
+		for (int i=0; i<(int)items.Length; i++) {
+			EquipmentItemData item = items[i];
+			if(null == item || ItemInfo.Category.Armor != item.info.category)
+			{
+				continue;
+			}
+			ArmorItemData armor = (ArmorItemData)item;
+			if(null != armor) {
+				ArmorItemInfo info = (ArmorItemInfo)armor.info;
 				defense += info.defense;
 			}
 		}
@@ -90,6 +98,7 @@ public class Character : Object {
 			return state;
 		}
 		updateTime = Game.Instance.currentTurn;
+
 		state = new StateData();
 		state.health = health;
 		state.stamina = stamina;
@@ -97,23 +106,37 @@ public class Character : Object {
 		state.defense = defense;
 		state.speed = speed;
 
-		if (null != weapon) {
-			WeaponItemInfo info = (WeaponItemInfo)weapon.info;
-			state.attack += info.attack;
-			state.speed += info.speed;
-		}
+		for (int i=0; i<(int)items.Length; i++) {
+			EquipmentItemData item = items[i];
+			if(null == item) {
+				continue;
+			}
 
-		for (int i=0; i<(int)armor.Length; i++) {
-			if(null != armor[i]) {
-				ArmorItemInfo info = (ArmorItemInfo)armor[i].info;
+			switch(item.info.category) {
+			case ItemInfo.Category.Weapon :
+			{
+				WeaponItemData data = (WeaponItemData)item;
+				WeaponItemInfo info = (WeaponItemInfo)data.info;
+				state.attack += info.attack;
+				state.speed += info.speed;
+
+			}
+			break;
+			case ItemInfo.Category.Armor :
+			{
+				ArmorItemData data = (ArmorItemData)item;
+				ArmorItemInfo info = (ArmorItemInfo)data.info;
 				state.defense += info.defense;
 				state.speed += info.speed;
+			}
+				break;
 			}
 		}
 
 		for (int i=0; i<buffs.Count;) {
 			if(false == buffs[i].IsValid())
 			{
+				((CharacterView)view).OnDetachBuff(buffs[i]);
 				buffs.RemoveAt(i);
 			}
 			else {
@@ -124,50 +147,59 @@ public class Character : Object {
 
 		return state;
 	}
-	public void EquipWeaponItem(WeaponItemData item) {
-		weapon = item;
+
+	public void EquipItem(EquipmentItemData item, EquipPart part) {
+		switch (item.info.category) {
+		case ItemInfo.Category.Weapon :
+			items[(int)EquipPart.Weapon] = item;
+			break;
+		case ItemInfo.Category.Armor : 
+			EquipArmorItem((ArmorItemData)item, part);
+			break;
+		}
 	}
-	public void EquipArmorItem(ArmorItemData item, ArmorPart part)	{
+
+	private void EquipArmorItem(ArmorItemData item, EquipPart part)	{
 		ArmorItemInfo info = item.info as ArmorItemInfo;
 		switch (info.type) {
 		case ArmorItemInfo.ItemType.Body :
-			if(part != ArmorPart.Body)
+			if(part != EquipPart.Body)
 			{
 				throw new System.Exception("not proper item part(" +  info.name + ")");
 			}
 			break;
 		case ArmorItemInfo.ItemType.Feet :
-			if(part != ArmorPart.Feet)
+			if(part != EquipPart.Feet)
 			{
 				throw new System.Exception("not proper item part(" +  info.name + ")");
 			}
 			break;
 		case ArmorItemInfo.ItemType.Hand :
-			if(part != ArmorPart.Hand)
+			if(part != EquipPart.Hand)
 			{
 				throw new System.Exception("not proper item part(" +  info.name + ")");
 			}
 			break;
 		case ArmorItemInfo.ItemType.Head :
-			if(part != ArmorPart.Head)
+			if(part != EquipPart.Head)
 			{
 				throw new System.Exception("not proper item part(" +  info.name + ")");
 			}
 			break;
 		case ArmorItemInfo.ItemType.Legs :
-			if(part != ArmorPart.Legs)
+			if(part != EquipPart.Legs)
 			{
 				throw new System.Exception("not proper item part(" +  info.name + ")");
 			}
 			break;
 		case ArmorItemInfo.ItemType.Neck :
-			if(part != ArmorPart.Neck)
+			if(part != EquipPart.Neck)
 			{
 				throw new System.Exception("not proper item part(" +  info.name + ")");
 			}
 			break;
 		case ArmorItemInfo.ItemType.Ring :
-			if(part != ArmorPart.LeftRing && part != ArmorPart.RightRing)
+			if(part != EquipPart.LeftRing && part != EquipPart.RightRing)
 			{
 				throw new System.Exception("not proper item part(" +  info.name + ")");
 			}
@@ -176,7 +208,7 @@ public class Character : Object {
 			throw new System.Exception("not proper item part(" +  info.name + ")");
 		}
 
-		armor [(int)part] = item;
+		items [(int)part] = item;
 	}
 
 	public void SetDamage(int damage) {
@@ -209,7 +241,9 @@ public class Character : Object {
 			Destroy();
 		}
 	}
-	public virtual void Action() {}
+	public virtual void Action() {
+		GetState ();
+	}
 	public virtual void Destroy() {}
 
 	public static StateData operator + (Character rhs, StateData lhs)

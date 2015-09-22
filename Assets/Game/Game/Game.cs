@@ -67,12 +67,13 @@ public class Game : SingletonObject<Game> {
 	public void Update() {
 		if (lastTurn >= currentTurn) {
 			return ;
-
 		}
+
 		foreach (var v in MonsterManager.Instance.monsters) {
 			MonsterData monster = v.Value;
 			monster.Action();
 		}
+		player.Action ();
 		Debug.Log ("turn : " + currentTurn);
 		lastTurn = currentTurn;
 	}

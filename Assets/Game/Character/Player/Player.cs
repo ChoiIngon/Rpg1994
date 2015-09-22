@@ -8,30 +8,25 @@ public class Player : Character
 	public MonsterData target = null;
 	public Inventory inventory = new Inventory();
 
-	public void EquipWeaponItem(int index) {
-		ItemData item = inventory.Pull(index);
-		if (ItemInfo.Category.Weapon != item.info.category) {
-			throw new System.Exception("not weapon item category");
-		}
-		
-		WeaponItemData equipedWeapon = weapon;
-		EquipWeaponItem((WeaponItemData)item);
-		if (null != equipedWeapon) {
-			inventory.Put (equipedWeapon);
-		}
-	}
-	public void EquipArmorItem(int index, Character.ArmorPart part) {
+	public void EquipItem(int index, Character.EquipPart part) {
 		ItemData item = inventory.Pull (index);
-		if(ItemInfo.Category.Armor != item.info.category) {
-			throw new System.Exception("not equip item category");
+		EquipmentItemData equipedItem = items [(int)part];
+		if (null != equipedItem) {
+			inventory.Put (equipedItem);
 		}
-		
-		ArmorItemData equipedArmor = armor [(int)part];
-		EquipArmorItem ((ArmorItemData)item, part);
-		if (null != equipedArmor) {
-			inventory.Put (equipedArmor);
-		}
+		base.EquipItem ((EquipmentItemData)item, part);
 	}
+	public void UnequipItem(Character.EquipPart part) {
+		EquipmentItemData equipedItem = items [(int)part];
+		if (null != equipedItem) {
+			inventory.Put (equipedItem);
+		}
+		items [(int)part] = null;
+	}
+	public void DropItem(Character.EquipPart part) {
+		items [(int)part] = null;
+	}
+
 	public Character.StateData UseItem(int index) {
 		ItemData data = inventory.Pull(index);
 		switch (data.info.category) {
@@ -138,7 +133,6 @@ public class Player : Character
 		if (null == target) {
 			position = dest;
 		}
-		FieldOfView ();
 		Game.Instance.gameTurn.NextTurn ();
 	}
 	public void Attack() {
@@ -168,5 +162,9 @@ public class Player : Character
 			target = null;
 		}
 		Game.Instance.gameTurn.NextTurn ();
+	}
+	public override void Action() {
+		base.Action ();
+		FieldOfView ();
 	}
 }

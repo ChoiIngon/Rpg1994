@@ -12,8 +12,8 @@ public class MonsterInfo {
 	public RangeInt defense = new RangeInt();
 	public RangeInt maxHealth = new RangeInt ();
 	public StatusBarInt health = new StatusBarInt ();
-	public WeaponItemInfo weapon = null;
-	public ArmorItemInfo[] armor = new ArmorItemInfo[(int)Character.ArmorPart.Max];
+
+	public ItemInfo[] items = new ItemInfo[(int)Character.EquipPart.Max];
 	public RangeInt gold = new RangeInt();
 	public MonsterData CreateInstance() {
 		MonsterData data = new MonsterData ();
@@ -28,13 +28,10 @@ public class MonsterInfo {
 		data.health.current = maxHealth;
 		data.health.max = maxHealth;
 		data.health.current = data.health.max;
-		if (null != weapon) {
-			data.EquipWeaponItem (weapon.CreateInstance () as WeaponItemData);
-		}
-		for (int i=0; i<armor.Length; i++) {
-			if(null != armor[i])
+		for (int i=0; i<items.Length; i++) {
+			if(null != items[i])
 			{
-				data.EquipArmorItem(armor[i].CreateInstance() as ArmorItemData, (Character.ArmorPart)i);
+				data.EquipItem(items[i].CreateInstance() as EquipmentItemData, (Character.EquipPart)i);
 			}
 		}
 		return data;

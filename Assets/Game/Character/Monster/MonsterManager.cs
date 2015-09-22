@@ -30,7 +30,10 @@ public class MonsterManager : SingletonObject<MonsterManager> {
 			info.attack.SetValue((string)jsonInfo["attack"]);
 			info.speed.SetValue((string)jsonInfo["speed"]);
 			info.defense.SetValue((string)jsonInfo["defense"]);
-			info.weapon = ItemManager.Instance.Find ((string)jsonInfo["weapon"]) as WeaponItemInfo;
+			if("" != (string)jsonInfo["weapon"])
+			{
+				info.items[(int)Character.EquipPart.Weapon] = ItemManager.Instance.Find ((string)jsonInfo["weapon"]) as WeaponItemInfo;
+			}
 			dictInfo.Add (info.id, info);
 		}
 	}

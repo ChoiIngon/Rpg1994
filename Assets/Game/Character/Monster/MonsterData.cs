@@ -38,7 +38,7 @@ public class MonsterData : Character {
 			}
 		}
 		Idle ();
-		GetState ();
+		base.Action ();
 	}
 	public virtual void Idle() {
 		base.Move((Character.DirectionType)UnityEngine.Random.Range(0, (int)Character.DirectionType.Max));

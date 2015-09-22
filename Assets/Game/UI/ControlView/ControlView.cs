@@ -20,7 +20,7 @@ public class ControlView : MonoBehaviour {
 		try {
 			Game.Instance.player.MoveTo(Character.DirectionType.West);
 			MapView.Instance.SetMapScale(2.0f);
-			ScrollView.Instance.Add ("you moved to west(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
+			//ScrollView.Instance.Add ("you moved to west(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
 		}
 		catch(System.Exception e) {
 			ScrollView.Instance.Add (e.Message + "\n");
@@ -30,7 +30,7 @@ public class ControlView : MonoBehaviour {
 		try {
 			Game.Instance.player.MoveTo(Character.DirectionType.East);
 			MapView.Instance.SetMapScale(2.0f);
-			ScrollView.Instance.Add ("you moved to east(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
+			//ScrollView.Instance.Add ("you moved to east(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
 		}
 		catch(System.Exception e) {
 			ScrollView.Instance.Add (e.Message + "\n");
@@ -40,7 +40,7 @@ public class ControlView : MonoBehaviour {
 		try {
 			Game.Instance.player.MoveTo(Character.DirectionType.North);
 			MapView.Instance.SetMapScale(2.0f);
-			ScrollView.Instance.Add ("you moved to north(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
+			//ScrollView.Instance.Add ("you moved to north(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
 		}
 		catch(System.Exception e) {
 			ScrollView.Instance.Add (e.Message + "\n");
@@ -50,7 +50,7 @@ public class ControlView : MonoBehaviour {
 		try {
 			Game.Instance.player.MoveTo(Character.DirectionType.South);
 			MapView.Instance.SetMapScale(2.0f);
-			ScrollView.Instance.Add ("you moved to south(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
+			//ScrollView.Instance.Add ("you moved to south(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
 		}
 		catch(System.Exception e) {
 			ScrollView.Instance.Add (e.Message + "\n");
