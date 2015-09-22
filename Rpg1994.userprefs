@@ -1,0 +1,24 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/UI/MapView/PlayerView.cs">
+    <Files>
+      <File FileName="Assets/Game/UI/MapView/MonsterView.cs" Line="15" Column="50" />
+      <File FileName="Assets/Game/UI/MapView/MapView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/UI/UIManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Game/Object.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Character/Monster/MonsterData.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/UI/MapView/CharacterView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/UI/MapView/PlayerView.cs" Line="118" Column="29" />
+      <File FileName="Assets/Game/UI/ControlView/ControlView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Character/Player/Player.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/UI/ScrollView/ScrollView.cs" Line="80" Column="2" />
+      <File FileName="Assets/Game/UI/ControlView/ItemView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/ItemInfo.json" Line="1" Column="1" />
+      <File FileName="Assets/Game/UI/ScrollView/TextContents.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

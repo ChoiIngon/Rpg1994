@@ -1,0 +1,549 @@
+
+{
+  "name" : "map_001",
+  "size" : {
+    "width" : 30,
+    "height" : 30
+  },
+  "tiles" : [
+    {
+      "x" : 2,
+      "y" : 2,
+      "type" : "Wall",
+      "text" : "\u250C",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 3,
+      "y" : 2,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 4,
+      "y" : 2,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 5,
+      "y" : 2,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 6,
+      "y" : 2,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 7,
+      "y" : 2,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 8,
+      "y" : 2,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 9,
+      "y" : 2,
+      "type" : "Wall",
+      "text" : "\u2510",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 2,
+      "y" : 3,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 9,
+      "y" : 3,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 2,
+      "y" : 4,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 9,
+      "y" : 4,
+      "type" : "Wall",
+      "text" : "\u2514",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 10,
+      "y" : 4,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 11,
+      "y" : 4,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 12,
+      "y" : 4,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 13,
+      "y" : 4,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 14,
+      "y" : 4,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 15,
+      "y" : 4,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 16,
+      "y" : 4,
+      "type" : "Wall",
+      "text" : "\u2510",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 2,
+      "y" : 5,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 16,
+      "y" : 5,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 2,
+      "y" : 6,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 9,
+      "y" : 6,
+      "type" : "Wall",
+      "text" : "\u250C",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 10,
+      "y" : 6,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 11,
+      "y" : 6,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 12,
+      "y" : 6,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 13,
+      "y" : 6,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 14,
+      "y" : 6,
+      "type" : "Wall",
+      "text" : "\u2510",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 16,
+      "y" : 6,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 2,
+      "y" : 7,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 9,
+      "y" : 7,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 14,
+      "y" : 7,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 16,
+      "y" : 7,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 2,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2514",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 3,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2510",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 5,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u250C",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 6,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 7,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 8,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 9,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2518",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 12,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u250C",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 13,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 14,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2518",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 16,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2514",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 17,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 18,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 19,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 20,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2500",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 21,
+      "y" : 8,
+      "type" : "Wall",
+      "text" : "\u2510",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 3,
+      "y" : 9,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 5,
+      "y" : 9,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 12,
+      "y" : 9,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 14,
+      "y" : 9,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 15,
+      "y" : 9,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 3,
+      "y" : 10,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 5,
+      "y" : 10,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 12,
+      "y" : 10,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 14,
+      "y" : 10,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 15,
+      "y" : 10,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 16,
+      "y" : 10,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 17,
+      "y" : 10,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 18,
+      "y" : 10,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 3,
+      "y" : 11,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 5,
+      "y" : 11,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 12,
+      "y" : 11,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 14,
+      "y" : 11,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 15,
+      "y" : 11,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 16,
+      "y" : 11,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 17,
+      "y" : 11,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 18,
+      "y" : 11,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 19,
+      "y" : 11,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 3,
+      "y" : 12,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 5,
+      "y" : 12,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 12,
+      "y" : 12,
+      "type" : "Wall",
+      "text" : "\u2502",
+      "color" : "FFFFFF"
+    },
+    {
+      "x" : 17,
+      "y" : 12,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 18,
+      "y" : 12,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    },
+    {
+      "x" : 19,
+      "y" : 12,
+      "type" : "Floor",
+      "text" : "#",
+      "color" : "0CD740"
+    }
+  ]
+}

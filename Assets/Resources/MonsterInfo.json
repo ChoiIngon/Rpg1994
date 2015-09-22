@@ -1,0 +1,44 @@
+{
+	"monster" : [
+		{
+			"id" : "monster_001",
+			"name" : "monster",
+			"description" : "it is a monster!!",
+			"attack" : "8~10",
+			"speed" : "8~10",
+			"defense" : "8~10",
+			"health" : {
+				"max" : "10~20",
+				"amount" : 1,
+				"time" : 2
+			},
+			"weapon" : "sword_002",
+			"armor" : [
+				{ "head" : "helmet_001" }
+			],	
+			"reward" : [
+				{ "gold" : "100~200" }
+			]
+		},
+		{
+			"id" : "monster_002",
+			"name" : "monster",
+			"description" : "it is a monster!!",
+			"attack" : "8~10",
+			"speed" : "8~10",
+			"defense" : "8~10",
+			"health" : {
+				"max" : "20~30",
+				"amount" : 1,
+				"time" : 2
+			},
+			"weapon" : "sword_001",
+			"armor" : [
+				{ "head" : "helmet_002" }
+			],
+			"reward" : [
+				{ "gold" : "100~200" }
+			]
+		}
+	]
+}
