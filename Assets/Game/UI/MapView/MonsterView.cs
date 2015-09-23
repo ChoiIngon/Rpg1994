@@ -29,6 +29,5 @@ public class MonsterView : CharacterView {
 		ShowSpeed ();
 		ShowBuffs ();
 		ShowItems ();
-
 	}
 }

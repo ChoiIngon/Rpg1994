@@ -707,7 +707,6 @@ MonoBehaviour:
   tileViewPref: {fileID: 11440670, guid: 99bbd53148e3c4ca7a512a46e741e447, type: 2}
   monsterViewPref: {fileID: 11400408, guid: 95de3f558c34245e1a48bbda18daa08e, type: 2}
   playerViewPref: {fileID: 11446746, guid: 5554a6008f3d4424cac2141d49c6d66f, type: 2}
-  tileViews: []
   MAP_SCALE: 1
 --- !u!114 &350467881
 MonoBehaviour:
@@ -1484,6 +1483,7 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
+  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10

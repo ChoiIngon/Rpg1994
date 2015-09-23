@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 
 public class CharacterView : ObjectView {
@@ -109,8 +110,8 @@ public class CharacterView : ObjectView {
 				ItemData data = character.items[i];
 				ItemInfo info = data.info as ItemInfo;
 				ScrollView.Instance.Add (((Character.EquipPart)i).ToString() + ":" + info.name + "\n", () => {
-					ItemView view = new ItemView(data);
-					view.ShowInfo();
+					//ItemView view = new ItemView(data);
+					//view.ShowInfo();
 				});
 			}
 		}
@@ -126,5 +127,22 @@ public class CharacterView : ObjectView {
 		ShowSpeed ();
 		ShowBuffs ();
 		ShowItems ();
+	}
+
+	public void CreateItemStackView(ItemData item) {
+		GameObject obj = GameObject.Instantiate( AssetDatabase.LoadAssetAtPath("Assets/Prefab/Map/ItemStackView.prefab", typeof(GameObject)) ) as GameObject;
+		ItemStackView itemStackView = obj.GetComponent<ItemStackView> ();
+		ItemStack itemStack = new ItemStack ();
+		itemStack.item = item;
+		itemStack.position.x = targetObject.position.x;
+		itemStack.position.y = targetObject.position.y;
+		itemStackView.SetObject(itemStack, "I");
+		itemStackView.transform.SetParent (MapView.Instance.contents, false);
+	}
+
+	public override void Update() {
+		TileView tileView = (TileView)Game.Instance.map.GetTile(targetObject.position.x, targetObject.position.y).view;
+		tileView.SetHide(targetObject.visible);
+		base.Update ();
 	}
 }

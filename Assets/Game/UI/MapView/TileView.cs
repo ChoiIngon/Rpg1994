@@ -2,21 +2,14 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class TileView : MonoBehaviour {
-	public Tile tile;
-
+public class TileView : ObjectView {
 	public void SetTile(Tile tile)
 	{
-		Transform tileTextTransform = transform.FindChild ("Text");
-		if (null == tileTextTransform) {
-			throw new System.Exception ("can't find text object");
+		string text = ".";
+		if ("" != tile.id) {
+			text = tile.id;
 		}
-		Text text = tileTextTransform.GetComponent<Text> ();
-		this.tile = tile;
-		if ("" != this.tile.id) {
-			text.text = this.tile.id;
-		}
-		transform.localPosition = new Vector3(this.tile.position.x * MapView.TILE_SIZE, -this.tile.position.y * MapView.TILE_SIZE, 0);
+		base.SetObject(tile, text);
 	}
 	public void SetTileText(string t) {
 		Transform tileTextTransform = transform.FindChild ("Text");
@@ -33,12 +26,27 @@ public class TileView : MonoBehaviour {
 		}
 		return tileTextTransform.GetComponent<Text> ();
 	}
-	public void SetVisible(float a) {
+	public void SetHide(bool value) {
 		Transform tileTextTransform = transform.FindChild ("Text");
 		if (null == tileTextTransform) {
 			throw new System.Exception ("can't find text object");
 		}
 		Text text = tileTextTransform.GetComponent<Text> ();
-		text.color = new Color(text.color.r, text.color.g, text.color.b, a);
+		if (true == value) {
+			text.color = new Color (text.color.r, text.color.g, text.color.b, 0.0f);
+		} else {
+			text.color = new Color (text.color.r, text.color.g, text.color.b, 1.0f);
+		}
+	}
+	public override void Update() {
+		Text text = GetTileText();
+		
+		if(true == targetObject.visible) {
+			text.color = Color.white;
+		}
+		else {
+			text.color = Color.gray;
+		}
+		base.Update ();
 	}
 }

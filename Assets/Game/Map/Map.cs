@@ -42,14 +42,12 @@ public class Map {
 			int y = (int)jtile["y"];
 			
 			Tile tile = GetTile(x, y);
+			tile.position.x = x;
+			tile.position.y = y;
+
 			tile.id = (string)jtile["text"];
 			tile.type = Tile.ToType((string)jtile["type"]);
 			tile.color = Color.white;
-		}
-		for(int i=0; i<15; i++) {
-			MonsterData monster = MonsterManager.Instance.CreateInstance("monster_001");
-			monster.position.x = Random.Range(0, width-1);
-			monster.position.y = Random.Range(0, height-1);
 		}
 		Game.Instance.player.FieldOfView ();
 	}

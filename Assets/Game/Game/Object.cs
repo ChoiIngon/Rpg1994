@@ -131,5 +131,4 @@ public abstract class Object {
 		}
 		return positions;
 	}
-
 }

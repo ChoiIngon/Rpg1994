@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 using LitJson;
 
@@ -15,11 +16,12 @@ public class Game : SingletonObject<Game> {
 		Init ();
 	}
 	void Init() {
+//		GameObject obj = GameObject.Instantiate( AssetDatabase.LoadAssetAtPath("Assets/Prefab/Map/ItemStackView.prefab", typeof(GameObject)) ) as GameObject;
+//		ItemStackView view = obj.GetComponent<ItemStackView> ();
+//		view.SetObject (new ItemStack (), "+");
 		gameTurn = new GameTurn ();
 		gameTurn.Init<TurnCounter> ();
 		player = new Player ();
-		map = new Map ();
-
 		player.name = "You";
 		player.sight = 4;
 		player.health.current = 20;
@@ -41,15 +43,18 @@ public class Game : SingletonObject<Game> {
 		player.inventory.Put (ItemManager.Instance.CreateInstance("heal_potion_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance ("glove_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance ("shoes_001"));
-		
 		player.inventory.Put (ItemManager.Instance.CreateInstance("heal_potion_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("attack_potion_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("attack_potion_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("attack_potion_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("poison_potion_001"));
-		
+		player.visible = true;
 		player.position.x = 10;
 		player.position.y = 10;
+
+		map = new Map ();
+	
+		QuestManager.Instance.Init ();
 
 		ScrollView.Instance.Add ("=====================================\n");
 		ScrollView.Instance.Add ("#               RPG 1994            #\n");
@@ -59,9 +64,6 @@ public class Game : SingletonObject<Game> {
 		ScrollView.Instance.Add ("Draw all things in your head.\n");
 		ScrollView.Instance.Add ("\n");
 		ScrollView.Instance.Add ("Well...now we start..Good luck son.\n");
-		
-
-		QuestManager.Instance.Init ();
 	}
 	
 	public void Update() {

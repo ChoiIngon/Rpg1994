@@ -97,7 +97,8 @@ public class PlayerView : CharacterView {
 			
 		ScrollView.Instance.Add (" or ");
 		ScrollView.Instance.Add ("drop\n\n", () => {
-			Game.Instance.player.inventory.Pull(slot.index);
+			ItemData item = Game.Instance.player.inventory.Pull(slot.index);
+			CreateItemStackView(item);
 			ShowInventory();
 			ScrollView.Instance.Add ("You drop " + info.name + "\n");
 		});

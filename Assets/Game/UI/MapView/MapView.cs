@@ -7,81 +7,62 @@ public class MapView : SingletonBehaviour<MapView> {
 	public TileView tileViewPref;
 	public MonsterView monsterViewPref;
 	public PlayerView playerViewPref;
-	public TileView[] tileViews;
 
 	public const int TILE_SIZE = 30;
 	public const int MAP_WIDTH = 11;
 	public const int MAP_HEIGHT = 9;
 	public float MAP_SCALE = 1.0f;
-	// Use this for initialization
-	public void Load() {
+	public Transform contents;
 
-		Game.Instance.map.Load ("Map/map_001");
-
-		Transform contents = transform.FindChild ("Contents");
+	public void Init(string path) {
+		contents = transform.FindChild ("Contents");
 		if (null == contents) {
 			throw new System.Exception ("can't find contents object");
 		}
+
 		while (0 < contents.childCount) {
 			Transform child = contents.GetChild(0);
 			Destroy(child.gameObject);
 		}
 
-		tileViews = new TileView [Game.Instance.map.width * Game.Instance.map.height];
-		for(int y=0; y<Game.Instance.map.height; y++) {
-			for(int x=0; x<Game.Instance.map.width; x++) {
-				Tile tile = Game.Instance.map.GetTile(x, y);
-				TileView tileView = Instantiate<TileView> (tileViewPref);
 
-				tileView.transform.SetParent (contents.transform, false);
-				tileView.SetTile(tile);
-				tileViews[x+y*Game.Instance.map.width] = tileView;
+		Game.Instance.map.Load (path);
+		foreach(Tile tile in Game.Instance.map.tiles) {
+			TileView tileView = Instantiate<TileView> (tileViewPref);
+			tileView.transform.SetParent (contents.transform, false);
+			tileView.SetTile(tile);
+		}
+
+		for(int i=0; i<15; i++) {
+			{
+				MonsterData monster = MonsterManager.Instance.CreateInstance("monster_001");
+				monster.position.x = UnityEngine.Random.Range(0, Game.Instance.map.width-1);
+				monster.position.y = UnityEngine.Random.Range(0, Game.Instance.map.height-1);
+			}
+			{
+				MonsterData monster = MonsterManager.Instance.CreateInstance("monster_002");
+				monster.position.x = UnityEngine.Random.Range(0, Game.Instance.map.width-1);
+				monster.position.y = UnityEngine.Random.Range(0, Game.Instance.map.height-1);
 			}
 		}
-		
-		PlayerView playerView = Instantiate<PlayerView> (playerViewPref);
-		Game.Instance.player.visible = true;
-		playerView.transform.SetParent (contents.transform, false);
-		playerView.SetObject(Game.Instance.player);
-		
 		foreach (var v in MonsterManager.Instance.monsters)
 		{
 			MonsterData monster = v.Value;
-			/*
-			GameObject monsterView = new GameObject();
-			monsterView.AddComponent<MonsterView>();
-			monsterView.GetComponent<MonsterView>().SetObject(monster);
-			monsterView.transform.SetParent(contents.transform, false);
-			*/
 			MonsterView monsterView = Instantiate<MonsterView>(monsterViewPref);
 			monsterView.transform.SetParent (contents.transform, false);
 			monsterView.SetObject(monster);
-			/*
-			ObjectView objectView = Instantiate<ObjectView> (objectPref);
-			objectView.transform.SetParent (contents.transform, false);
-			objectView.SetObject(monster, "<b><color=red>M</color></b>");
-			*/
-
 		}
+
+		PlayerView playerView = Instantiate<PlayerView> (playerViewPref);
+		playerView.transform.SetParent (contents.transform, false);
+		playerView.SetObject(Game.Instance.player);
 
 	}
 
 	public void Start () {
-		Load ();
+		Init ("Map/map_001");
 	}
-
-	public TileView GetTileView(int x, int y) {
-		return tileViews [x + y * Game.Instance.map.width];
-	}
-
-	public void SetActivate(int x, int y, bool value) {
-		TileView tileView = GetTileView (x, y);
-		if (true == value) {
-			tileView.SetVisible(1.0f);
-		} else {
-			tileView.SetVisible(0.0f);
-		}
-	}
+	
 	void Update() {
 		Object.Position playerPosition = Game.Instance.player.position;
 	
@@ -99,38 +80,17 @@ public class MapView : SingletonBehaviour<MapView> {
 		if (MAP_HEIGHT * (int)MAP_SCALE - Game.Instance.map.height > viewY) {
 			viewY = MAP_HEIGHT * (int)MAP_SCALE - Game.Instance.map.height;
 		}
-	
-		Transform contents = transform.FindChild ("Contents");
-		if (null == contents) {
-			throw new System.Exception ("can't find contents object");
-		}
-
 		contents.localPosition = new Vector3 (viewX*TILE_SIZE, -viewY*TILE_SIZE);
-
-		for(int i=0; i<contents.childCount; i++)
+		foreach (var v in MonsterManager.Instance.monsters)
 		{
-			TileView tileView = contents.GetChild(i).GetComponent<TileView>();
-			if(null != tileView)
-			{
-				Text text = tileView.GetTileText();
-				if(true == tileView.tile.visible) {
-					text.color = Color.white;
-				}
-				else {
-					text.color = Color.gray;
-				}
-			}
-
-			ObjectView objectView = contents.GetChild(i).GetComponent<ObjectView>();
-			if(null != objectView)
-			{
-				objectView.gameObject.SetActive(objectView.targetObject.visible);
-				if (true == objectView.targetObject.visible) {
-					SetActivate (objectView.targetObject.position.x, objectView.targetObject.position.y, false);
-				}
-			}
+			MonsterData monster = v.Value;
+			MonsterView monsterView = (MonsterView)monster.view;
+			monsterView.gameObject.SetActive(monster.visible);
+//			TileView tileView = (TileView)Game.Instance.map.GetTile(monster.position.x, monster.position.y).view;
+//			tileView.SetHide(monster.visible);
 		}
 	}
+
 	public void SetMapScale(float scale) {
 		RectTransform rt = GetComponent<RectTransform> ();
 		MAP_SCALE = scale;
@@ -143,6 +103,7 @@ public class MapView : SingletonBehaviour<MapView> {
 		
 		rt.sizeDelta = new Vector2 (MAP_WIDTH * MAP_SCALE * TILE_SIZE, MAP_HEIGHT * MAP_SCALE * TILE_SIZE);
 	}
+
 	public void OnClick() {
 		RectTransform rt = GetComponent<RectTransform> ();
 		if (1.0f == MAP_SCALE) {
