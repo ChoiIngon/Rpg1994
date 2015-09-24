@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 using System;
 using System.Collections;
 
@@ -109,7 +108,7 @@ public class MapView : SingletonBehaviour<MapView> {
 	}
 
 	public T CreateView<T>(Object o, string c) where T : ObjectView {
-		GameObject objectView = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Prefab/Map/ObjectView.prefab", typeof(GameObject)) ) as GameObject;
+		GameObject objectView = GameObject.Instantiate(Resources.Load("Prefab/Map/ObjectView", typeof(GameObject)) ) as GameObject;
 		objectView.AddComponent<T> ();
 		objectView.transform.SetParent (contents.transform, false);
 		T tView = objectView.GetComponent<T> ();

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityEditor;
 using System.Text.RegularExpressions;
 
 public class LogView : SingletonBehaviour<LogView> {
@@ -93,7 +92,7 @@ public class LogView : SingletonBehaviour<LogView> {
 		if (20 < s.Length) {
 			throw new System.Exception("title text is too long(" + s + ")");
 		}
-		GameObject view = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Prefab/LogView/Title.prefab", typeof(GameObject)) ) as GameObject;
+		GameObject view = GameObject.Instantiate(Resources.Load("Prefab/LogView/Title", typeof(GameObject)) ) as GameObject;
 		Transform contents = transform.FindChild ("Contents");
 		view.transform.SetParent (contents, false);
 		Text text = view.transform.FindChild ("Text").GetComponent<Text>();

@@ -92,12 +92,12 @@ public class PlayerView : CharacterView {
 			break;
 		}
 			
-		LogView.Instance.Add (" or ");
-		LogView.Instance.Add ("drop\n\n", () => {
+		LogView.Write (" or ");
+		LogView.Button ("drop\n\n", () => {
 			ItemData item = Game.Instance.player.inventory.Pull(slot.index);
-			CreateItemStackView(item);
+			OnDropItem(item);
 			ShowInventory();
-			LogView.Instance.Add ("You drop " + info.name + "\n");
+			LogView.Write ("You drop " + info.name + "\n");
 		});
 	}
 

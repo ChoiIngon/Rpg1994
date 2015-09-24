@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 
 public class CharacterView : ObjectView {
@@ -129,9 +128,6 @@ public class CharacterView : ObjectView {
 		ShowItems ();
 	}
 
-	public void CreateItemStackView(ItemData item) {
-
-	}
 	public void OnDropItem(ItemData item)
 	{
 		ItemStack itemStack = new ItemStack ();
