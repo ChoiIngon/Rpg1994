@@ -101,7 +101,7 @@ GameObject:
   - 114: {fileID: 93000440}
   - 114: {fileID: 93000443}
   m_Layer: 5
-  m_Name: ScrollView
+  m_Name: LogView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -704,10 +704,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3abbd15f65f4db39a95d0b17e8fd02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileViewPref: {fileID: 11440670, guid: 99bbd53148e3c4ca7a512a46e741e447, type: 2}
-  monsterViewPref: {fileID: 11400408, guid: 95de3f558c34245e1a48bbda18daa08e, type: 2}
-  playerViewPref: {fileID: 11446746, guid: 5554a6008f3d4424cac2141d49c6d66f, type: 2}
   MAP_SCALE: 1
+  contents: {fileID: 0}
 --- !u!114 &350467881
 MonoBehaviour:
   m_ObjectHideFlags: 0

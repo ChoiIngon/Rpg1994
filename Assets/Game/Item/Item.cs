@@ -8,6 +8,7 @@ public abstract class ItemInfo {
 		Armor,
 		Potion,
 		Key,
+		Gold,
 		Max
 	}
 

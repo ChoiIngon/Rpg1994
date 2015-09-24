@@ -1,31 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/Item/Item.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/View/LogView/LogView.cs">
     <Files>
-      <File FileName="Assets/Game/Character/Character.cs" Line="78" Column="1" />
-      <File FileName="Assets/Game/UI/ControlView/ItemView.cs" Line="65" Column="64" />
-      <File FileName="Assets/Game/Game/GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Game/Game.cs" Line="18" Column="12" />
-      <File FileName="Assets/Game/Character/Player/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Game/Object.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Character/Monster/MonsterData.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/UI/MapView/CharacterView.cs" Line="133" Column="72" />
-      <File FileName="Assets/Game/UI/MapView/PlayerView.cs" Line="101" Column="42" />
-      <File FileName="Assets/Game/UI/ControlView/ControlView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Item/Item.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Item/ItemArmor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Item/ItemWeapon.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Character/Player/Inventory.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Character/Monster/MonsterInfo.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Character/Monster/MonsterManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/UI/MapView/MonsterView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Item/ItemManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/UI/MapView/MapView.cs" Line="15" Column="8" />
-      <File FileName="Assets/Game/UI/MapView/ObjectView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Map/Map.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/UI/MapView/TileView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/UI/ScrollView/TextContents.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/UI/MapView/ItemStackView.cs" Line="4" Column="23" />
+      <File FileName="Assets/Game/Object/ItemStack.cs" Line="6" Column="19" />
+      <File FileName="Assets/Game/Item/Item.cs" Line="11" Column="8" />
+      <File FileName="Assets/Game/View/LogView/LogView.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -34,11 +13,15 @@
             <Node name="Game" expanded="True">
               <Node name="Game" expanded="True" />
               <Node name="Item" expanded="True" />
-              <Node name="Map" expanded="True" selected="True" />
-              <Node name="UI" expanded="True">
-                <Node name="ControlView" expanded="True" />
-                <Node name="MapView" expanded="True" />
-                <Node name="ScrollView" expanded="True" />
+              <Node name="Object" expanded="True">
+                <Node name="Monster" expanded="True" />
+                <Node name="Player" expanded="True" />
+              </Node>
+              <Node name="View" expanded="True">
+                <Node name="ObjectView" expanded="True" />
+                <Node name="ScrollView" expanded="True">
+                  <Node name="ScrollView.cs" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>
@@ -47,10 +30,7 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/Game/Game.cs" line="18" />
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/Game/Game.cs" line="19" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

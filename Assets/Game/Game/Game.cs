@@ -16,9 +16,6 @@ public class Game : SingletonObject<Game> {
 		Init ();
 	}
 	void Init() {
-//		GameObject obj = GameObject.Instantiate( AssetDatabase.LoadAssetAtPath("Assets/Prefab/Map/ItemStackView.prefab", typeof(GameObject)) ) as GameObject;
-//		ItemStackView view = obj.GetComponent<ItemStackView> ();
-//		view.SetObject (new ItemStack (), "+");
 		gameTurn = new GameTurn ();
 		gameTurn.Init<TurnCounter> ();
 		player = new Player ();
@@ -56,14 +53,12 @@ public class Game : SingletonObject<Game> {
 	
 		QuestManager.Instance.Init ();
 
-		ScrollView.Instance.Add ("=====================================\n");
-		ScrollView.Instance.Add ("#               RPG 1994            #\n");
-		ScrollView.Instance.Add ("=====================================\n");
-		ScrollView.Instance.Add ("Welcome to <b><color=#FF0000>Text</color></b> <b><color=#00FF00>RPG</color></b> <b><color=#0000FF>World</color></b>\n");
-		ScrollView.Instance.Add ("All of this world are consisted of only text. ");
-		ScrollView.Instance.Add ("Draw all things in your head.\n");
-		ScrollView.Instance.Add ("\n");
-		ScrollView.Instance.Add ("Well...now we start..Good luck son.\n");
+		LogView.Title ("RPG 1994");
+		LogView.Write ("Welcome to <b><color=#FF0000>Text</color></b> <b><color=#00FF00>RPG</color></b> <b><color=#0000FF>World</color></b>\n");
+		LogView.Write ("All of this world are consisted of only text. ");
+		LogView.Write ("Draw all things in your head.\n");
+		LogView.Write ("\n");
+		LogView.Write ("Well...now we start..Good luck son.\n");
 	}
 	
 	public void Update() {
