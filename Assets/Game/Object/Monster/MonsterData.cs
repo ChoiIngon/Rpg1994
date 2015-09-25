@@ -60,6 +60,9 @@ public class MonsterData : Character {
 	}
 	public override void Destroy() {
 		base.Destroy();
+		ItemStack itemStack = CreateItemStack (items [(int)Character.EquipPart.Weapon]);
+		items [(int)Character.EquipPart.Weapon] = null;
+		((MonsterView)view).OnDropItem (itemStack);
 		MonsterManager.Instance.Remove (seq);
 	}
 }

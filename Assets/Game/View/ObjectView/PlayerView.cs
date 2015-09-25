@@ -92,13 +92,15 @@ public class PlayerView : CharacterView {
 			break;
 		}
 			
-		LogView.Write (" or ");
-		LogView.Button ("drop\n\n", () => {
+		LogView.Text (" or ");
+		LogView.Button ("drop\n", () => {
 			ItemData item = Game.Instance.player.inventory.Pull(slot.index);
-			OnDropItem(item);
+			ItemStack itemStack = Game.Instance.player.CreateItemStack(item);
+			OnDropItem(itemStack);
 			ShowInventory();
-			LogView.Write ("You drop " + info.name + "\n");
+			LogView.Text ("You drop " + info.name + "\n");
 		});
+		LogView.Text ("\n");
 	}
 
 	public void ShowInventory() {
@@ -143,42 +145,23 @@ public class PlayerView : CharacterView {
 			}
 		}
 	}
-	public override void ShowItemInfo(ItemData item) {
+	public override void ShowEquipItemInfo(Character.EquipPart part, ItemData item) {
 		ItemInfo info = item.info;
-		LogView.Instance.AddTitle (item.info.name);
-		LogView.Instance.Add (LogView.MakeFixedLengthText("weight:" + info.weight, 10) + 
-		                         LogView.MakeFixedLengthText(", cost:" + info.cost, 10) + "\n");
-		LogView.Instance.Add (info.description + "\n");
-		LogView.Instance.Add ("\n");
-		LogView.Instance.Add ("You can ");
-		/*
-		switch (info.category) {
-		case ItemInfo.Category.Weapon:
-			LogView.Instance.Add ("unequip", () => { 
-				Game.Instance.player..EquipWeaponItem (slot.index);	
-					LogView.Instance.Add ("You equip " + info.name + "\n");
-					InventoryView view = new InventoryView (Game.Instance.player.inventory);
-					view.ShowInfo ();
-				});
-				break;
-			case ItemInfo.Category.Armor:
-				ShowArmorInfo(info);
-				break;
-			case ItemInfo.Category.Potion:
-				LogView.Instance.Add ("drink", () => { 
-					Game.Instance.player.UseItem (slot.index);	
-					LogView.Instance.Add ("You drink " + info.name + "\n");
-					InventoryView view = new InventoryView (Game.Instance.player.inventory);
-					view.ShowInfo ();
-				});
-				break;
-			}
+		LogView.Title (item.info.name);
+		LogView.Text ("weight:" + info.weight + ", cost:" + info.cost + "\n");
+		LogView.Text (info.description + "\n");
+		LogView.Text ("\n");
+		LogView.Text ("You can ");
 
-			LogView.Instance.Add (" or ");
-			LogView.Instance.Add ("drop\n", () => {
-			});
-		} 
-		*/
-		LogView.Instance.Add("\n");
-	}
+		LogView.Button ("unequip", () => { 
+			Game.Instance.player.UnequipItem(part);
+			LogView.Text ("You unequiped " + info.name + "\n");
+		});
+		LogView.Text (" or ");
+		LogView.Button ("drop\n", () => {
+			ItemStack itemStack = Game.Instance.player.DropItem(part);
+			OnDropItem(itemStack);
+			LogView.Text ("You droped " + info.name + "\n");
+		});
+	} 
 }

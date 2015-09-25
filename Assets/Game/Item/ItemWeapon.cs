@@ -12,6 +12,7 @@ public class WeaponItemInfo : ItemInfo {
 	public int speed;
 	public int durability;
 	public ItemType type;
+
 	public static ItemType ToType(string type) {
 		if ("sword" == type) {
 			return ItemType.Sword;

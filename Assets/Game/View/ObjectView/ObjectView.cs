@@ -5,11 +5,12 @@ using System.Collections;
 public class ObjectView : MonoBehaviour {
 	public Object targetObject = null;
 
-	public virtual void SetObject(Object o, string display) {
+	public virtual void SetObject(Object o, string display, Color color) {
 		targetObject = o;
 		o.view = this;
 		Text text = gameObject.transform.FindChild ("Text").gameObject.GetComponent<Text>();
 		text.text = display;
+		text.color = color;
 	}
 
 	public virtual void Destroy() {

@@ -17,6 +17,7 @@ public class ArmorItemInfo : ItemInfo {
 	public int speed;
 	public int durability;
 	public ItemType type;
+
 	public static ItemType ToType(string type) {
 		if ("ring" == type) {
 			return ItemType.Ring;

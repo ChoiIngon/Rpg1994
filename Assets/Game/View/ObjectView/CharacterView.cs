@@ -2,30 +2,35 @@
 using System.Collections;
 
 public class CharacterView : ObjectView {
-	public void OnAttack(Character defender, int damage) {
+	public virtual void OnAttack(Character defender, int damage) {
 		Character attacker = (Character)targetObject;
 		if (0 < damage) {
-			LogView.Instance.Add (attacker.name, () => { 
-				((CharacterView)attacker.view).ShowCharacterInfo();
+			LogView.Button(attacker.name, () => { 
+				ShowCharacterInfo();
 			});
 			
-			LogView.Instance.Add (" damaged " + damage + " to ");
-			LogView.Instance.Add (defender.name + "\n", () => { 
+			LogView.Text (" damaged " + damage + " to ");
+			LogView.Button(defender.name + "\n", () => { 
 				((CharacterView)defender.view).ShowCharacterInfo();
 			});
 		} else {
-			LogView.Instance.Add (defender.name, () => { 
-				((CharacterView)attacker.view).ShowCharacterInfo();
+			LogView.Button (defender.name, () => { 
+				((CharacterView)defender.view).ShowCharacterInfo();
 			});
-			LogView.Instance.Add (" dodge!!\n");
+			LogView.Text (" dodge!!\n");
 		}
+	}
+	public virtual void OnDefense(Character attacker) {}
+	public virtual void OnDamage(Character attacker, int damage) {}
+
+	public void OnAttachBuff(BuffData buff) {
 	}
 	public void OnDetachBuff(BuffData buff) {
 		Character character = (Character)targetObject;
 		LogView.Instance.Add (character.name, () => {
 			((CharacterView)character.view).ShowCharacterInfo();
 		});
-		LogView.Instance.Add ("'s " + buff.info.name + " is expired");
+		LogView.Instance.Add ("'s " + buff.info.name + " is expired\n");
 	}
 	public void ShowAttack() {
 		Character character = (Character)targetObject;
@@ -97,7 +102,7 @@ public class CharacterView : ObjectView {
 		if (0 < character.buffs.Count) {
 			LogView.Instance.Add ("buffs :\n");
 			for(int i=0; i< character.buffs.Count; i++) {
-				LogView.Instance.Add ("\t" + character.buffs[i].info.name + "\n");
+				LogView.Text ("\t" + character.buffs[i].info.name + "\n");
 			}
 		}
 	}
@@ -108,15 +113,15 @@ public class CharacterView : ObjectView {
 			if(null != character.items[i]) {
 				ItemData data = character.items[i];
 				ItemInfo info = data.info as ItemInfo;
-				LogView.Instance.Add (((Character.EquipPart)i).ToString() + ":" + info.name + "\n", () => {
-					//ItemView view = new ItemView(data);
-					//view.ShowInfo();
+				Character.EquipPart part = (Character.EquipPart)i;
+				LogView.Button (part.ToString() + ":" + info.name + "\n", () => {
+					ShowEquipItemInfo (part, data);
 				});
 			}
 		}
 	}
 
-	public virtual void ShowItemInfo(ItemData item) {}
+	public virtual void ShowEquipItemInfo(Character.EquipPart part, ItemData item) {}
 	public virtual void ShowCharacterInfo() {
 		Character character = (Character)targetObject;
 		LogView.Instance.AddTitle (character.name);
@@ -128,12 +133,8 @@ public class CharacterView : ObjectView {
 		ShowItems ();
 	}
 
-	public void OnDropItem(ItemData item)
+	public void OnDropItem(ItemStack itemStack)
 	{
-		ItemStack itemStack = new ItemStack ();
-		itemStack.item = item;
-		itemStack.position.x = targetObject.position.x;
-		itemStack.position.y = targetObject.position.y;
-		MapView.Instance.CreateView<ItemStackView> (itemStack, "<color=yellow>$</color>");
+		MapView.Instance.CreateView<ItemStackView> (itemStack, "$", Color.yellow);
 	}
 }

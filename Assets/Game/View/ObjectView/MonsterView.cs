@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class MonsterView : CharacterView {
-	public void Destroy() {
+	public override void Destroy() {
 		base.Destroy ();
 		MonsterData monster = (MonsterData)targetObject;
 		LogView.Instance.Add (monster.name + " died\n");

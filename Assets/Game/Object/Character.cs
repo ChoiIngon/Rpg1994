@@ -244,7 +244,7 @@ public class Character : Object {
 	public virtual void Action() {
 		GetState ();
 	}
-	public virtual void Destroy() {
+	public override void Destroy() {
 		Tile tile = Game.Instance.map.GetTile (position.x, position.y);
 		tile.RemoveObject(this);
 		base.Destroy ();
@@ -295,5 +295,15 @@ public class Character : Object {
 			tile.RemoveObject(this);
 		}
 		position = dest;
+	}
+
+	public ItemStack CreateItemStack(ItemData item) {
+		ItemStack itemStack = new ItemStack ();
+		itemStack.item = item;
+		itemStack.position.x = position.x;
+		itemStack.position.y = position.y;
+		Tile tile = Game.Instance.map.GetTile (position.x, position.y);
+		tile.AddObject(itemStack);
+		return itemStack;
 	}
 }

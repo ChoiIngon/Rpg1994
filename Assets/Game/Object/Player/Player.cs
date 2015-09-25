@@ -23,8 +23,13 @@ public class Player : Character
 		}
 		items [(int)part] = null;
 	}
-	public void DropItem(Character.EquipPart part) {
+
+	public ItemStack DropItem(Character.EquipPart part) {
+		EquipmentItemData item = items [(int)part];
 		items [(int)part] = null;
+
+		ItemStack itemStack = CreateItemStack (item);
+		return itemStack;
 	}
 
 	public Character.StateData UseItem(int index) {
@@ -46,7 +51,7 @@ public class Player : Character
 			throw new System.Exception("the item can not be used");
 		}
 	}
-	private void Raycast(Object.Position dest)
+	private void CheckVisible(Object.Position dest)
 	{
 		List<Object.Position> positions = base.Raycast(dest);
 		foreach(Object.Position position in positions) {
@@ -75,28 +80,28 @@ public class Player : Character
 			int y = Math.Max(0, src.y - sight);
 			for(int x=Math.Max (0, src.x - sight); x < Math.Min (src.x + sight, Game.Instance.map.width); x++)
 			{
-				Raycast(new Object.Position(x, y));
+				CheckVisible(new Object.Position(x, y));
 			}
 		}
 		{
 			int y = Math.Min(Game.Instance.map.height-1, src.y + sight);
 			for(int x=Math.Max (0, src.x - sight); x < Math.Min (src.x + sight, Game.Instance.map.width); x++)
 			{
-				Raycast(new Object.Position(x, y));
+				CheckVisible(new Object.Position(x, y));
 			}
 		}
 		{
 			int x = Math.Max(0, src.x - sight);
 			for(int y=Math.Max (0, src.y - sight); y < Math.Min (src.y + sight, Game.Instance.map.height); y++)
 			{
-				Raycast(new Object.Position(x, y));
+				CheckVisible(new Object.Position(x, y));
 			}
 		}
 		{
 			int x = Math.Min(Game.Instance.map.width-1, src.x + sight);
 			for(int y=Math.Max (0, src.y - sight); y < Math.Min (src.y + sight, Game.Instance.map.height); y++)
 			{
-				Raycast(new Object.Position(x, y));
+				CheckVisible(new Object.Position(x, y));
 			}
 		}
 		foreach(Tile tile in Game.Instance.map.tiles) {

@@ -21,14 +21,13 @@ public class MapView : SingletonBehaviour<MapView> {
 			Destroy(child.gameObject);
 		}
 
-
 		Game.Instance.map.Load (path);
 		foreach(Tile tile in Game.Instance.map.tiles) {
 			if("" == tile.id) {
-				CreateView<TileView>(tile, ".");
+				CreateView<TileView>(tile, ".", tile.color);
 			}
 			else {
-				CreateView<TileView>(tile, tile.id);
+				CreateView<TileView>(tile, tile.id, tile.color);
 			}
 		}
 
@@ -47,10 +46,10 @@ public class MapView : SingletonBehaviour<MapView> {
 		foreach (var v in MonsterManager.Instance.monsters)
 		{
 			MonsterData monster = v.Value;
-			CreateView<MonsterView>(monster, "<color=red>M</color>");
+			CreateView<MonsterView>(monster, "M", Color.red);
 		}
 
-		CreateView<PlayerView> (Game.Instance.player, "<color=green>@</color>");
+		CreateView<PlayerView> (Game.Instance.player, "@", Color.green);
 	}
 
 	public void Start () {
@@ -107,12 +106,12 @@ public class MapView : SingletonBehaviour<MapView> {
 		rt.sizeDelta = new Vector2 (MAP_WIDTH * MAP_SCALE * TILE_SIZE, MAP_HEIGHT * MAP_SCALE * TILE_SIZE);
 	}
 
-	public T CreateView<T>(Object o, string c) where T : ObjectView {
+	public T CreateView<T>(Object o, string c, Color color) where T : ObjectView {
 		GameObject objectView = GameObject.Instantiate(Resources.Load("Prefab/Map/ObjectView", typeof(GameObject)) ) as GameObject;
 		objectView.AddComponent<T> ();
 		objectView.transform.SetParent (contents.transform, false);
 		T tView = objectView.GetComponent<T> ();
-		tView.GetComponent<T>().SetObject(o, c);
+		tView.GetComponent<T>().SetObject(o, c, color);
 		return tView;
 	}
 }

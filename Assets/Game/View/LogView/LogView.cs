@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 public class LogView : SingletonBehaviour<LogView> {
 	public Text 		textPref;
 	public Button 		buttonPref;
-	public TextContents textContentsPref;
 
 	private float CONTENTS_WIDTH = 0;
 	public int MAX_LINE_COUNT = 100;
@@ -22,7 +21,7 @@ public class LogView : SingletonBehaviour<LogView> {
 		}
 		RectTransform rectTransform = contents.GetComponent<RectTransform> ();
 		CONTENTS_WIDTH = rectTransform.rect.width;
-		current = Instantiate<TextContents>(textContentsPref);
+		current = CreateTextContents();
 	}
 
 	public void Add(string s, UnityAction handler = null)
@@ -34,7 +33,7 @@ public class LogView : SingletonBehaviour<LogView> {
 			if("\n" == matches[i].Value)
 			{
 				current.transform.SetParent(contents, false);
-				current = Instantiate<TextContents>(textContentsPref);
+				current = CreateTextContents();
 
 				if(0 == i)
 				{
@@ -42,7 +41,7 @@ public class LogView : SingletonBehaviour<LogView> {
 					text.text = "";
 					current.Add (text);
 					current.transform.SetParent(contents, false);
-					current = Instantiate<TextContents>(textContentsPref);
+					current = CreateTextContents();
 				}
 				continue;
 			}
@@ -64,7 +63,7 @@ public class LogView : SingletonBehaviour<LogView> {
 				if(null == current || CONTENTS_WIDTH < current.width + text.preferredWidth)
 				{
 					current.transform.SetParent(contents, false);
-					current = Instantiate<TextContents>(textContentsPref);
+					current = CreateTextContents();
 					text.text = "<b>" + matches[i].Value + "</b>";;
 				}
 				current.Add (button);
@@ -92,14 +91,20 @@ public class LogView : SingletonBehaviour<LogView> {
 		if (20 < s.Length) {
 			throw new System.Exception("title text is too long(" + s + ")");
 		}
-		GameObject view = GameObject.Instantiate(Resources.Load("Prefab/LogView/Title", typeof(GameObject)) ) as GameObject;
+		GameObject view = GameObject.Instantiate(Resources.Load("Prefab/Log/Title", typeof(GameObject)) ) as GameObject;
 		Transform contents = transform.FindChild ("Contents");
 		view.transform.SetParent (contents, false);
 		Text text = view.transform.FindChild ("Text").GetComponent<Text>();
 		text.text = "<b>" + s + "</b>";
 	}
 
-	public static void Write(string s) {
+	private TextContents CreateTextContents() {
+		GameObject obj = GameObject.Instantiate(Resources.Load("Prefab/Log/TextContents", typeof(GameObject)) ) as GameObject;
+		TextContents textContents = obj.GetComponent<TextContents> ();
+		return textContents;
+	}
+
+	public static void Text(string s) {
 		LogView.Instance.Add (s);
 	}
 

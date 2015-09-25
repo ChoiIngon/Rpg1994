@@ -3,14 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class TileView : ObjectView {
-	public void SetTile(Tile tile)
-	{
-		string text = ".";
-		if ("" != tile.id) {
-			text = tile.id;
-		}
-		base.SetObject(tile, text);
-	}
 	public void SetTileText(string t) {
 		Transform tileTextTransform = transform.FindChild ("Text");
 		if (null == tileTextTransform) {
@@ -31,7 +23,7 @@ public class TileView : ObjectView {
 	{
 		Text text = GetTileText();
 		if(true == targetObject.visible) {
-			text.color = Color.white;
+			text.color = new Color(text.color.r, text.color.g, text.color.b, 1.0f);
 			Tile tile = (Tile)targetObject;
 			if (0 < tile.dictObjects.Count) {
 				base.SetVisible(false);
@@ -40,12 +32,11 @@ public class TileView : ObjectView {
 			}
 		}
 		else {
-			text.color = Color.gray;
+			text.color = new Color(text.color.r, text.color.g, text.color.b, 0.5f);;
 		}
 
 	}
 	public override void Update() {
-
 		base.Update ();
 	}
 }
