@@ -4,10 +4,20 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MonsterData : Character {
+	public enum State
+	{
+		Idle,
+		Chase,
+		Fight
+	}
 	public int seq;
 	public MonsterInfo info;
-
-	public bool IsVisible(Object.Position dest) {
+	public State state;
+	public MonsterData() {
+		category = Object.Category.Monster;
+	}
+	public bool CanSeePlayer() {
+		Object.Position dest = Game.Instance.player.position;
 		if(sight < Vector2.Distance (new Vector2 (this.position.x, this.position.y), new Vector2 (dest.x, dest.y))) {
 			return false;
 		}
@@ -26,9 +36,9 @@ public class MonsterData : Character {
 		return false;
 	}
 
-	public override void Action() {
-		if (true == IsVisible (Game.Instance.player.position)) {
-			if(GetAttackRange() >= Vector2.Distance (position, Game.Instance.player.position)) {
+	public override void Update() {
+		if (true == CanSeePlayer ()) {
+			if(range >= Vector2.Distance (position, Game.Instance.player.position)) {
 				Attack ();
 				return;
 			}
@@ -38,32 +48,53 @@ public class MonsterData : Character {
 			}
 		}
 		Idle ();
-		base.Action ();
+		base.Update ();
 	}
 	public virtual void Idle() {
+		state = State.Idle;
 		base.Move((Character.DirectionType)UnityEngine.Random.Range(0, (int)Character.DirectionType.Max));
 	}
 	public virtual void Move() {
+		state = State.Chase;
 		base.Move((Character.DirectionType)UnityEngine.Random.Range(0, (int)Character.DirectionType.Max));
 	}
 	public virtual void Attack() {
-		MonsterView view = (MonsterView)this.view;
+		state = State.Fight;
+		OnAttack(Game.Instance.player, 0);
 		if (true == Character.Hit (this, Game.Instance.player)) {
 			int damage = GetAttack();
 			int effectiveDamage = Math.Max (damage-Game.Instance.player.GetDefense(), 0);
-			view.OnAttack(Game.Instance.player, effectiveDamage);
-			Game.Instance.player.SetDamage(effectiveDamage);
-		}
-		else {
-			view.OnAttack(Game.Instance.player, 0);
+
+			Game.Instance.player.SetDamage(this, effectiveDamage);
 		}
 	}
 	public override void Destroy() {
 		base.Destroy();
-		ItemStack itemStack = CreateItemStack (items [(int)Character.EquipPart.Weapon]);
-		items [(int)Character.EquipPart.Weapon] = null;
-		((MonsterView)view).OnDropItem (itemStack);
+		if (null != items [(int)Character.EquipPart.Weapon]) {
+			Object.Position at = new Object.Position(position.x, position.y);
+			ItemStack itemStack = CreateItemStack (items [(int)Character.EquipPart.Weapon], at);
+			items [(int)Character.EquipPart.Weapon] = null;
+			//((MonsterView)view).OnDropItem (itemStack);
+		}
 		MonsterManager.Instance.Remove (seq);
+	}
+	public override void OnAttack(Character defender, int damage) {
+		LogView.Button ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>", () => {
+			InfoView.MonsterInfo(this);
+		});
+		LogView.Text (" 이(가) 당신을 공격합니다.\n");
+	}
+	public override void OnDamage(Character attacker, int damage) {
+		LogView.Button ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>", () => {
+			InfoView.MonsterInfo(this);
+		});
+		LogView.Text ("은(는) " + damage + "의 피해를 입었습니다.\n");
+	}
+	public override void OnDestroy() {
+		LogView.Button ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>", () => {
+			InfoView.MonsterInfo(this);
+		});
+		LogView.Text ("은(는) 죽었습니다.\n");
 	}
 }
 

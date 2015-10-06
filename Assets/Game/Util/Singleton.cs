@@ -32,6 +32,7 @@ public class SingletonObject<T> where T : new() {
 		get {
 			lock (lock_) {
 				if (null == self_) {
+					Debug.Log (typeof(T).Name + " singleton object is created");
 					self_ = new T();
 				}
 			}

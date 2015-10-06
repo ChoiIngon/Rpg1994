@@ -6,8 +6,12 @@ using System.Collections.Generic;
 public class Player : Character
 {
 	public MonsterData target = null;
-	public Inventory inventory = new Inventory();
-
+	public Inventory inventory = null;
+	public Player() {
+		target = null;
+		category = Object.Category.Player;
+		inventory = new Inventory ();
+	}
 	public void EquipItem(int index, Character.EquipPart part) {
 		ItemData item = inventory.Pull (index);
 		EquipmentItemData equipedItem = items [(int)part];
@@ -16,6 +20,7 @@ public class Player : Character
 		}
 		base.EquipItem ((EquipmentItemData)item, part);
 	}
+
 	public void UnequipItem(Character.EquipPart part) {
 		EquipmentItemData equipedItem = items [(int)part];
 		if (null != equipedItem) {
@@ -28,7 +33,7 @@ public class Player : Character
 		EquipmentItemData item = items [(int)part];
 		items [(int)part] = null;
 
-		ItemStack itemStack = CreateItemStack (item);
+		ItemStack itemStack = CreateItemStack (item, new Object.Position(position.x, position.y));
 		return itemStack;
 	}
 
@@ -55,24 +60,28 @@ public class Player : Character
 	{
 		List<Object.Position> positions = base.Raycast(dest);
 		foreach(Object.Position position in positions) {
-			Tile tile = Game.Instance.map.tiles[position.x + position.y * Game.Instance.map.width];
+			if(sight < Vector2.Distance(this.position, position)) {
+				return;
+			}
+			Tile tile = Game.Instance.map.GetTile (position.x, position.y);
 			tile.visible = true;
-			foreach(var v in tile.dictObjects) {
+			foreach(var v in tile.objects) {
 				v.Value.visible = true;
 			}
 			if(Tile.Type.Floor != tile.type)
 			{
-				break;
+				return;
 			}
 		}
 	}
 	public void FieldOfView() {
 		Object.Position src = position;
 		int sight = this.sight;
+
 		foreach(Tile tile in Game.Instance.map.tiles) {
 			tile.visible = false;
-			foreach(var v in tile.dictObjects) {
-				v.Value.visible = false;
+			foreach(var v in tile.objects) {
+				v.Value.visible =  false;
 			}
 		}
 
@@ -104,14 +113,6 @@ public class Player : Character
 				CheckVisible(new Object.Position(x, y));
 			}
 		}
-		foreach(Tile tile in Game.Instance.map.tiles) {
-			if(sight < Vector2.Distance(src, tile.position)) {
-				tile.visible = false;
-				foreach(var v in tile.dictObjects) {
-					v.Value.visible = false;
-				}
-			} 
-		}
 	}
 	public void MoveTo(Character.DirectionType direction) {
 		this.direction = direction;
@@ -121,9 +122,34 @@ public class Player : Character
 	}
 	public void Attack() {
 		if (null == target) {
+			for(int y=position.y - range; y<=position.y + range; y++) {
+				for(int x=position.x - range; x<=position.x + range; x++) {
+					if (Game.Instance.map.width <= x || 0 > x || Game.Instance.map.height <= y || 0 > y) {
+						continue;
+					}
+					if(range < Vector2.Distance(position, new Object.Position(x, y))) {
+						continue;
+					}
+
+					Tile tile = Game.Instance.map.GetTile (x, y);
+					foreach(var v in tile.objects) {
+						if(false == v.Value.visible) {
+							continue;
+						}
+						if(Object.Category.Item == v.Value.category) {
+							ItemStack itemStack = (ItemStack)v.Value;
+							Game.Instance.player.inventory.Put (itemStack.item);
+							//((PlayerView)view).OnPickupItem(itemStack.item);
+							itemStack.Destroy();
+							return;
+						}
+					}
+				}
+			}
+
 			foreach (var v in MonsterManager.Instance.monsters) {
 				MonsterData monster = v.Value;
-				if(GetAttackRange() >= Vector2.Distance(position, monster.position))
+				if(range >= Vector2.Distance(position, monster.position))
 				{
 					target = monster;
 					break;
@@ -133,22 +159,31 @@ public class Player : Character
 				throw new System.Exception("no target selected");
 			}
 		}
-		PlayerView view = (PlayerView)this.view;
+		OnAttack(target, 0);
 		if (true == Character.Hit (this, target)) {
 			int damage = GetAttack ();
 			int effectiveDamage = Math.Max (damage - target.GetDefense (), 0);
-			view.OnAttack(target, effectiveDamage);
-			target.SetDamage (effectiveDamage);
-		} else {
-			view.OnAttack(target, 0);
-		}
+			target.SetDamage (this, effectiveDamage);
+		} 
 		if (0 >= target.health) {
 			target = null;
 		}
 		Game.Instance.gameTurn.NextTurn ();
 	}
-	public override void Action() {
-		base.Action ();
+	public override void Update() {
+		base.Update ();
 		FieldOfView ();
+	}
+
+	public override void OnAttack(Character defender, int damage) {
+		LogView.Text ("당신은 ");
+		MonsterData monster = (MonsterData)defender;
+		LogView.Button ("<color=red>" + monster.name + "[" + monster.position.x + "," + monster.position.y + "]</color>", () => {
+			InfoView.MonsterInfo(monster);
+		});
+		LogView.Text ("을(를) 공격합니다.\n");
+	}
+	public override void OnDamage(Character attacker, int damage) {
+		LogView.Text ("당신은 " + damage + "의 피해를 입었습니다.\n");
 	}
 }

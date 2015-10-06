@@ -70,4 +70,6 @@ public class Inventory
 		}
 		return item;
 	}
+	public void Open() {
+	}
 }

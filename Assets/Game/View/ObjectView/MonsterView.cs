@@ -2,14 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class MonsterView : CharacterView {
-	public override void Destroy() {
-		base.Destroy ();
-		MonsterData monster = (MonsterData)targetObject;
-		LogView.Instance.Add (monster.name + " died\n");
-	}
-
-	public override void ShowCharacterInfo() {
+public class MonsterView {
+	public static void ShowInfo() {
+		/*
 		MonsterData monster = (MonsterData)targetObject;
 		LogView.Instance.AddTitle (monster.name);
 		LogView.Instance.Add (monster.info.description + "\n");
@@ -20,6 +15,6 @@ public class MonsterView : CharacterView {
 		ShowSpeed ();
 		ShowBuffs ();
 		ShowItems ();
+		*/
 	}
-
 }

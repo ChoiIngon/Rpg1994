@@ -3,7 +3,8 @@ using System.Collections;
 
 public class CharacterView : ObjectView {
 	public virtual void OnAttack(Character defender, int damage) {
-		Character attacker = (Character)targetObject;
+		//Character attacker = (Character)targetObject;
+		/*
 		if (0 < damage) {
 			LogView.Button(attacker.name, () => { 
 				ShowCharacterInfo();
@@ -19,6 +20,7 @@ public class CharacterView : ObjectView {
 			});
 			LogView.Text (" dodge!!\n");
 		}
+		*/
 	}
 	public virtual void OnDefense(Character attacker) {}
 	public virtual void OnDamage(Character attacker, int damage) {}
@@ -26,13 +28,16 @@ public class CharacterView : ObjectView {
 	public void OnAttachBuff(BuffData buff) {
 	}
 	public void OnDetachBuff(BuffData buff) {
+		/*
 		Character character = (Character)targetObject;
 		LogView.Instance.Add (character.name, () => {
 			((CharacterView)character.view).ShowCharacterInfo();
 		});
 		LogView.Instance.Add ("'s " + buff.info.name + " is expired\n");
+		*/
 	}
 	public void ShowAttack() {
+		/*
 		Character character = (Character)targetObject;
 		string item = "0";
 		if (null != character.items[(int)Character.EquipPart.Weapon]) {
@@ -46,8 +51,10 @@ public class CharacterView : ObjectView {
 			}
 		}
 		LogView.Instance.Add ("attack:" + character.attack + " + " + item + " + " + buff + "\n");
+		*/
 	}
 	public void ShowDefense() {
+		/*
 		Character character = (Character)targetObject;
 		int item = 0;
 		for (int i=0; i<(int)character.items.Length; i++) {
@@ -68,8 +75,10 @@ public class CharacterView : ObjectView {
 			}
 		}
 		LogView.Instance.Add ("defense:" + character.defense + " + " + item + " + " + buff + "\n");
+		*/
 	}
 	public void ShowSpeed() {
+		/*
 		Character character = (Character)targetObject;
 		int item = 0;
 		for (int i=0; i<(int)character.items.Length; i++) {
@@ -96,8 +105,10 @@ public class CharacterView : ObjectView {
 			}
 		}
 		LogView.Instance.Add ("speed:" + character.speed + " + " + item + " + " + buff + "\n");
+		*/
 	}
 	public void ShowBuffs() {
+		/*
 		Character character = (Character)targetObject;
 		if (0 < character.buffs.Count) {
 			LogView.Instance.Add ("buffs :\n");
@@ -105,8 +116,10 @@ public class CharacterView : ObjectView {
 				LogView.Text ("\t" + character.buffs[i].info.name + "\n");
 			}
 		}
+		*/
 	}
 	public void ShowItems() {
+		/*
 		Character character = (Character)targetObject;
 
 		for (int i=0; i<character.items.Length; i++) {
@@ -119,10 +132,12 @@ public class CharacterView : ObjectView {
 				});
 			}
 		}
+		*/
 	}
 
 	public virtual void ShowEquipItemInfo(Character.EquipPart part, ItemData item) {}
 	public virtual void ShowCharacterInfo() {
+		/*
 		Character character = (Character)targetObject;
 		LogView.Instance.AddTitle (character.name);
 		LogView.Instance.Add ("hp:" + character.health.current + "/" + character.health.max + "\n");
@@ -131,10 +146,11 @@ public class CharacterView : ObjectView {
 		ShowSpeed ();
 		ShowBuffs ();
 		ShowItems ();
+		*/
 	}
 
 	public void OnDropItem(ItemStack itemStack)
 	{
-		MapView.Instance.CreateView<ItemStackView> (itemStack, "$", Color.yellow);
+		//MapView.Instance.CreateView<ItemStackView> (itemStack, "$", Color.yellow);
 	}
 }

@@ -12,9 +12,8 @@ public class Game : SingletonObject<Game> {
 	private int lastTurn = 0;
 	// Use this for initialization
 	public Game() {
-		Init ();
 	}
-	void Init() {
+	public void Init() {
 		gameTurn = new GameTurn ();
 		gameTurn.Init<TurnCounter> ();
 		player = new Player ();
@@ -30,6 +29,7 @@ public class Game : SingletonObject<Game> {
 		player.inventory.gold = 0;
 		player.inventory.maxWeight = 30;
 		player.inventory.weight = 0;
+
 		player.inventory.Put (ItemManager.Instance.CreateInstance("sword_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("sword_002"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("sword_003"));
@@ -44,20 +44,27 @@ public class Game : SingletonObject<Game> {
 		player.inventory.Put (ItemManager.Instance.CreateInstance("attack_potion_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("attack_potion_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("poison_potion_001"));
+	
 		player.visible = true;
 		player.position.x = 10;
 		player.position.y = 10;
 
 		map = new Map ();
-	
+		map.Load ("Map/map_001");
 		QuestManager.Instance.Init ();
 
-		LogView.Title ("RPG 1994");
-		LogView.Text ("Welcome to <b><color=#FF0000>Text</color></b> <b><color=#00FF00>RPG</color></b> <b><color=#0000FF>World</color></b>\n\n");
-		LogView.Text ("All of this world are consisted of only text. ");
-		LogView.Text ("Draw all things in your head.\n");
-		LogView.Text ("\n");
-		LogView.Text ("Well...now we start..Good luck son.\n");
+		for(int i=0; i<15; i++) {
+			{
+				MonsterData monster = MonsterManager.Instance.CreateInstance("monster_001");
+				monster.position.x = UnityEngine.Random.Range(0, Game.Instance.map.width-1);
+				monster.position.y = UnityEngine.Random.Range(0, Game.Instance.map.height-1);
+			}
+			{
+				MonsterData monster = MonsterManager.Instance.CreateInstance("monster_002");
+				monster.position.x = UnityEngine.Random.Range(0, Game.Instance.map.width-1);
+				monster.position.y = UnityEngine.Random.Range(0, Game.Instance.map.height-1);
+			}
+		}
 	}
 	
 	public void Update() {
@@ -67,9 +74,9 @@ public class Game : SingletonObject<Game> {
 
 		foreach (var v in MonsterManager.Instance.monsters) {
 			MonsterData monster = v.Value;
-			monster.Action();
+			monster.Update();
 		}
-		player.Action ();
+		player.Update ();
 		lastTurn = currentTurn;
 	}
 }

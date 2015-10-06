@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerView : CharacterView {
+public class InventoryView {
+	Inventory inventory;
+	public InventoryView(Inventory inventory) {
+		this.inventory = inventory;
+		ShowInventory ();
+	}
 	public void ShowArmorInventorySlot(Inventory.Slot slot) {
 		ItemInfo info = slot.item.info;
 		ArmorItemInfo armorInfo = (ArmorItemInfo)info;
@@ -68,12 +73,9 @@ public class PlayerView : CharacterView {
 		LogView.Text("weight:" + info.weight + ", cost:" + info.cost + "\n");
 		LogView.Text(info.description + "\n");
 	}
-
+	
 	public void ShowInventory(int slotIndex = -1) {
 		LogView.Title ("인벤토리");
-		/*
-		Player player = (Player)targetObject;
-		Inventory inventory = player.inventory;
 		for (int i=0; i<inventory.slots.Length; i++) {
 			Inventory.Slot slot = inventory.slots[i];
 			if(null == slot)
@@ -122,22 +124,21 @@ public class PlayerView : CharacterView {
 			LogView.Text ("또는 ");
 			LogView.Button ("[<color=red>버리기</color>]\n", () => {
 				ItemData item = Game.Instance.player.inventory.Pull(slot.index);
-				ItemStack itemStack = Game.Instance.player.CreateItemStack(item, targetObject.position);
-				OnDropItem(itemStack);
+				ItemStack itemStack = Game.Instance.player.CreateItemStack(item, Game.Instance.player.position);
+				//OnDropItem(itemStack);
 				ShowInventory();
 				LogView.Text ("You drop " + info.name + "\n");
 			});
 		}
-		*/
 	}
-	public override void ShowEquipItemInfo(Character.EquipPart part, ItemData item) {
+	public void ShowEquipItemInfo(Character.EquipPart part, ItemData item) {
 		ItemInfo info = item.info;
 		LogView.Title (item.info.name);
 		LogView.Text ("weight:" + info.weight + ", cost:" + info.cost + "\n");
 		LogView.Text (info.description + "\n");
 		LogView.Text ("\n");
 		LogView.Text ("You can ");
-
+		
 		LogView.Button ("unequip", () => { 
 			Game.Instance.player.UnequipItem(part);
 			LogView.Text ("You unequiped " + info.name + "\n");
@@ -145,7 +146,7 @@ public class PlayerView : CharacterView {
 		LogView.Text (" or ");
 		LogView.Button ("drop\n", () => {
 			ItemStack itemStack = Game.Instance.player.DropItem(part);
-			OnDropItem(itemStack);
+			//OnDropItem(itemStack);
 			LogView.Text ("You droped " + info.name + "\n");
 		});
 	} 

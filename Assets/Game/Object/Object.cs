@@ -44,11 +44,20 @@ public abstract class Object {
 		}
 	}
 
-	public ObjectView view;
+	public enum Category
+	{
+		Invalid,
+		Tile,
+		Monster,
+		Player,
+		NPC,
+		Item
+	}
 	public Position position;
 	public bool visible;
-
+	public Category category;
 	public Object() {
+		category = Category.Invalid;
 		position = new Position(0, 0);
 		visible = false;
 	}
@@ -132,9 +141,18 @@ public abstract class Object {
 		return positions;
 	}
 
-	public virtual void Destroy() {
-		if (null != view) {
-			view.Destroy ();
+	public void SetPosition(Position position) {
+		if (Game.Instance.map.width <= position.x || 0 > position.x || Game.Instance.map.height <= position.y || 0 > position.y) {
+			return;
 		}
+		
+		Tile tile = Game.Instance.map.GetTile (position.x, position.y);
+		tile.AddObject(this);
+		this.position = position;
+	}
+
+	public virtual void Destroy() {
+		Tile tile = Game.Instance.map.GetTile (position.x, position.y);
+		tile.RemoveObject(this);
 	}
 }

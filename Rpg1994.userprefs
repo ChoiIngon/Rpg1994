@@ -1,30 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/View/ControlView/ControlView.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/View/InventoryView.cs">
     <Files>
-      <File FileName="Assets/Game/View/LogView/LogView.cs" Line="107" Column="25" />
-      <File FileName="Assets/Game/Game/Game.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/View/ObjectView/MapView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/View/LogView/TextContents.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Object/Player/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/View/ObjectView/ItemStackView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/View/ObjectView/PlayerView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/View/ObjectView/CharacterView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Item/ItemWeapon.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Item/ItemArmor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Item/ItemManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Object/Character.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/View/ObjectView/ObjectView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Object/ItemStack.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/View/ControlView/ControlView.cs" Line="16" Column="33" />
+      <File FileName="Assets/Game/Object/Object.cs" Line="53" Column="3" />
+      <File FileName="Assets/Game/Object/Character.cs" Line="239" Column="28" />
+      <File FileName="Assets/Game/Object/Monster/MonsterData.cs" Line="40" Column="29" />
+      <File FileName="Assets/Game/View/ObjectView/MonsterView.cs" Line="12" Column="91" />
+      <File FileName="Assets/Game/View/ObjectView/CharacterView.cs" Line="23" Column="5" />
       <File FileName="Assets/Game/View/ObjectView/TileView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Object/Tile.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Game/Map.cs" Line="1" Column="1" />
-      <File FileName="Assets/MapEditor/Editor/Map.cs" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Map/map_001.json" Line="1" Column="1" />
-      <File FileName="Assets/Game/Object/Monster/MonsterData.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/View/ControlView/ControlView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Item/Item.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Object/Object.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/View/InfoView.cs" Line="19" Column="57" />
+      <File FileName="Assets/Game/View/ObjectView/PlayerView.cs" Line="72" Column="28" />
+      <File FileName="Assets/Game/View/InventoryView.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -33,20 +20,16 @@
             <Node name="Game" expanded="True">
               <Node name="Game" expanded="True" />
               <Node name="Object" expanded="True">
+                <Node name="Monster" expanded="True" />
                 <Node name="Player" expanded="True" />
               </Node>
               <Node name="View" expanded="True">
-                <Node name="ControlView" expanded="True">
-                  <Node name="ControlView.cs" selected="True" />
-                </Node>
+                <Node name="ControlView" expanded="True" />
                 <Node name="LogView" expanded="True" />
-                <Node name="ObjectView" expanded="True" />
+                <Node name="ObjectView" expanded="True">
+                  <Node name="PlayerView.cs" selected="True" />
+                </Node>
               </Node>
-            </Node>
-          </Node>
-          <Node name="Assembly-CSharp-Editor" expanded="True">
-            <Node name="MapEditor" expanded="True">
-              <Node name="Editor" expanded="True" />
             </Node>
           </Node>
         </State>
@@ -54,9 +37,7 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/View/ObjectView/PlayerView.cs" line="157" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

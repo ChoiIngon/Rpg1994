@@ -7,7 +7,6 @@ public class Character : Object {
 	public enum DirectionType {
 		East, West, South, North, Max
 	}
-
 	public enum EquipPart
 	{
 		Weapon,
@@ -38,7 +37,7 @@ public class Character : Object {
 			return rhs;
 		}
 	}
-
+	
 	public string name;
 	public StatusBarInt health = new StatusBarInt();
 	public StatusBarInt stamina = new StatusBarInt();
@@ -46,6 +45,7 @@ public class Character : Object {
 	public int attack;
 	public int speed;
 	public int defense;
+	public int range = 1;
 
 	public List<BuffData> buffs = new List<BuffData> ();
 
@@ -53,7 +53,7 @@ public class Character : Object {
 	public int updateTime = 0;
 	public StateData state = null;
 	public DirectionType direction;
-
+	
 	public int GetAttack() {
 		int attack = this.attack;
 		WeaponItemData weapon = (WeaponItemData)items [(int)EquipPart.Weapon];
@@ -67,9 +67,6 @@ public class Character : Object {
 			}
 		}
 		return attack;
-	}
-	public int GetAttackRange() {
-		return 1;
 	}
 	public int GetDefense() {
 		int defense = this.defense;
@@ -113,22 +110,19 @@ public class Character : Object {
 			}
 
 			switch(item.info.category) {
-			case ItemInfo.Category.Weapon :
-			{
-				WeaponItemData data = (WeaponItemData)item;
-				WeaponItemInfo info = (WeaponItemInfo)data.info;
-				state.attack += info.attack;
-				state.speed += info.speed;
-
-			}
-			break;
-			case ItemInfo.Category.Armor :
-			{
-				ArmorItemData data = (ArmorItemData)item;
-				ArmorItemInfo info = (ArmorItemInfo)data.info;
-				state.defense += info.defense;
-				state.speed += info.speed;
-			}
+				case ItemInfo.Category.Weapon : {
+					WeaponItemData data = (WeaponItemData)item;
+					WeaponItemInfo info = (WeaponItemInfo)data.info;
+					state.attack += info.attack;
+					state.speed += info.speed;
+				}
+				break;
+				case ItemInfo.Category.Armor : {
+					ArmorItemData data = (ArmorItemData)item;
+					ArmorItemInfo info = (ArmorItemInfo)data.info;
+					state.defense += info.defense;
+					state.speed += info.speed;
+				}
 				break;
 			}
 		}
@@ -136,7 +130,7 @@ public class Character : Object {
 		for (int i=0; i<buffs.Count;) {
 			if(false == buffs[i].IsValid())
 			{
-				((CharacterView)view).OnDetachBuff(buffs[i]);
+				//((CharacterView)view).OnDetachBuff(buffs[i]);
 				buffs.RemoveAt(i);
 			}
 			else {
@@ -211,7 +205,7 @@ public class Character : Object {
 		items [(int)part] = item;
 	}
 
-	public void SetDamage(int damage) {
+	public void SetDamage(Character attacker, int damage) {
 		//Buff.detach( this, Frost.class );
 		
 		//Class<?> srcClass = src.getClass();
@@ -231,6 +225,7 @@ public class Character : Object {
 //		}
 		
 		health += (damage*-1);
+		OnDamage (attacker, damage);
 //		if (dmg > 0 || src instanceof Char) {
 //			sprite.showStatus( HP > HT / 2 ? 
 //			                  CharSprite.WARNING : 
@@ -241,13 +236,12 @@ public class Character : Object {
 			Destroy();
 		}
 	}
-	public virtual void Action() {
+	public virtual void Update() {
 		GetState ();
 	}
 	public override void Destroy() {
-		Tile tile = Game.Instance.map.GetTile (position.x, position.y);
-		tile.RemoveObject(this);
 		base.Destroy ();
+		OnDestroy ();
 	}
 
 	public static StateData operator + (Character rhs, StateData lhs)
@@ -285,7 +279,7 @@ public class Character : Object {
 			if (Tile.Type.Floor != tile.type) {
 				return;
 			}
-			if(0 < tile.dictObjects.Count) {
+			if(0 < tile.objects.Count) {
 				return;
 			}
 			tile.AddObject(this);
@@ -297,13 +291,15 @@ public class Character : Object {
 		position = dest;
 	}
 
-	public ItemStack CreateItemStack(ItemData item) {
+	public ItemStack CreateItemStack(ItemData item, Object.Position at) {
 		ItemStack itemStack = new ItemStack ();
 		itemStack.item = item;
-		itemStack.position.x = position.x;
-		itemStack.position.y = position.y;
-		Tile tile = Game.Instance.map.GetTile (position.x, position.y);
-		tile.AddObject(itemStack);
+		itemStack.SetPosition (at);
 		return itemStack;
 	}
+
+	public virtual void OnAttack(Character target, int damage) {}
+	public virtual void OnDamage(Character attacker, int damage) {}
+	public virtual void OnMove(Character.DirectionType direction) {}
+	public virtual void OnDestroy() {}
 }

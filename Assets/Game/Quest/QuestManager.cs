@@ -16,7 +16,6 @@ public abstract class QuestInfo {
 	public string id;
 	public string name;
 	public RewardInfo reward;
-	public abstract bool IsStart ();
 }
 
 public class QuestData {
@@ -34,18 +33,5 @@ public class QuestManager : SingletonObject<QuestManager> {
 	public void KillMonster(string monsterID) {
 	}
 }
-
-
-public class KillMonsterQuestInfo : QuestData {
-	public class KillCount {
-		int current;
-		int goal;
-	};
-	public string id;
-	public string name;
-	public Dictionary<string, KillCount> progress;
-	public void KillMonster(string id) {
-	}
-};
 
 

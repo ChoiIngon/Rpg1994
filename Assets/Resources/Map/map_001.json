@@ -3,7 +3,7 @@
   "name" : "map_001",
   "size" : {
     "width" : 30,
-    "height" : 30
+    "height" : 20
   },
   "tiles" : [
     {

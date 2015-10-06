@@ -18,12 +18,13 @@ public class Tile : Object {
 	public Type type;
 	public string id;
 	public Color color;
-	public Dictionary<Object, Object> dictObjects;
+	public Dictionary<Object, Object> objects;
 	public Tile(int x, int y) {
+		category = Object.Category.Tile;
 		position.x = x;
 		position.y = y;
 		type = Type.Unused;
-		dictObjects = new Dictionary<Object, Object> ();
+		objects = new Dictionary<Object, Object> ();
 	}
 	
 	public static Type ToType(string type)
@@ -37,10 +38,10 @@ public class Tile : Object {
 	}
 
 	public void AddObject(Object obj) {
-		dictObjects.Add (obj, obj);
+		objects.Add (obj, obj);
 	}
 
 	public void RemoveObject(Object obj) {
-		dictObjects.Remove (obj);
+		objects.Remove (obj);
 	}
 };
