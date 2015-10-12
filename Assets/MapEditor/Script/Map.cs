@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 using LitJson;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,36 +28,38 @@ namespace MapEditor {
 		}
 
 		private const int TILE_SIZE = 20;
+		public int MAP_WIDTH;
+		public int MAP_HEIGHT;
+
 		MapData data = new MapData();
-		public int width;
-		public int height;
 		public MapEditor.Tile tilePref;
 		public string mapName;
 
 		// Use this for initialization
 		void Start () {
-			Init (width, height);
+			Init (MAP_WIDTH, MAP_HEIGHT);
 		}
 
 		public void Save(string path) {
 			MapData jd = new MapData ();
 			jd.name = this.mapName;
-			jd.size.width = this.width;
-			jd.size.height = this.height;
+			jd.size.width = MAP_WIDTH;
+			jd.size.height = MAP_HEIGHT;
 
 			Transform contents = transform.FindChild ("Contents");
 			if (null == contents) {
 				throw new System.Exception ("can't find contents object");
 			}
-			for(int y=0; y<height; y++) {
-				for(int x=0; x<width; x++) {
+			for(int y=0; y<MAP_HEIGHT; y++) {
+				for(int x=0; x<MAP_WIDTH; x++) {
 			
-					Transform tileTransform = contents.GetChild(x + y * width);
+					Transform tileTransform = contents.GetChild(x + y * MAP_WIDTH);
 					Tile tileScript = tileTransform.GetComponent<Tile>();
 					if (null == tileScript) {
 						throw new System.Exception ("can't find Text object");
 					}
 
+					/*
 					if("" == tileScript.GetTileText().text)
 					{
 						continue;
@@ -70,6 +71,7 @@ namespace MapEditor {
 					tile.x = x;
 					tile.y = y;
 					jd.tiles.Add(tile);
+*/
 				}
 			}
 			StringBuilder sb = new StringBuilder();
@@ -87,10 +89,10 @@ namespace MapEditor {
 			JsonData root = JsonMapper.ToObject (json);
 			mapName = (string)root ["name"];
 			JsonData size = root ["size"];
-			width = (int)size ["width"];
-			height = (int)size ["height"];
+			MAP_WIDTH = (int)size ["width"];
+			MAP_HEIGHT = (int)size ["height"];
 
-			Init (width, height);
+			Init (MAP_WIDTH, MAP_HEIGHT);
 			Transform contents = transform.FindChild ("Contents");
 			if (null == contents) {
 				throw new System.Exception ("can't find contents object");
@@ -101,10 +103,12 @@ namespace MapEditor {
 				int x = (int)jtile["x"];
 				int y = (int)jtile["y"];
 
-				Transform child = contents.GetChild(x + y * height);
+				Transform child = contents.GetChild(x + y * MAP_HEIGHT);
 				Tile tile = child.GetComponent<Tile>();
+				/*
 				tile.SetTileText((string)jtile["text"]);
 				tile.SetTileColor(HexToColor((string)jtile["color"]));
+				*/
 			}
 		}
 		string ColorToHex(Color32 color)
@@ -140,7 +144,7 @@ namespace MapEditor {
 			for (int y=0; y<height; y++) {
 				for (int x=0; x<width; x++) {
 					{
-						Tile tile = Instantiate<Tile>(tilePref);
+						MapEditor.Tile tile = Instantiate<MapEditor.Tile>(tilePref);
 						tile.transform.SetParent (contents.transform, false);
 						tile.transform.localPosition = new Vector3(x * TILE_SIZE, -y * TILE_SIZE, 0);
 					}
@@ -151,6 +155,28 @@ namespace MapEditor {
 						tile.y = y;
 						data.tiles.Add(tile);
 					}
+				}
+			}
+		}
+
+		void Update() {
+			RectTransform rectTransform = GetComponent<RectTransform> ();
+			int width = (int)rectTransform.rect.width;
+			int height = (int)rectTransform.rect.height;
+			Transform contents = transform.FindChild ("Contents");
+			int x = (int)contents.localPosition.x;
+			int y = (int)contents.localPosition.y;
+
+			for (int i=0; i<contents.childCount; i++) {
+				Transform child = contents.GetChild(i);
+				if(child.localPosition.x + x < 0 - TILE_SIZE || child.localPosition.x + x > width + TILE_SIZE ||
+				   child.localPosition.y + y > 0 + TILE_SIZE || child.localPosition.y + y < -1 * (height + TILE_SIZE))
+				{
+					child.gameObject.SetActive(false); 
+				}
+				else
+				{
+					child.gameObject.SetActive(true);
 				}
 			}
 		}

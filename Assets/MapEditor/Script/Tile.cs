@@ -1,23 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 using System.Collections;
 
 namespace MapEditor {
 	public class Tile : MonoBehaviour {
-		public enum Type {
-			Unused,
-			Floor,
-			Corridor,
+		public enum Type
+		{
 			Wall,
-			ClosedDoor,
-			OpenDoor,
-			UpStairs,
-			DownStairs,
-			Max
+			Water,
+			Grass,
+			Dirt,
+			Wood
 		}
 
 		public Type type;
+		public Object.Position position;
 		public Text GetTileText()
 		{
 			Button button = transform.GetComponent<Button> ();
@@ -53,17 +50,13 @@ namespace MapEditor {
 
 		public void OnClick()
 		{
-			if (null == Selection.activeObject) {
+			if (null == TileSelector.selected) {
 				return;
 			}
 
-			GameObject obj = (GameObject)Instantiate<UnityEngine.Object>(Selection.activeObject);
-			Tile tile = obj.transform.GetComponent<Tile>();
-
-			if (null == tile) {
-				return;
-			}
-
+			TileSelector selector = TileSelector.selected;
+			///Debug.Log (selector.type.ToString ());
+			/*
 			Button button = transform.GetComponent<Button>();
 			Transform child = button.transform.FindChild ("Text");
 			Text t1 = child.transform.GetComponent<Text> ();
@@ -73,6 +66,7 @@ namespace MapEditor {
 			type = tile.GetTileType();
 
 			Destroy(obj);
+			*/
 		}
 	}
 }
