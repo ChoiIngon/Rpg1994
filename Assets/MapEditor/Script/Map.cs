@@ -1,114 +1,86 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using LitJson;
+using SimpleJSON;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
 namespace MapEditor {
-	public class Map : MonoBehaviour {
-		public class MapData
-		{
-			public class Size {
-				public int width;
-				public int height;
-			}
-			public class Tile
-			{
-				public int x;
-				public int y;
-				public string type;
-				public string text;
-				public string color;
-			}
-			public string name;
-			public Size size = new Size ();
-			public List<Tile> tiles = new List<Tile> ();
-		}
-
+	public class Map : SingletonBehaviour<Map> {
 		private const int TILE_SIZE = 20;
 		public int MAP_WIDTH;
 		public int MAP_HEIGHT;
-
-		MapData data = new MapData();
-		public MapEditor.Tile tilePref;
 		public string mapName;
+		public string mapDescription;
+		public MapEditor.Tile tilePref;
 
 		// Use this for initialization
 		void Start () {
 			Init (MAP_WIDTH, MAP_HEIGHT);
+			//Load ("/Users/kukuta/workspace/Rpg1994/Assets/Game/Resources/Map/map_002.json");
 		}
 
 		public void Save(string path) {
-			MapData jd = new MapData ();
-			jd.name = this.mapName;
-			jd.size.width = MAP_WIDTH;
-			jd.size.height = MAP_HEIGHT;
-
 			Transform contents = transform.FindChild ("Contents");
 			if (null == contents) {
 				throw new System.Exception ("can't find contents object");
 			}
+
+			JSONNode root = new JSONClass();
+			JSONArray tileNodes = new JSONArray ();
+			root ["name"] = mapName;
+			root ["description"] = mapDescription;
+			root ["size"] ["width"].AsInt = MAP_WIDTH;
+			root ["size"] ["height"].AsInt = MAP_HEIGHT;
+			root ["tile"] = tileNodes;
 			for(int y=0; y<MAP_HEIGHT; y++) {
 				for(int x=0; x<MAP_WIDTH; x++) {
-			
-					Transform tileTransform = contents.GetChild(x + y * MAP_WIDTH);
-					Tile tileScript = tileTransform.GetComponent<Tile>();
-					if (null == tileScript) {
+					Transform child = contents.GetChild(x + y * MAP_WIDTH);
+					Tile tile = child.GetComponent<Tile>();
+					if (null == tile) {
 						throw new System.Exception ("can't find Text object");
 					}
 
-					/*
-					if("" == tileScript.GetTileText().text)
+					if("" == tile.type)
 					{
 						continue;
 					}
-					MapData.Tile tile = new MapData.Tile();
-					tile.text = tileScript.GetTileText().text;
-					tile.color = ColorToHex(tileScript.GetTileText().color);
-					tile.type = tileScript.GetTileType().ToString();
-					tile.x = x;
-					tile.y = y;
-					jd.tiles.Add(tile);
-*/
+					JSONNode tileNode = new JSONClass();
+					tileNode["x"].AsInt = x;
+					tileNode["y"].AsInt = y;
+					tileNode["text"] = tile.tile.text;
+					tileNode["color"] = ColorToHex(tile.tile.color);
+					tileNode["type"] = tile.type;
+					tileNodes.Add(tileNode);
 				}
 			}
-			StringBuilder sb = new StringBuilder();
-			JsonWriter writer = new JsonWriter(sb);
-			writer.PrettyPrint = true;
-			writer.IndentValue = 2;
-			JsonMapper.ToJson(jd, writer);
-			Debug.Log (sb.ToString ());
-			File.WriteAllText(path, sb.ToString());
+			File.WriteAllText (path, root.ToString ());
 		}
 
 		public void Load(string path)
 		{
-			string json = File.ReadAllText(path);
-			JsonData root = JsonMapper.ToObject (json);
-			mapName = (string)root ["name"];
-			JsonData size = root ["size"];
-			MAP_WIDTH = (int)size ["width"];
-			MAP_HEIGHT = (int)size ["height"];
-
-			Init (MAP_WIDTH, MAP_HEIGHT);
-			Transform contents = transform.FindChild ("Contents");
-			if (null == contents) {
-				throw new System.Exception ("can't find contents object");
+			if (false == System.IO.File.Exists (path)) {
+				throw new System.Exception("can't find " + path + ", so create new region info");
 			}
-			JsonData tiles = root ["tiles"];
-			for (int i=0; i<tiles.Count; i++) {
-				JsonData jtile = tiles[i];
-				int x = (int)jtile["x"];
-				int y = (int)jtile["y"];
+				
+			string json = File.ReadAllText (path);
+			JSONNode root = JSON.Parse (json);
+			mapName = root ["name"];
+			mapDescription = root ["description"];
+			MAP_WIDTH = root ["size"] ["width"].AsInt;
+			MAP_HEIGHT = root ["size"] ["height"].AsInt;
+			Init (MAP_WIDTH, MAP_HEIGHT);
+			JSONNode tileNodes = root ["tile"];
+			for (int i=0; i<tileNodes.Count; i++) {
+				JSONNode tileNode = tileNodes[i];
+				int x = tileNode["x"].AsInt;
+				int y = tileNode["y"].AsInt;
 
-				Transform child = contents.GetChild(x + y * MAP_HEIGHT);
-				Tile tile = child.GetComponent<Tile>();
-				/*
-				tile.SetTileText((string)jtile["text"]);
-				tile.SetTileColor(HexToColor((string)jtile["color"]));
-				*/
+				Tile tile = GetTile (x, y);
+				tile.tile.text = tileNode["text"];
+				tile.tile.color = HexToColor(tileNode["color"]);
+				tile.type = tileNode["type"];
 			}
 		}
 		string ColorToHex(Color32 color)
@@ -125,11 +97,6 @@ namespace MapEditor {
 		}
 
 		void Init(int width, int height) {
-			data.size.width = width;
-			data.size.height = height;
-			data.name = mapName;
-			data.tiles.Clear ();
-
 			Transform contents = transform.FindChild ("Contents");
 			if (null == contents) {
 				throw new System.Exception ("can't find contents object");
@@ -137,24 +104,17 @@ namespace MapEditor {
 			while(0<contents.childCount) {
 				Transform child = contents.GetChild(0);
 				child.SetParent(null);
-				Destroy(child.gameObject);
+				GameObject.DestroyImmediate(child.gameObject);
 			}
 			RectTransform rt = contents.GetComponent<RectTransform> ();
 			rt.sizeDelta = new Vector2 (width * TILE_SIZE, height * TILE_SIZE);
 			for (int y=0; y<height; y++) {
 				for (int x=0; x<width; x++) {
-					{
-						MapEditor.Tile tile = Instantiate<MapEditor.Tile>(tilePref);
-						tile.transform.SetParent (contents.transform, false);
-						tile.transform.localPosition = new Vector3(x * TILE_SIZE, -y * TILE_SIZE, 0);
-					}
-					{
-						MapData.Tile tile = new MapData.Tile();
-						tile.text = "";
-						tile.x = x;
-						tile.y = y;
-						data.tiles.Add(tile);
-					}
+					MapEditor.Tile tile = Instantiate<MapEditor.Tile>(tilePref);
+					tile.Init ();
+					tile.position = new Object.Position(x, y);
+					tile.transform.SetParent (contents.transform, false);
+					tile.transform.localPosition = new Vector3(x * TILE_SIZE, -y * TILE_SIZE, 0);
 				}
 			}
 		}
@@ -179,6 +139,15 @@ namespace MapEditor {
 					child.gameObject.SetActive(true);
 				}
 			}
+		}
+
+		public Tile GetTile(int x, int y)
+		{
+			if (0 > x || MAP_WIDTH <= x || 0 > y || MAP_HEIGHT <= y) {
+				return null;
+			}
+			Transform contents = transform.FindChild ("Contents");
+			return contents.GetChild (x + y * MAP_WIDTH).GetComponent<Tile>();
 		}
 	}
 }

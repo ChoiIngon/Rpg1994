@@ -50,7 +50,7 @@ public class Game : SingletonObject<Game> {
 		player.position.y = 10;
 
 		map = new Map ();
-		map.Load ("Map/map_001");
+		map.Load ("Map/dungeon_001");
 		QuestManager.Instance.Init ();
 
 		for(int i=0; i<15; i++) {

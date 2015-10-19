@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
 		LogView.Text ("\n");
 		LogView.Text ("Well...now we start..Good luck son.\n");
 		LogView.Map ();
+		LogView.Title (Game.Instance.map.name);
+		LogView.Text (Game.Instance.map.description + "\n");
 	}
 	
 	// Update is called once per frame

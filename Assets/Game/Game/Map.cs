@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using LitJson;
+using SimpleJSON;
 
 public class Map {
 	public int width;
 	public int height;
-
+	public string name;
+	public string description;
 	public Tile[] tiles;
 	public ItemData[] items;
 	
@@ -28,26 +29,21 @@ public class Map {
 	public void Load(string path)
 	{
 		TextAsset json = Resources.Load(path) as TextAsset;
-		JsonData root = JsonMapper.ToObject (json.text);
-		JsonData size = root ["size"];
-		width = (int)size ["width"];
-		height = (int)size ["height"];
-		
+		JSONNode root = JSON.Parse (json.text);
+		name = root ["name"];
+		description = root ["description"];
+		width = root ["size"] ["width"].AsInt;
+		height = root ["size"] ["height"].AsInt;
 		Init (width, height);
-
-		JsonData jtiles = root ["tiles"];
-		for (int i=0; i<jtiles.Count; i++) {
-			JsonData jtile = jtiles[i];
-			int x = (int)jtile["x"];
-			int y = (int)jtile["y"];
-			
+		JSONNode tileNodes = root ["tile"];
+		for (int i=0; i<tileNodes.Count; i++) {
+			JSONNode tileNode = tileNodes[i];
+			int x = tileNode["x"].AsInt;
+			int y = tileNode["y"].AsInt;
 			Tile tile = GetTile(x, y);
-			tile.position.x = x;
-			tile.position.y = y;
-
-			tile.id = (string)jtile["text"];
-			tile.type = Tile.ToType((string)jtile["type"]);
-			tile.color = HexToColor((string)jtile["color"]);
+			tile.id = tileNode["text"];
+			tile.type = Tile.ToType(tileNode["type"]);
+			tile.color = HexToColor(tileNode["color"]);
 		}
 		Game.Instance.player.FieldOfView ();
 	}
