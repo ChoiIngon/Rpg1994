@@ -17,6 +17,9 @@ namespace MapEditor {
 
 		// Use this for initialization
 		void Start () {
+			TileImplFactory.Instance.Register ("Wall", Wall.Create);
+			TileImplFactory.Instance.Register ("Tree", Tree.Create);
+			TileImplFactory.Instance.Register ("Eraser", Eraser.Create);
 			Init (MAP_WIDTH, MAP_HEIGHT);
 			//Load ("/Users/kukuta/workspace/Rpg1994/Assets/Game/Resources/Map/map_002.json");
 		}
@@ -49,8 +52,8 @@ namespace MapEditor {
 					JSONNode tileNode = new JSONClass();
 					tileNode["x"].AsInt = x;
 					tileNode["y"].AsInt = y;
-					tileNode["text"] = tile.tile.text;
-					tileNode["color"] = ColorToHex(tile.tile.color);
+					tileNode["text"] = tile.text;
+					tileNode["color"] = Util.ColorToHex(tile.color);
 					tileNode["type"] = tile.type;
 					tileNodes.Add(tileNode);
 				}
@@ -78,22 +81,10 @@ namespace MapEditor {
 				int y = tileNode["y"].AsInt;
 
 				Tile tile = GetTile (x, y);
-				tile.tile.text = tileNode["text"];
-				tile.tile.color = HexToColor(tileNode["color"]);
-				tile.type = tileNode["type"];
+				tile.impl = TileImplFactory.Instance.Create(tileNode["type"]);
+				tile.SetText();
+				tile.color = Util.HexToColor(tileNode["color"]);
 			}
-		}
-		string ColorToHex(Color32 color)
-		{
-			string hex = color.r.ToString("X2") + color.g.ToString("X2") + color.b.ToString("X2");
-			return hex;
-		}
-		Color HexToColor(string hex)
-		{
-			byte r = byte.Parse(hex.Substring(0,2), System.Globalization.NumberStyles.HexNumber);
-			byte g = byte.Parse(hex.Substring(2,2), System.Globalization.NumberStyles.HexNumber);
-			byte b = byte.Parse(hex.Substring(4,2), System.Globalization.NumberStyles.HexNumber);
-			return new Color32(r,g,b, 255);
 		}
 
 		void Init(int width, int height) {

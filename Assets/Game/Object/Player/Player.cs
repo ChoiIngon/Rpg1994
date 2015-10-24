@@ -118,7 +118,7 @@ public class Player : Character
 		this.direction = direction;
 		this.target = null;
 		base.Move (direction);		
-		Game.Instance.gameTurn.NextTurn ();
+		Timer<TurnCounter>.Instance.NextTime ();
 	}
 	public void Attack() {
 		if (null == target) {
@@ -168,7 +168,7 @@ public class Player : Character
 		if (0 >= target.health) {
 			target = null;
 		}
-		Game.Instance.gameTurn.NextTurn ();
+		Timer<TurnCounter>.Instance.NextTime ();
 	}
 	public override void Update() {
 		base.Update ();

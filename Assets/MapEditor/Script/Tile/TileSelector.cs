@@ -5,11 +5,12 @@ using System.Collections;
 namespace MapEditor {
 	public class TileSelector : MonoBehaviour {
 		public static TileSelector selected;
-		public string type;
-		public string text;
-		public Color color;
+		private string _type;
+		public string type {
+			get { return _type; }
+		}
 		void Start() {
-			type = name;
+			_type = name;
 		}
 		public void OnClick() {
 			TileSelector.selected = this;

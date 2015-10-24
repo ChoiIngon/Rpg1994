@@ -16,6 +16,6 @@ public class InfoView : MonoBehaviour {
 		MonsterInfo info = data.info;
 		LogView.Title(info.name);
 		LogView.Text(info.description + "\n\n");
-		LogView.Text("hp:" + data.health.current + "/" + data.health.max + "\n");
+		LogView.Text("hp:" + data.health.value + "/" + data.health.max + "\n");
 	}
 }

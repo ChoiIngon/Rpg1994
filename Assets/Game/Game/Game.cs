@@ -5,24 +5,23 @@ using LitJson;
 public class Game : SingletonObject<Game> {
 	public Player player;
 	public Map map;
-	public GameTurn gameTurn;
 	public int currentTurn {
-		get { return gameTurn.GetTurn (); }
+		get { return Timer<TurnCounter>.Instance.GetTime(); }
 	}
 	private int lastTurn = 0;
 	// Use this for initialization
 	public Game() {
 	}
 	public void Init() {
-		gameTurn = new GameTurn ();
-		gameTurn.Init<TurnCounter> ();
+
 		player = new Player ();
 		player.name = "You";
 		player.sight = 4;
-		player.health.current = 20;
+		player.health.value = 20;
 		player.health.max = 20;
-		player.health.amount = 2;
-		player.health.time = 3;
+		player.health.interval = 2;
+		player.health.recovery = 1;
+		player.health.time = 0;
 		player.attack = 10;
 		player.speed = 10;
 		player.defense = 10;

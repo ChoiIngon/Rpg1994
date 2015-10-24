@@ -39,8 +39,8 @@ public class Character : Object {
 	}
 	
 	public string name;
-	public StatusBarInt health = new StatusBarInt();
-	public StatusBarInt stamina = new StatusBarInt();
+	public AutoRecoveryInt<TurnCounter> health = new AutoRecoveryInt<TurnCounter>();
+	public AutoRecoveryInt<TurnCounter> stamina = new AutoRecoveryInt<TurnCounter>();
 	public int sight = 4;
 	public int attack;
 	public int speed;

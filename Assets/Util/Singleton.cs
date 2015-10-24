@@ -24,19 +24,18 @@ public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour{
 	}
 }
 
-public class SingletonObject<T> where T : new() {
-	private static T self_;
+public class SingletonObject<T> where T : class, new() {
+	private static T self_ = null;
 	private static object lock_ = new object();
 	
 	public static T Instance {
-		get {
-			lock (lock_) {
-				if (null == self_) {
-					Debug.Log (typeof(T).Name + " singleton object is created");
-					self_ = new T();
-				}
-			}
-			return self_;
+		get;
+		private set;
+	}
+
+	static SingletonObject() {
+		if (null == SingletonObject<T>.Instance) {
+			SingletonObject<T>.Instance = new T ();
 		}
 	}
 }

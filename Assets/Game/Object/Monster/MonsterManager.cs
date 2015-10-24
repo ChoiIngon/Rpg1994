@@ -25,8 +25,8 @@ public class MonsterManager : SingletonObject<MonsterManager> {
 			info.name = (string)jsonInfo["name"];
 			info.description = (string)jsonInfo["description"];
 			info.maxHealth.SetValue((string)jsonInfo["health"]["max"]);
-			info.health.amount = (int)jsonInfo["health"]["amount"];
-			info.health.time = (int)jsonInfo["health"]["time"];
+			info.health.recovery = (int)jsonInfo["health"]["amount"];
+			info.health.interval = (int)jsonInfo["health"]["time"];
 			info.attack.SetValue((string)jsonInfo["attack"]);
 			info.speed.SetValue((string)jsonInfo["speed"]);
 			info.defense.SetValue((string)jsonInfo["defense"]);
