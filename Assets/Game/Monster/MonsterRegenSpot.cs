@@ -24,13 +24,9 @@ public class MonsterRegenSpot {
 			deadTime = GameManager.Instance.currentTurn;
 		}
 
-		if (null == monster && (
-			deadTime + interval < GameManager.Instance.currentTurn ||
-			0 == deadTime
-			)
-		) {
+		if (null == monster && GameManager.Instance.player.position != position && (deadTime + interval < GameManager.Instance.currentTurn || 0 == deadTime)) {
 			monster = MonsterManager.Instance.CreateInstance (id);
-			monster.position = new Object.Position (position.x, position.y);
+			monster.SetPosition(new Object.Position (position.x, position.y));
 			monster.OnCreate();
 		}
 	}
