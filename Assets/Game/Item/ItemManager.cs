@@ -1,110 +1,124 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using LitJson;
+using SimpleJSON;
 
-public class ItemManager : SingletonObject<ItemManager> {
+public class ItemManager : Util.Singleton<ItemManager> {
 	private Dictionary<string, ItemInfo> dictItemInfo = new Dictionary<string, ItemInfo>();
 	public ItemManager() {
-		Init ();
 	}
 
 	public void Init() {
-		TextAsset resource = Resources.Load ("ItemInfo") as TextAsset;
-		JsonData root = JsonMapper.ToObject (resource.text);
+		TextAsset resource = Resources.Load ("Config/ItemInfo") as TextAsset;
+		JSONNode root = JSON.Parse (resource.text);
 
+		InitRingItemInfo(root);
+		InitShieldItemInfo (root);
+		InitShirtItemInfo (root);
 		InitWeaponItemInfo(root);
-		InitArmorItemInfo(root);
+
 		InitPotionItemInfo(root);
-		InitKeyItemInfo (root);
+
+		Debug.Log ("init complete ItemManager");
 	}
-	private void InitWeaponItemInfo(JsonData root)
+	private void InitRingItemInfo(JSONNode root)
 	{
-		JsonData itemInfos = root ["weapon"];
+		JSONNode itemInfos = root ["ring"];
 		for (int i=0; i<itemInfos.Count; i++) {
-			JsonData jsonInfo = itemInfos[i];
-			WeaponItemInfo itemInfo = new WeaponItemInfo();
-			itemInfo.id = (string)jsonInfo["id"];
-			itemInfo.name = (string)jsonInfo["name"];
-			itemInfo.cost = (int)jsonInfo["cost"];
-			itemInfo.weight = (int)jsonInfo["weight"];
-			itemInfo.description = (string)jsonInfo["description"];
-			itemInfo.attack.SetValue((string)jsonInfo["attack"]);
-			itemInfo.speed = (int)jsonInfo["speed"];
-			itemInfo.category = ItemInfo.Category.Weapon;
-			itemInfo.type = WeaponItemInfo.ToType((string)jsonInfo["type"]);
+			JSONNode jsonInfo = itemInfos[i];
+			RingItemInfo itemInfo = new RingItemInfo();
+			itemInfo.id = jsonInfo["id"];
+			itemInfo.name = jsonInfo["name"];
+			itemInfo.cost = jsonInfo["cost"].AsInt;
+			itemInfo.weight = jsonInfo["weight"].AsInt;
+			itemInfo.description = jsonInfo["description"];
 			dictItemInfo.Add (itemInfo.id, itemInfo);
 		}
 	}
-	private void InitArmorItemInfo(JsonData root)
+	private void InitShieldItemInfo(JSONNode root)
 	{
-		JsonData itemInfos = root ["armor"];
+		JSONNode itemInfos = root ["shield"];
 		for (int i=0; i<itemInfos.Count; i++) {
-			JsonData jsonInfo = itemInfos[i];
-			ArmorItemInfo itemInfo = new ArmorItemInfo();
-			itemInfo.id = (string)jsonInfo["id"];
-			itemInfo.name = (string)jsonInfo["name"];
-			itemInfo.cost = (int)jsonInfo["cost"];
-			itemInfo.weight = (int)jsonInfo["weight"];
-			itemInfo.description = (string)jsonInfo["description"];
-			itemInfo.defense = (int)jsonInfo["defense"];
-			itemInfo.speed = (int)jsonInfo["speed"];
-			itemInfo.category = ItemInfo.Category.Armor;
-			itemInfo.type = ArmorItemInfo.ToType((string)jsonInfo["type"]);
+			JSONNode jsonInfo = itemInfos[i];
+			ShieldItemInfo itemInfo = new ShieldItemInfo();
+			itemInfo.id = jsonInfo["id"];
+			itemInfo.name = jsonInfo["name"];
+			itemInfo.cost = jsonInfo["cost"].AsInt;
+			itemInfo.weight = jsonInfo["weight"].AsInt;
+			itemInfo.description = jsonInfo["description"];
+			itemInfo.defense = jsonInfo["defense"].AsInt;
+			itemInfo.speed = jsonInfo["speed"].AsInt;
+			dictItemInfo.Add (itemInfo.id, itemInfo);
+		}
+	}
+	private void InitShirtItemInfo(JSONNode root)
+	{
+		JSONNode itemInfos = root ["shirt"];
+		for (int i=0; i<itemInfos.Count; i++) {
+			JSONNode jsonInfo = itemInfos[i];
+			ShirtItemInfo itemInfo = new ShirtItemInfo();
+			itemInfo.id = jsonInfo["id"];
+			itemInfo.name = jsonInfo["name"];
+			itemInfo.cost = jsonInfo["cost"].AsInt;
+			itemInfo.weight = jsonInfo["weight"].AsInt;
+			itemInfo.description = jsonInfo["description"];
+			itemInfo.defense = jsonInfo["defense"].AsInt;
+			itemInfo.speed = jsonInfo["speed"].AsInt;
+			dictItemInfo.Add (itemInfo.id, itemInfo);
+		}
+	}
+	private void InitWeaponItemInfo(JSONNode root)
+	{
+		JSONNode itemInfos = root ["weapon"];
+		for (int i=0; i<itemInfos.Count; i++) {
+			JSONNode jsonInfo = itemInfos[i];
+			WeaponItemInfo itemInfo = new WeaponItemInfo();
+			itemInfo.id = jsonInfo["id"];
+			itemInfo.name = jsonInfo["name"];
+			itemInfo.cost = jsonInfo["cost"].AsInt;
+			itemInfo.weight = jsonInfo["weight"].AsInt;
+			itemInfo.description = jsonInfo["description"];
+			itemInfo.attack.SetValue(jsonInfo["attack"]);
+			itemInfo.speed = jsonInfo["speed"].AsInt;
 			dictItemInfo.Add (itemInfo.id, itemInfo);
 		}
 	}
 
-	private delegate BuffInfo InitBuffInfo(JsonData attr);
-	private void InitPotionItemInfo(JsonData root)
+	private delegate BuffInfo InitBuffInfo(JSONNode attr);
+	private void InitPotionItemInfo(JSONNode root)
 	{
-		Dictionary<string, InitBuffInfo> initBuffInfo = new Dictionary<string, InitBuffInfo> ();
-		initBuffInfo ["heal"] = (JsonData attr) => { 
+		Dictionary<string, InitBuffInfo> buffInfo = new Dictionary<string, InitBuffInfo> ();
+		buffInfo ["heal"] = (JSONNode attr) => { 
 			HealBuffInfo info = new HealBuffInfo ();
-			info.name = (string)attr ["name"];
-			info.amount = (int)attr ["amount"];
+			info.name = attr ["name"];
+			info.amount = attr ["amount"].AsInt;
 			return info;
 		};
-		initBuffInfo ["attack"] = (JsonData attr) => { 
+		buffInfo ["attack"] = (JSONNode attr) => { 
 			AttackBuffInfo info = new AttackBuffInfo();
-			info.name = (string)attr ["name"];
-			info.attack = (int)attr["attack"];
-			info.turn = (int)attr["turn"];
+			info.name = attr ["name"];
+			info.attack = attr["attack"].AsInt;
+			info.turn = attr["turn"].AsInt;
 			return info;
 		};
-		initBuffInfo ["poison"] = (JsonData attr) => { 
+		buffInfo ["poison"] = (JSONNode attr) => { 
 			PoisonBuffInfo info = new PoisonBuffInfo();
-			info.name = (string)attr ["name"];
-			info.damage.SetValue((string)attr["damage"]);
-			info.turn = (int)attr["turn"];
+			info.name = attr ["name"];
+			info.damage.SetValue(attr["damage"]);
+			info.turn = attr["turn"].AsInt;
 			return info;
 		};
-		JsonData itemInfos = root ["potion"];
+		JSONNode itemInfos = root ["potion"];
 		for (int i=0; i<itemInfos.Count; i++) {
-			JsonData jsonInfo = itemInfos[i];
+			JSONNode jsonInfo = itemInfos[i];
 			PotionItemInfo itemInfo = new PotionItemInfo();
-			itemInfo.id = (string)jsonInfo["id"];	
-			itemInfo.name = (string)jsonInfo["name"];
-			itemInfo.cost = (int)jsonInfo["cost"];
-			itemInfo.weight = (int)jsonInfo["weight"];
-			itemInfo.description = (string)jsonInfo["description"];
-			itemInfo.category = ItemInfo.Category.Potion;
-			JsonData jsonBuff = jsonInfo["buff"];
-			itemInfo.buff.Add (initBuffInfo[(string)jsonBuff["type"]](jsonBuff));
-			dictItemInfo.Add (itemInfo.id, itemInfo);
-		}
-	}
-	private void InitKeyItemInfo(JsonData root) {
-		JsonData itemInfos = root ["key"];
-		for (int i=0; i<itemInfos.Count; i++) {
-			JsonData jsonInfo = itemInfos[i];
-			KeyItemInfo itemInfo = new KeyItemInfo();
-			itemInfo.id = (string)jsonInfo["id"];
-			itemInfo.name = (string)jsonInfo["name"];
-			itemInfo.cost = (int)jsonInfo["cost"];
-			itemInfo.weight = (int)jsonInfo["weight"];
-			itemInfo.description = (string)jsonInfo["description"];
-			itemInfo.category = ItemInfo.Category.Key;
+			itemInfo.id = jsonInfo["id"];	
+			itemInfo.name = jsonInfo["name"];
+			itemInfo.cost = jsonInfo["cost"].AsInt;
+			itemInfo.weight = jsonInfo["weight"].AsInt;
+			itemInfo.description = jsonInfo["description"];
+			JSONNode jsonBuff = jsonInfo["buff"];
+			itemInfo.buff.Add (buffInfo[jsonBuff["type"]](jsonBuff));
 			dictItemInfo.Add (itemInfo.id, itemInfo);
 		}
 	}

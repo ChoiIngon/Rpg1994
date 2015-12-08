@@ -7,7 +7,7 @@ public class AttackBuffInfo : BuffInfo {
 	public override BuffData CreateInstance() {
 		AttackBuffData data = new AttackBuffData ();
 		data.info = this;
-		data.expire = Game.Instance.currentTurn + turn;
+		data.expire = GameManager.Instance.currentTurn + turn;
 		return data;
 	}
 }
@@ -15,12 +15,12 @@ public class AttackBuffInfo : BuffInfo {
 public class AttackBuffData : BuffData {
 	public int expire;
 	public override bool IsValid() {
-		return Game.Instance.currentTurn < expire;
+		return GameManager.Instance.currentTurn < expire;
 	}
-	public override Character.StateData ApplyBuff (Character character) {
-		Character.StateData state = new Character.StateData ();
-		state.attack += ((AttackBuffInfo)info).attack;
-		return state;
+	public override Character.Status ApplyBuff (Character character) {
+		Character.Status status = new Character.Status ();
+		status.attack += ((AttackBuffInfo)info).attack;
+		return status;
 	}
 }
 

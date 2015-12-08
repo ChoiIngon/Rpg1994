@@ -14,6 +14,7 @@ namespace MapEditor {
 		}
 		public void OnClick() {
 			TileSelector.selected = this;
+			//EnterPointDialog.Instance.gameObject.SetActive (true);
 			Debug.Log (this.name + " tile selected");
 		}
 	}

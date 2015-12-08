@@ -5,10 +5,16 @@ using System.Collections.Generic;
 public abstract class ItemInfo {
 	public enum Category {
 		Weapon,
-		Armor,
+		Shield,
+		//Helmet,
+		Shirt,
+		Ring,
+		//Necklace,
+		//Glove,
+		//Shoes,
+		//Pants,
 		Potion,
-		Key,
-		Gold,
+		//Key,
 		Max
 	}
 
@@ -27,4 +33,5 @@ public abstract class ItemData {
 
 public abstract class EquipmentItemData : ItemData {
 	public int seq;
+	public abstract Character.Status GetStatus();
 }

@@ -27,19 +27,25 @@ namespace MapEditor {
 			EditorGUILayout.BeginHorizontal (); 
 
 			if (GUILayout.Button ("save")) {
+				/*
 				path = EditorUtility.SaveFilePanel ("Save map file as json", "", "RegionInfo.json", "json");
 				if (0 == path.Length) {
 					throw new System.Exception ("no file name");
 				}
 				map.Save (path);
+				*/
+				map.Save ("/Users/kukuta/workspace/Rpg1994/RegionInfo.json");
 			}
 			if (GUILayout.Button ("load")) {
+				/*
 				path = EditorUtility.OpenFilePanel ("Open map file as json", "", "json");
 				if(0==path.Length)
 				{
 					throw new System.Exception("no file name");
 				}
 				map.Load (path);
+				*/
+				map.Load ("/Users/kukuta/workspace/Rpg1994/RegionInfo.json");
 			}
 			EditorGUILayout.EndHorizontal ();
 			

@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 
 namespace MapEditor {
 	public class Wall : TileImpl {
@@ -98,6 +99,25 @@ namespace MapEditor {
 			}
 		}
 		public override void EditDialog(){
+			// do nothing
 		}
+		public override JSONNode ToJSON(Tile tile)
+		{
+			JSONNode node = new JSONClass ();
+			node ["x"].AsInt = tile.position.x;
+			node ["y"].AsInt = tile.position.y;
+			node ["type"] = GetType ();
+			node ["text"] = tile.text;
+			node ["color"] = Util.Color.ColorToHex(tile.color);
+			return node;
+		}
+		public override void FromJSON(Tile tile, JSONNode node)
+		{
+			tile.position.x = node ["x"].AsInt;
+			tile.position.y = node ["y"].AsInt;
+			tile.text = node ["text"];
+			tile.color = Util.Color.HexToColor (node["color"]);
+		}
+
 	}
 }

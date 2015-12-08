@@ -4,30 +4,39 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Character : Object {
+	private static Dictionary<EquipPart, ItemInfo.Category> ItemPartMap = new Dictionary<EquipPart, ItemInfo.Category>();
+	static Character() {
+		ItemPartMap.Add(EquipPart.Weapon, ItemInfo.Category.Weapon);
+		ItemPartMap.Add(EquipPart.Shield, ItemInfo.Category.Shield);
+		ItemPartMap.Add(EquipPart.LeftRing, ItemInfo.Category.Ring);
+		ItemPartMap.Add(EquipPart.RightRing, ItemInfo.Category.Ring);
+		ItemPartMap.Add(EquipPart.Shirt, ItemInfo.Category.Shirt);
+	}
 	public enum DirectionType {
 		East, West, South, North, Max
 	}
 	public enum EquipPart
 	{
 		Weapon,
+		Shield,
 		LeftRing,
 		RightRing,
-		Neck,
-		Head,
-		Hand,
-		Feet,
-		Legs,
-		Body,
+		//Necklace,
+		//Helmet,
+		//Glove,
+		//Shoes,
+		//Pants,
+		Shirt,
 		Max
 	}
 
-	public class StateData {
+	public class Status {
 		public int health;
 		public int stamina;
 		public int attack;
 		public int speed;
 		public int defense;
-		static public StateData operator + (StateData rhs, StateData lhs)
+		static public Status operator + (Status rhs, Status lhs)
 		{
 			rhs.health += lhs.health;
 			rhs.stamina += lhs.stamina;
@@ -39,8 +48,8 @@ public class Character : Object {
 	}
 	
 	public string name;
-	public AutoRecoveryInt<TurnCounter> health = new AutoRecoveryInt<TurnCounter>();
-	public AutoRecoveryInt<TurnCounter> stamina = new AutoRecoveryInt<TurnCounter>();
+	public Util.AutoRecoveryInt<Util.TurnCounter> health = new Util.AutoRecoveryInt<Util.TurnCounter>();
+	public Util.AutoRecoveryInt<Util.TurnCounter> stamina = new Util.AutoRecoveryInt<Util.TurnCounter>();
 	public int sight = 4;
 	public int attack;
 	public int speed;
@@ -51,159 +60,52 @@ public class Character : Object {
 
 	public EquipmentItemData[] items = new EquipmentItemData[(int)EquipPart.Max];
 	public int updateTime = 0;
-	public StateData state = null;
+	public Status status = null;
 	public DirectionType direction;
 	
-	public int GetAttack() {
-		int attack = this.attack;
-		WeaponItemData weapon = (WeaponItemData)items [(int)EquipPart.Weapon];
-		if (null != weapon) {
-			WeaponItemInfo info = (WeaponItemInfo)(weapon.info);
-			attack += info.attack;
-		} 
-		for (int i=0; i<buffs.Count; i++) {
-			if (true == buffs[i].IsValid ()) {
-				attack += buffs[i].ApplyBuff (this).attack;
-			}
-		}
-		return attack;
-	}
-	public int GetDefense() {
-		int defense = this.defense;
-		for (int i=0; i<(int)items.Length; i++) {
-			EquipmentItemData item = items[i];
-			if(null == item || ItemInfo.Category.Armor != item.info.category)
-			{
-				continue;
-			}
-			ArmorItemData armor = (ArmorItemData)item;
-			if(null != armor) {
-				ArmorItemInfo info = (ArmorItemInfo)armor.info;
-				defense += info.defense;
-			}
-		}
-		for (int i=0; i<buffs.Count; i++) {
-			if (true == buffs[i].IsValid ()) {
-				defense += buffs[i].ApplyBuff (this).defense;
-			}
-		}
-		return defense;
-	}
-	public StateData GetState()
+	public Status GetStatus()
 	{
-		if (Game.Instance.currentTurn <= updateTime) {
-			return state;
+		if (GameManager.Instance.currentTurn <= updateTime) {
+			return status;
 		}
-		updateTime = Game.Instance.currentTurn;
+		updateTime = GameManager.Instance.currentTurn;
 
-		state = new StateData();
-		state.health = health;
-		state.stamina = stamina;
-		state.attack = attack;
-		state.defense = defense;
-		state.speed = speed;
+		status = new Status();
+		status.health = health;
+		status.stamina = stamina;
+		status.attack = attack;
+		status.defense = defense;
+		status.speed = speed;
 
 		for (int i=0; i<(int)items.Length; i++) {
 			EquipmentItemData item = items[i];
 			if(null == item) {
 				continue;
 			}
-
-			switch(item.info.category) {
-				case ItemInfo.Category.Weapon : {
-					WeaponItemData data = (WeaponItemData)item;
-					WeaponItemInfo info = (WeaponItemInfo)data.info;
-					state.attack += info.attack;
-					state.speed += info.speed;
-				}
-				break;
-				case ItemInfo.Category.Armor : {
-					ArmorItemData data = (ArmorItemData)item;
-					ArmorItemInfo info = (ArmorItemInfo)data.info;
-					state.defense += info.defense;
-					state.speed += info.speed;
-				}
-				break;
-			}
+			status += item.GetStatus();
 		}
 
 		for (int i=0; i<buffs.Count;) {
 			if(false == buffs[i].IsValid())
 			{
-				//((CharacterView)view).OnDetachBuff(buffs[i]);
 				buffs.RemoveAt(i);
 			}
 			else {
-				state += buffs[i].ApplyBuff(this);
+				status += buffs[i].ApplyBuff(this);
 				i++;
 			}
 		}
 
-		return state;
+		return status;
 	}
 
 	public void EquipItem(EquipmentItemData item, EquipPart part) {
-		switch (item.info.category) {
-		case ItemInfo.Category.Weapon :
-			items[(int)EquipPart.Weapon] = item;
-			break;
-		case ItemInfo.Category.Armor : 
-			EquipArmorItem((ArmorItemData)item, part);
-			break;
+		if (item.info.category != Character.ItemPartMap [part]) {
+			throw new System.Exception("can not equip " + item.info.name + " on " + part.ToString() + ", not proper item part");
 		}
-	}
-
-	private void EquipArmorItem(ArmorItemData item, EquipPart part)	{
-		ArmorItemInfo info = item.info as ArmorItemInfo;
-		switch (info.type) {
-		case ArmorItemInfo.ItemType.Body :
-			if(part != EquipPart.Body)
-			{
-				throw new System.Exception("not proper item part(" +  info.name + ")");
-			}
-			break;
-		case ArmorItemInfo.ItemType.Feet :
-			if(part != EquipPart.Feet)
-			{
-				throw new System.Exception("not proper item part(" +  info.name + ")");
-			}
-			break;
-		case ArmorItemInfo.ItemType.Hand :
-			if(part != EquipPart.Hand)
-			{
-				throw new System.Exception("not proper item part(" +  info.name + ")");
-			}
-			break;
-		case ArmorItemInfo.ItemType.Head :
-			if(part != EquipPart.Head)
-			{
-				throw new System.Exception("not proper item part(" +  info.name + ")");
-			}
-			break;
-		case ArmorItemInfo.ItemType.Legs :
-			if(part != EquipPart.Legs)
-			{
-				throw new System.Exception("not proper item part(" +  info.name + ")");
-			}
-			break;
-		case ArmorItemInfo.ItemType.Neck :
-			if(part != EquipPart.Neck)
-			{
-				throw new System.Exception("not proper item part(" +  info.name + ")");
-			}
-			break;
-		case ArmorItemInfo.ItemType.Ring :
-			if(part != EquipPart.LeftRing && part != EquipPart.RightRing)
-			{
-				throw new System.Exception("not proper item part(" +  info.name + ")");
-			}
-			break;
-		default :
-			throw new System.Exception("not proper item part(" +  info.name + ")");
-		}
-
 		items [(int)part] = item;
 	}
+
 
 	public void SetDamage(Character attacker, int damage) {
 		//Buff.detach( this, Frost.class );
@@ -237,14 +139,14 @@ public class Character : Object {
 		}
 	}
 	public virtual void Update() {
-		GetState ();
+		GetStatus();
 	}
 	public override void Destroy() {
 		base.Destroy ();
 		OnDestroy ();
 	}
 
-	public static StateData operator + (Character rhs, StateData lhs)
+	public static Status operator + (Character rhs, Status lhs)
 	{
 		rhs.health += lhs.health;
 		rhs.stamina += lhs.stamina;
@@ -256,8 +158,8 @@ public class Character : Object {
 
 	public static bool Hit(Character attacker, Character defender)
 	{
-		int attackerRoll = UnityEngine.Random.Range (0, attacker.GetAttack ());
-		int defenderRoll = UnityEngine.Random.Range (0, defender.GetDefense ());
+		int attackerRoll = UnityEngine.Random.Range (0, attacker.GetStatus ().attack);
+		int defenderRoll = UnityEngine.Random.Range (0, defender.GetStatus ().defense);
 		return attackerRoll > defenderRoll;
 	}
 
@@ -270,12 +172,12 @@ public class Character : Object {
 		case DirectionType.South : dest.y += 1; break;
 		}
 		
-		if (Game.Instance.map.width <= dest.x || 0 > dest.x || Game.Instance.map.height <= dest.y || 0 > dest.y) {
+		if (GameManager.Instance.map.width <= dest.x || 0 > dest.x || GameManager.Instance.map.height <= dest.y || 0 > dest.y) {
 			return;
 		}
 
 		{
-			Tile tile = Game.Instance.map.GetTile (dest.x, dest.y);
+			Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
 			if (Tile.Type.Floor != tile.type) {
 				return;
 			}
@@ -285,10 +187,11 @@ public class Character : Object {
 			tile.AddObject(this);
 		}
 		{
-			Tile tile = Game.Instance.map.GetTile (position.x, position.y);
+			Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
 			tile.RemoveObject(this);
 		}
 		position = dest;
+		OnMove (direction);
 	}
 
 	public ItemStack CreateItemStack(ItemData item, Object.Position at) {
@@ -298,8 +201,11 @@ public class Character : Object {
 		return itemStack;
 	}
 
+	public virtual void OnCreate () {}
 	public virtual void OnAttack(Character target, int damage) {}
 	public virtual void OnDamage(Character attacker, int damage) {}
 	public virtual void OnMove(Character.DirectionType direction) {}
+	public virtual void OnEquipItem (ItemData item) {}
+	public virtual void OnUnequipItem(ItemData item) {}
 	public virtual void OnDestroy() {}
 }

@@ -24,7 +24,7 @@ public class QuestData {
 //	}
 }
 
-public class QuestManager : SingletonObject<QuestManager> {
+public class QuestManager : Util.Singleton<QuestManager> {
 	public Dictionary<string, string> completeQuests;
 	public Dictionary<string, QuestInfo> currentQuests;
 

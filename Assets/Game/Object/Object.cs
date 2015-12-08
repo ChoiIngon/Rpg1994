@@ -142,17 +142,17 @@ public abstract class Object {
 	}
 
 	public void SetPosition(Position position) {
-		if (Game.Instance.map.width <= position.x || 0 > position.x || Game.Instance.map.height <= position.y || 0 > position.y) {
+		if (GameManager.Instance.map.width <= position.x || 0 > position.x || GameManager.Instance.map.height <= position.y || 0 > position.y) {
 			return;
 		}
 		
-		Tile tile = Game.Instance.map.GetTile (position.x, position.y);
+		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
 		tile.AddObject(this);
 		this.position = position;
 	}
 
 	public virtual void Destroy() {
-		Tile tile = Game.Instance.map.GetTile (position.x, position.y);
+		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
 		tile.RemoveObject(this);
 	}
 }

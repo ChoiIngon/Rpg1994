@@ -12,6 +12,8 @@ public class Tile : Object {
 		OpenDoor,
 		UpStairs,
 		DownStairs,
+		Tree,
+		EnterPoint,
 		Max
 	}
 	
@@ -33,7 +35,11 @@ public class Tile : Object {
 			return Tile.Type.Floor;
 		} else if ("Wall" == type) {
 			return Tile.Type.Wall;
-		} 
+		} else if ("Tree" == type) {
+			return Tile.Type.Tree;
+		} else if ("EnterPoint" == type) {
+			return Tile.Type.EnterPoint;
+		}
 		throw new System.Exception("invalid tile type(" + type + ")");
 	}
 

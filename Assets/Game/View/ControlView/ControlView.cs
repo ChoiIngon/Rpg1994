@@ -3,9 +3,9 @@ using System.Collections;
 
 public class ControlView : MonoBehaviour {
 	public void OnAttack() {
-		LogView.Map ();
 		try {
-			Game.Instance.player.Attack ();
+			GameManager.Instance.player.Attack ();
+			MapView.Instance.Center();
 		}
 		catch(System.Exception e) {
 			LogView.Text (e.Message + "\n");
@@ -14,16 +14,16 @@ public class ControlView : MonoBehaviour {
 	}
 
 	public void OnShowInventory() {
-		//((PlayerView)Game.Instance.player.view).ShowInventory ();
-		InventoryView view = new InventoryView (Game.Instance.player.inventory);
+		//((PlayerView)GameManager.Instance.player.view).ShowInventory ();
+		//InventoryView view = new InventoryView (GameManager.Instance.player.inventory);
 	}
 
 	public void OnWest() {
 		try {
-			Game.Instance.player.MoveTo(Character.DirectionType.West);
+			GameManager.Instance.player.MoveTo(Character.DirectionType.West);
 			//MapView.Instance.SetMapScale(2.0f);
-			LogView.Map ();
-			LogView.Text ("서쪽으로 이동합니다(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
+			MapView.Instance.Center();
+			LogView.Text ("서쪽으로 이동합니다(" + GameManager.Instance.player.position.x + ", " + GameManager.Instance.player.position.y + ")\n");
 		}
 		catch(System.Exception e) {
 			LogView.Text (e.Message + "\n");
@@ -31,10 +31,10 @@ public class ControlView : MonoBehaviour {
 	}
 	public void OnEast() {
 		try {
-			Game.Instance.player.MoveTo(Character.DirectionType.East);
+			GameManager.Instance.player.MoveTo(Character.DirectionType.East);
 			//MapView.Instance.SetMapScale(2.0f);
-			LogView.Map ();
-			LogView.Text ("동쪽으로 이동합니다(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
+			MapView.Instance.Center();
+			LogView.Text ("동쪽으로 이동합니다(" + GameManager.Instance.player.position.x + ", " + GameManager.Instance.player.position.y + ")\n");
 		}
 		catch(System.Exception e) {
 			LogView.Text (e.Message + "\n");
@@ -42,10 +42,10 @@ public class ControlView : MonoBehaviour {
 	}
 	public void OnNorth() {
 		try {
-			Game.Instance.player.MoveTo(Character.DirectionType.North);
+			GameManager.Instance.player.MoveTo(Character.DirectionType.North);
 			//MapView.Instance.SetMapScale(2.0f);
-			LogView.Map ();
-			LogView.Text ("북쪽으로 이동합니다(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
+			MapView.Instance.Center();
+			LogView.Text ("북쪽으로 이동합니다(" + GameManager.Instance.player.position.x + ", " + GameManager.Instance.player.position.y + ")\n");
 		}
 		catch(System.Exception e) {
 			LogView.Text (e.Message + "\n");
@@ -53,10 +53,9 @@ public class ControlView : MonoBehaviour {
 	}
 	public void OnSouth() {
 		try {
-			Game.Instance.player.MoveTo(Character.DirectionType.South);
-			//MapView.Instance.SetMapScale(2.0f);
-			LogView.Map ();
-			LogView.Text ("남쪽으로 이동합니다(" + Game.Instance.player.position.x + ", " + Game.Instance.player.position.y + ")\n");
+			GameManager.Instance.player.MoveTo(Character.DirectionType.South);
+			MapView.Instance.Center();
+			LogView.Text ("남쪽으로 이동합니다(" + GameManager.Instance.player.position.x + ", " + GameManager.Instance.player.position.y + ")\n");
 		}
 		catch(System.Exception e) {
 			LogView.Text (e.Message + "\n");

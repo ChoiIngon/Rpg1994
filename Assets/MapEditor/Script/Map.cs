@@ -5,9 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using UnityEngine.EventSystems;
 
 namespace MapEditor {
-	public class Map : SingletonBehaviour<Map> {
+	public class Map : Util.UI.Singleton<Map> {
 		private const int TILE_SIZE = 20;
 		public int MAP_WIDTH;
 		public int MAP_HEIGHT;
@@ -17,11 +18,17 @@ namespace MapEditor {
 
 		// Use this for initialization
 		void Start () {
+			EnterPointDialog.Instance.gameObject.SetActive (false);
 			TileImplFactory.Instance.Register ("Wall", Wall.Create);
 			TileImplFactory.Instance.Register ("Tree", Tree.Create);
 			TileImplFactory.Instance.Register ("Eraser", Eraser.Create);
+			TileImplFactory.Instance.Register ("EnterPoint", EnterPoint.Create);
+			TileImplFactory.Instance.Register ("ExitPoint", ExitPoint.Create);
+
+			mapName = "";
+			mapDescription = "";
 			Init (MAP_WIDTH, MAP_HEIGHT);
-			//Load ("/Users/kukuta/workspace/Rpg1994/Assets/Game/Resources/Map/map_002.json");
+			Load ("/Users/kukuta/workspace/Rpg1994/RegionInfo.json");
 		}
 
 		public void Save(string path) {
@@ -49,13 +56,7 @@ namespace MapEditor {
 					{
 						continue;
 					}
-					JSONNode tileNode = new JSONClass();
-					tileNode["x"].AsInt = x;
-					tileNode["y"].AsInt = y;
-					tileNode["text"] = tile.text;
-					tileNode["color"] = Util.ColorToHex(tile.color);
-					tileNode["type"] = tile.type;
-					tileNodes.Add(tileNode);
+					tileNodes.Add(tile.ToJSON());
 				}
 			}
 			File.WriteAllText (path, root.ToString ());
@@ -69,8 +70,16 @@ namespace MapEditor {
 				
 			string json = File.ReadAllText (path);
 			JSONNode root = JSON.Parse (json);
-			mapName = root ["name"];
-			mapDescription = root ["description"];
+			if (null == root ["name"]) {
+				mapName = "";
+			} else {
+				mapName = root["name"];
+			}
+			if (null == root ["description"]) {
+				mapDescription = "";
+			} else {
+				mapDescription = root["description"];
+			}
 			MAP_WIDTH = root ["size"] ["width"].AsInt;
 			MAP_HEIGHT = root ["size"] ["height"].AsInt;
 			Init (MAP_WIDTH, MAP_HEIGHT);
@@ -81,10 +90,9 @@ namespace MapEditor {
 				int y = tileNode["y"].AsInt;
 
 				Tile tile = GetTile (x, y);
-				tile.impl = TileImplFactory.Instance.Create(tileNode["type"]);
-				tile.SetText();
-				tile.color = Util.HexToColor(tileNode["color"]);
+				tile.FromJSON(tileNode);
 			}
+			Debug.Log ("read " + path + " map file.");
 		}
 
 		void Init(int width, int height) {
@@ -108,6 +116,7 @@ namespace MapEditor {
 					tile.transform.localPosition = new Vector3(x * TILE_SIZE, -y * TILE_SIZE, 0);
 				}
 			}
+			Debug.Log ("Initializing Map is completed");
 		}
 
 		void Update() {

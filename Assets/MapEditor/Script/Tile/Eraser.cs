@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
 
 namespace MapEditor {
 	public class Eraser : TileImpl {
@@ -17,6 +18,13 @@ namespace MapEditor {
 			tile.color = Color.white;
 		}
 		public override void EditDialog(){
+		}
+		public override JSONNode ToJSON (Tile tile)
+		{
+			return null;
+		}
+		public override void FromJSON(Tile tile, JSONNode node) 
+		{
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ExitPointDialog : SingletonBehaviour<ExitPointDialog> {
+public class ExitPointDialog : Util.UI.Singleton<ExitPointDialog> {
 	public string NextMapID;
 	public string StartPointID;
 	// Use this for initialization

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Text.RegularExpressions;
 
-public class LogView : SingletonBehaviour<LogView> {
+public class LogView : Util.UI.Singleton<LogView> {
 	public Text 		textPref;
 	public Button 		buttonPref;
 
@@ -104,17 +104,6 @@ public class LogView : SingletonBehaviour<LogView> {
 		view.transform.SetParent (contents, false);
 		GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
 	}
-	public void AddMap() {
-		GameObject view = GameObject.Instantiate(Resources.Load("Prefab/Log/Map", typeof(GameObject)) ) as GameObject;
-		Transform contents = transform.FindChild ("Contents");
-		view.transform.SetParent (contents, false);
-		while (this.MAX_LINE_COUNT < contents.childCount) {
-			Transform line = contents.GetChild(0);
-			line.SetParent(null);
-			GameObject.Destroy(line.gameObject);
-		}
-		Remove ();
-	}
 	private TextContents CreateTextContents() {
 		GameObject obj = GameObject.Instantiate(Resources.Load("Prefab/Log/TextContents", typeof(GameObject)) ) as GameObject;
 		TextContents textContents = obj.GetComponent<TextContents> ();
@@ -146,8 +135,5 @@ public class LogView : SingletonBehaviour<LogView> {
 	}
 	public static void Bar() {
 		LogView.Instance.AddBar ();
-	}
-	public static void Map() {
-		LogView.Instance.AddMap ();
 	}
 }

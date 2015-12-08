@@ -2,9 +2,11 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using SimpleJSON;
 
 namespace MapEditor {
-	public class Tile : MonoBehaviour {
+	public class Tile : MonoBehaviour, IPointerClickHandler {
 		public Object.Position position;
 		public TileImpl impl;
 		private Text _text;
@@ -42,9 +44,9 @@ namespace MapEditor {
 			}
 			impl.SetText (this);
 		}
-		public void OnClick()
-		{
-			if (Input.GetMouseButtonDown (0)) {
+
+		public void OnPointerClick(PointerEventData eventData) {
+			if (PointerEventData.InputButton.Left == eventData.button) {
 				if (null == TileSelector.selected) {
 					return;
 				}
@@ -56,12 +58,28 @@ namespace MapEditor {
 				}
 				catch(System.Exception e)
 				{
-					Debug.Log (e.Message);
+					Debug.Log ("error:" + e.Message);
 					impl = tmp;
 				}
-			} else if (Input.GetMouseButtonDown (1)) {
+			} else if (PointerEventData.InputButton.Right == eventData.button) {
+				if(null == impl)
+				{
+					return;
+				}
 				impl.EditDialog();
 			}
+		}
+
+		public JSONNode ToJSON() {
+			if (null == impl) {
+				return null;
+			}
+			return impl.ToJSON (this);
+		}
+
+		public void FromJSON(JSONNode node) {
+			impl = TileImplFactory.Instance.Create (node["type"]);
+			impl.FromJSON (this, node);
 		}
 	}
 }
