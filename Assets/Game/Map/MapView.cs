@@ -64,13 +64,17 @@ public class MapView : Util.UI.Singleton<MapView> {
 		}
 
 		tiles.localPosition = new Vector3 (-x * TILE_SIZE, y * TILE_SIZE, 0);
-		objects.localPosition = tiles.localPosition;
+
 
 		for (int i=0; i<tiles.childCount; i++) {
 			ObjectView view = tiles.GetChild(i).GetComponent<ObjectView>();
 			global::Tile tile = GameManager.Instance.map.GetTile(view.position.x, view.position.y);
 			view.SetVisible(tile.visible);
 		}
+	}
+
+	void Update() {
+		objects.localPosition = tiles.localPosition;
 	}
 
 	private TileView CreateTileView(Object obj, string text, Color color) {
