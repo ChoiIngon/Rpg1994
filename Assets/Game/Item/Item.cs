@@ -33,5 +33,6 @@ public abstract class ItemData {
 
 public abstract class EquipmentItemData : ItemData {
 	public int seq;
+	public Character.EquipPart part;
 	public abstract Character.Status GetStatus();
 }

@@ -9,7 +9,7 @@ public class Inventory
 		public int count;
 		public ItemData item;
 	};
-	public const int MAX_SLOT_COUNT = 30;
+	public const int MAX_SLOT_COUNT = 24;
 	public int weight;
 	public int maxWeight;
 	public int gold;
@@ -69,7 +69,5 @@ public class Inventory
 			slots [index] = null;
 		}
 		return item;
-	}
-	public void Open() {
 	}
 }

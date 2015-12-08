@@ -23,21 +23,11 @@ public class Player : Character
 	}
 
 	public void UnequipItem(Character.EquipPart part) {
-		EquipmentItemData equipedItem = items [(int)part];
-		if (null != equipedItem) {
-			inventory.Put (equipedItem);
+		EquipmentItemData item = base.UnequipItem (part);
+		if (null != item) {
+			inventory.Put(item);
 		}
-		items [(int)part] = null;
 	}
-
-	public ItemStack DropItem(Character.EquipPart part) {
-		EquipmentItemData item = items [(int)part];
-		items [(int)part] = null;
-
-		ItemStack itemStack = CreateItemStack (item, new Object.Position(position.x, position.y));
-		return itemStack;
-	}
-
 	public Character.Status UseItem(int index) {
 		ItemData data = inventory.Pull(index);
 		switch (data.info.category) {

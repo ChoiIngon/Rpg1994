@@ -62,10 +62,10 @@ public class Character : Object {
 	public int updateTime = 0;
 	public Status status = null;
 	public DirectionType direction;
-	
+
 	public Status GetStatus()
 	{
-		if (GameManager.Instance.currentTurn <= updateTime) {
+		if (null != status && GameManager.Instance.currentTurn <= updateTime) {
 			return status;
 		}
 		updateTime = GameManager.Instance.currentTurn;
@@ -103,10 +103,24 @@ public class Character : Object {
 		if (item.info.category != Character.ItemPartMap [part]) {
 			throw new System.Exception("can not equip " + item.info.name + " on " + part.ToString() + ", not proper item part");
 		}
+		item.part = part;
 		items [(int)part] = item;
 	}
 
-
+	public EquipmentItemData UnequipItem(Character.EquipPart part) {
+		EquipmentItemData equipedItem = items [(int)part];
+		equipedItem.part = Character.EquipPart.Max;
+		items [(int)part] = null;
+		return equipedItem;
+	}
+	
+	public ItemStack DropItem(Character.EquipPart part) {
+		EquipmentItemData item = items [(int)part];
+		items [(int)part] = null;
+		
+		ItemStack itemStack = CreateItemStack (item, new Object.Position(position.x, position.y));
+		return itemStack;
+	}
 	public void SetDamage(Character attacker, int damage) {
 		//Buff.detach( this, Frost.class );
 		

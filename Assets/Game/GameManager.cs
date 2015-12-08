@@ -17,7 +17,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 
 		player = new Player ();
 		player.name = "You";
-		player.sight = 4;
+		player.sight = 6;
 		player.health.value = 20;
 		player.health.max = 20;
 		player.health.interval = 2;
@@ -53,11 +53,8 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player.position.x = 10;
 		player.position.y = 10;
 
-
 		map = new Map ();
 		map.Load ("Map/dungeon_001");
-
-
 
 		MonsterRegenSpot spot = new MonsterRegenSpot ();
 		spot.id = "monster_001";
@@ -68,8 +65,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		map.AddMonsterRegenSpot (spot);
 
 		MapView.Instance.Init ();
-		InventoryView.Instance.Init ();
-		PlayerInfoView.Instance.Init ();
+
 		LogView.Title ("RPG 1994");
 		LogView.Text ("Welcome to <b><color=#FF0000>Text</color></b> <b><color=#00FF00>RPG</color></b> <b><color=#0000FF>World</color></b>\n\n");
 		LogView.Text ("All of this world are consisted of only text. ");

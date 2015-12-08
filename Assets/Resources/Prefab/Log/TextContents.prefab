@@ -9,7 +9,6 @@ GameObject:
   m_Component:
   - 224: {fileID: 22436260}
   - 114: {fileID: 11421582}
-  - 114: {fileID: 11423556}
   m_Layer: 5
   m_Name: TextContents
   m_TagString: Untagged
@@ -29,26 +28,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   width: 0
---- !u!114 &11423556
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -405508275, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
 --- !u!224 &22436260
 RectTransform:
   m_ObjectHideFlags: 1
@@ -100,6 +79,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_ChildForceExpandWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: width
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

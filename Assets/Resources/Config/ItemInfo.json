@@ -4,11 +4,12 @@
 		{"id":"weapon_sword_002", "name":"녹슨 식칼", "cost":2, "weight":2, "description":"옆 마을의 이름 있는 주방장이 사용하다 버린 식칼. 군데 군데 쓸어 있는 녹 때문에 이 칼에 베이면 파상풍에 걸릴것 같다.", "attack":"3~8", "range":1, "speed":-1},
 		{"id":"weapon_sword_003", "name":"제법 멀쩡한 검", "cost":2, "weight":2, "description":"대장장이가 가내 수공업으로 한땀한땀 노력해 만든 검.", "attack":"5~10", "range":1, "speed":-1}
 	],
-	"ring" : [
-		{"id":"ring_001", "name":"ring_001", "cost":5, "weight":0, "description":"ring"},
-		{"id":"ring_002", "name":"ring_002", "cost":5, "weight":0, "description":"ring"},
-		{"id":"ring_003", "name":"ring_003", "cost":5, "weight":0, "description":"ring"}
-	],
+	"ring": [
+	    {"id": "ring_001", "name": "망가진 양철반지", "cost": 5, "weight": 0, "description": "장난삼아 만들어진 양철반지가 그나마도 망가져 있다." },
+    	{"id": "ring_002", "name": "구리반지", "cost": 5, "weight": 0, "description": "볼품없는 구리반지. 뭔가 세공하려고 노력한 흔적은 보이지만 여전히 볼품없다."},
+    	{"id": "ring_003", "name": "멀쩡한 반지", "cost": 5, "weight": 0, "description": "멀쩡하게 생긴 반지. 누군가의 아버지가 결혼반지로 썼을법한 모양새다."}
+  ],
+		
 	"shield" : [
 		{"id":"shield_001", "name":"나무 판자", "cost":2, "weight":2, "description":"한때는 상점의 간판으로 쓰이던 나무 판자. 어린아이의 주먹으로는 깰수 없을 정도로 단단해 보인다.", "defense":1, "speed":-1},
 		{"id":"shield_002", "name":"냄비 뚜껑", "cost":2, "weight":2, "description":"무쇠로 되어있는 냄비 뚜껑은 적의 어떠한 공격이라도 충분히 막아 낼수 있을 듯 하다. 하지만 무겁다.", "defense":1, "speed":-1},
