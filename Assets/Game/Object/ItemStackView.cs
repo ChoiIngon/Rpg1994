@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ItemStackView : View.ObjectView {
+public class ItemStackView : ObjectView {
 }

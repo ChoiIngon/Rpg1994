@@ -7,7 +7,7 @@ public class Player : Character
 {
 	public MonsterData target = null;
 	public Inventory inventory = null;
-	public View.ObjectView view = null;
+	public ObjectView view = null;
 	public Player() {
 		target = null;
 		category = Object.Category.Player;
@@ -175,7 +175,7 @@ public class Player : Character
 
 	public override void OnCreate()
 	{
-		view = View.ObjectView.Create<View.ObjectView> (this, "@", Color.green);
+		view = ObjectView.Create<ObjectView> (this, "@", Color.green);
 		view.position = position;
 		view.transform.SetParent (MapView.Instance.objects, false);
 		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);

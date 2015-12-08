@@ -69,7 +69,7 @@ public class SlotView : MonoBehaviour {
 	}
 	public void OnEquipRightRing()
 	{
-		GameManager.Instance.player.EquipItem (slot.index, Character.EquipPart.LeftRing);	
+		GameManager.Instance.player.EquipItem (slot.index, Character.EquipPart.RightRing);	
 		LogView.Text ("You equiped " + slot.item.info.name + "\n");
 	}
 	public void OnUse()

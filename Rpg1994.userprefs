@@ -1,47 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/Monster/MonsterManager.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game\Object\ObjectView.cs">
     <Files>
-      <File FileName="Assets/Resources/Config/ItemInfo.json" Line="20" Column="112" />
-      <File FileName="Assets/Game/Item/ItemManager.cs" Line="83" Column="1" />
-      <File FileName="Assets/Game/GameManager.cs" Line="15" Column="1" />
-      <File FileName="Assets/Resources/Config/ItemInfo 1.json" Line="1" Column="1" />
-      <File FileName="Assets/Game/Map/Map.cs" Line="1" Column="1" />
-      <File FileName="Assets/Util/Singleton.cs" Line="14" Column="1" />
-      <File FileName="Assets/Game/Monster/MonsterManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\Object\ObjectView.cs" Line="30" Column="17" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Game" expanded="True">
-              <Node name="Item" expanded="True" />
-              <Node name="Map" expanded="True" />
-              <Node name="Monster" expanded="True">
-                <Node name="MonsterManager.cs" selected="True" />
-              </Node>
-            </Node>
-            <Node name="Util" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State>
-          <Value>spot</Value>
-          <Value>MonsterManager.Instance</Value>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Util/Timer.cs" line="25" />
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Util/Timer.cs" line="59" />
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/GameManager.cs" line="31" />
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/Item/ItemManager.cs" line="18" />
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/GameManager.cs" line="15" />
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/GameManager.cs" line="16" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

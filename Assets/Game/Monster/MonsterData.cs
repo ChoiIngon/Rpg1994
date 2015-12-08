@@ -20,7 +20,7 @@ public class MonsterData : Character {
 	public int seq;
 	public MonsterInfo info;
 	public State state;
-	public View.ObjectView view;
+	public ObjectView view;
 	RewardData rewared;
 
 	public MonsterData() {
@@ -93,7 +93,7 @@ public class MonsterData : Character {
 	}
 
 	public override void OnCreate() {
-		view = View.ObjectView.Create<View.ObjectView> (this, "M", Color.red);
+		view = ObjectView.Create<ObjectView> (this, "M", Color.red);
 		view.position = position;
 		view.transform.SetParent (MapView.Instance.objects, false);
 		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);

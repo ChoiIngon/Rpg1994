@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CharacterView : View.ObjectView {
+public class CharacterView : ObjectView {
 	public virtual void OnCreate(Character character) {}
 	public virtual void OnMove(Character.DirectionType direction) {}
 	public virtual void OnAttack(Character attacker, Character defender, int damage) {
