@@ -47,7 +47,6 @@ public class Map {
 			tile.type = Tile.ToType(tileNode["type"]);
 			tile.color = Util.Color.HexToColor(tileNode["color"]);
 		}
-		GameManager.Instance.player.FieldOfView ();
 	}
 
 	public Tile GetTile(int x, int y) {

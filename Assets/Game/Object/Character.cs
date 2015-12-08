@@ -114,13 +114,6 @@ public class Character : Object {
 		return equipedItem;
 	}
 	
-	public ItemStack DropItem(Character.EquipPart part) {
-		EquipmentItemData item = items [(int)part];
-		items [(int)part] = null;
-		
-		ItemStack itemStack = CreateItemStack (item, new Object.Position(position.x, position.y));
-		return itemStack;
-	}
 	public void SetDamage(Character attacker, int damage) {
 		//Buff.detach( this, Frost.class );
 		
@@ -212,14 +205,15 @@ public class Character : Object {
 		ItemStack itemStack = new ItemStack ();
 		itemStack.item = item;
 		itemStack.SetPosition (at);
+		itemStack.OnCreate ();
 		return itemStack;
 	}
 
-	public virtual void OnCreate () {}
 	public virtual void OnAttack(Character target, int damage) {}
 	public virtual void OnDamage(Character attacker, int damage) {}
 	public virtual void OnMove(Character.DirectionType direction) {}
 	public virtual void OnEquipItem (ItemData item) {}
 	public virtual void OnUnequipItem(ItemData item) {}
-	public virtual void OnDestroy() {}
+	public virtual void OnDropItem(ItemData item) {}
+	public virtual void OnPickupItem(ItemData item) {}
 }

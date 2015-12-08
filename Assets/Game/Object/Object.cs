@@ -154,5 +154,8 @@ public abstract class Object {
 	public virtual void Destroy() {
 		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
 		tile.RemoveObject(this);
+		OnDestroy ();
 	}
+	public virtual void OnCreate () {}
+	public virtual void OnDestroy() {}
 }

@@ -15,7 +15,6 @@ public class ItemView : Util.UI.Singleton<ItemView> {
 	};
 	public Image image;
 	public Text description;
-	public Scrollbar scrollBar;
 	public Button[] buttons;
 
 	private SlotView slot;
@@ -63,7 +62,7 @@ public class ItemView : Util.UI.Singleton<ItemView> {
 			buttons[(int)ButtonType.Use].gameObject.SetActive(true);
 			break;
 		}
-		Init (this.slot.slot.item);
+		Init (this.slot.slot.item);	
 	}
 
 	public void Init(EquipmentView equipment)
@@ -73,7 +72,7 @@ public class ItemView : Util.UI.Singleton<ItemView> {
 			button.gameObject.SetActive(false);
 		}
 		buttons [(int)ButtonType.Unequip].gameObject.SetActive (true);
-		Init (equipment);
+		Init (equipment.equipment);
 	}
 
 	private void Init(ItemData data)
@@ -95,7 +94,7 @@ public class ItemView : Util.UI.Singleton<ItemView> {
 		GameManager.Instance.player.EquipItem (slot.slot.index, slot.equipPart);
 		PlayerInfoView.Instance.Init ();
 		gameObject.SetActive (false);
-		LogView.Text ("You equiped " + item.info.name + "\n");
+		LogView.Instance.Write ("You equiped " + item.info.name);
 	}
 
 	public void OnEquipLeftRing()
@@ -103,7 +102,7 @@ public class ItemView : Util.UI.Singleton<ItemView> {
 		GameManager.Instance.player.EquipItem (slot.slot.index, Character.EquipPart.LeftRing);	
 		PlayerInfoView.Instance.Init ();
 		gameObject.SetActive (false);
-		LogView.Text ("You equiped " + item.info.name + "\n");
+		LogView.Instance.Write ("You equiped " + item.info.name);
 	}
 
 	public void OnEquipRightRing()
@@ -111,7 +110,7 @@ public class ItemView : Util.UI.Singleton<ItemView> {
 		GameManager.Instance.player.EquipItem (slot.slot.index, Character.EquipPart.RightRing);	
 		PlayerInfoView.Instance.Init ();
 		gameObject.SetActive (false);
-		LogView.Text ("You equiped " + item.info.name + "\n");
+		LogView.Instance.Write ("You equiped " + item.info.name);
 	}
 
 	public void OnUnequip()
@@ -137,8 +136,7 @@ public class ItemView : Util.UI.Singleton<ItemView> {
 	public void OnDrop()
 	{
 		if (null != slot) {
-			ItemData item = GameManager.Instance.player.inventory.Pull (slot.slot.index);
-			GameManager.Instance.player.CreateItemStack (item, GameManager.Instance.player.position);
+			GameManager.Instance.player.DropItem(slot.slot.index);
 			PlayerInfoView.Instance.Init ();
 			gameObject.SetActive (false);
 			return;

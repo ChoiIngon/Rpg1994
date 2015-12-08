@@ -66,9 +66,10 @@ public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> {
 			EquipmentItemData item = items[i];
 			if(null == item)
 			{
+				equipmentViews[i].gameObject.SetActive(false);
 				continue;
 			}
-
+			equipmentViews[i].gameObject.SetActive(true);
 			equipmentViews[i].Init (item);
 		}
 	}

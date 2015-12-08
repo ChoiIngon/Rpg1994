@@ -24,6 +24,7 @@ public class ObjectView : MonoBehaviour {
 	public static T Create<T>(Object.Position position, string text, Color color) where T : ObjectView {
 		// "Prefab/Map/ObjectView"
 		GameObject objectView = GameObject.Instantiate(Resources.Load("Prefab/Map/ObjectView", typeof(GameObject)) ) as GameObject;
+		objectView.transform.FindChild("Text").GetComponent<Text> ().fontSize = MapView.TILE_SIZE;
 		T tView = objectView.AddComponent<T> ();
 		tView.name = text;
 		tView.display.text = text;

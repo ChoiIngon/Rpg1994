@@ -20,9 +20,11 @@ public class Tile : Object {
 	public Type type;
 	public string id;
 	public Color color;
+	public bool visit;
 	public Dictionary<Object, Object> objects;
 	public Tile(int x, int y) {
 		category = Object.Category.Tile;
+		visit = false;
 		position.x = x;
 		position.y = y;
 		type = Type.Unused;

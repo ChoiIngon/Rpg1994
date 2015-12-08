@@ -95,7 +95,7 @@ public class MonsterData : Character {
 	public override void OnCreate() {
 		view = ObjectView.Create<ObjectView> (this, "M", Color.red);
 		view.position = position;
-		view.transform.SetParent (MapView.Instance.objects, false);
+		view.transform.SetParent (MapView.Instance.tiles, false);
 		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
 	}
 
@@ -106,20 +106,14 @@ public class MonsterData : Character {
 	}
 
 	public override void OnAttack(Character defender, int damage) {
-		LogView.Button ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>", () => {
-			//InfoView.MonsterInfo(this);
-		});
-		LogView.Text (" 이(가) 당신을 공격합니다.\n");
+		LogView.Instance.Write ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>이(가) 당신을 공격합니다.");
 	}
 	public override void OnDamage(Character attacker, int damage) {
-		LogView.Button ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>", () => {
-			//InfoView.MonsterInfo(this);
-		});
-		LogView.Text ("은(는) " + damage + "의 피해를 입었습니다.\n");
+		LogView.Instance.Write ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>은(는) " + damage + "의 피해를 입었습니다.");
 	}
 	public override void OnDestroy() {
 		GameObject.Destroy (view.gameObject);
-		LogView.Text ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color> 은(는) 죽었습니다.\n");
+		LogView.Instance.Write ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color> 은(는) 죽었습니다.");
 	}
 }
 

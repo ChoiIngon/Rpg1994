@@ -13,22 +13,28 @@ using System.Collections;
 public class TileView : ObjectView {
 	public override void SetVisible (bool value)
 	{
-//		gameObject.SetActive(true);
+		/*
+		if(MapView.Instance.VIEW_WIDTH/2 < Mathf.Abs(position.x - GameManager.Instance.player.position.x) ||
+		   MapView.Instance.VIEW_HEIGHT/2 < Mathf.Abs(position.y - GameManager.Instance.player.position.y))
+		{
+			gameObject.SetActive(false);
+			return;
+		}
+		*/
 		if(true == value) {
+			gameObject.SetActive(true);
 			display.color = new Color(display.color.r, display.color.g, display.color.b, 1.0f);
-			/*
-				global::Tile tile = GameManager.Instance.map.GetTile(position.x, position.y);
-				foreach(var obj in tile.objects)
-				{
-					if(true == obj.Value.visible)
-					{
-						gameObject.SetActive(false);
-					}
-				}
-				*/
 		}
 		else {
-			display.color = new Color(display.color.r, display.color.g, display.color.b, 0.5f);
+			Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+			if(true == tile.visit)
+			{
+				gameObject.SetActive(true);
+				display.color = new Color(display.color.r, display.color.g, display.color.b, 0.5f);
+			}
+			else{
+				gameObject.SetActive(false);
+			}
 		}
 	}
 };
