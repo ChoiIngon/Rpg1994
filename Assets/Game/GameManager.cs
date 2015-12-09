@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GameManager : Util.UI.Singleton<GameManager> {
 	public Player player;
+	public Npc testNpc;
 	public Map map;
 
 	private int lastTurn = 0;
@@ -24,6 +25,14 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		spot.interval = 5;
 		spot.position = new Object.Position (11, 10);
 		map.AddMonsterRegenSpot (spot);
+
+		testNpc = new Npc ();
+		testNpc.name = "npc a";
+		testNpc.sight = 6;
+		testNpc.health.value = 20;
+		testNpc.health.max = 20;
+		testNpc.visible = true;
+		testNpc.SetPosition (new Object.Position (9, 10));
 
 		player = new Player ();
 		player.name = "You";
@@ -65,6 +74,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 
 		MapView.Instance.Init ();
 		player.OnCreate ();
+		testNpc.OnCreate ();
 	}
 	
 	// Update is called once per frame
@@ -75,6 +85,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 
 		MonsterManager.Instance.Update ();
 		player.Update ();
+		testNpc.Update ();
 		map.Update ();
 	
 		lastTurn = currentTurn;

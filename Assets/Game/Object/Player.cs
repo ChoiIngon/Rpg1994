@@ -20,33 +20,37 @@ public class Player : Character
 			inventory.Put (equipedItem);
 		}
 		base.EquipItem ((EquipmentItemData)item, part);
-		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
 	}
 
 	public void UnequipItem(Character.EquipPart part) {
-		EquipmentItemData item = base.UnequipItem (part);
-		if (null != item) {
-			inventory.Put(item);
+		EquipmentItemData item = items [(int)part];
+		if (null == item) {
+			return;
 		}
-		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
+		inventory.Put(item);
+		base.UnequipItem (part);
 	}
 
 	public ItemStack DropItem(Character.EquipPart part) {
 		EquipmentItemData item = items [(int)part];
+		if (null == item) {
+			return null;
+		}
 		item.part = Character.EquipPart.Max;
 		items [(int)part] = null;
 		ItemStack stack = CreateItemStack (item, new Object.Position(position.x, position.y));
 		OnDropItem (item);
-		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
 		return stack;
 	}
 
 	public ItemStack DropItem(int index)
 	{
 		ItemData item = inventory.Pull (index);
+		if (null == item) {
+			return null;
+		}
 		ItemStack stack = CreateItemStack (item, new Object.Position (position.x, position.y));
 		OnDropItem (item);
-		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
 		return stack;
 	}
 
@@ -68,7 +72,6 @@ public class Player : Character
 		default :
 			throw new System.Exception("the item can not be used");
 		}
-		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
 	}
 	private void CheckVisible(Object.Position dest)
 	{
@@ -187,7 +190,7 @@ public class Player : Character
 		}
 		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
 	}
-
+	
 	public override void OnCreate()
 	{
 		view = ObjectView.Create<ObjectView> (this, "@", Color.green);
@@ -209,10 +212,9 @@ public class Player : Character
 
 	public override void OnPickupItem(ItemData item)
 	{
-		LogView.Instance.Write ("You picked up " + item.info.name);
+		LogView.Instance.Write ("Now you have <b>'" + item.info.name + "'</b>");
 	}
 	public override void OnAttack(Character defender, int damage) {
-
 		MonsterData monster = (MonsterData)defender;
 		LogView.Instance.Write ("당신은 <color=red>" + monster.name + "[" + monster.position.x + "," + monster.position.y + "]</color>을(를) 공격합니다.");
 	}

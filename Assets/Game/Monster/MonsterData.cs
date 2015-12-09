@@ -47,7 +47,7 @@ public class MonsterData : Character {
 	}
 
 	public override void Update() {
-		if (true == CanSeePlayer ()) {
+		if (true == IsVisible (GameManager.Instance.player.position)) {
 			if(range >= Vector2.Distance (position, GameManager.Instance.player.position)) {
 				Attack ();
 				return;
@@ -82,6 +82,7 @@ public class MonsterData : Character {
 		}
 	}
 	public override void Destroy() {
+		QuestManager.Instance.triggerKillMonster (info.id);
 		state = State.Die;
 		base.Destroy();
 		if (null != items [(int)Character.EquipPart.Weapon]) {

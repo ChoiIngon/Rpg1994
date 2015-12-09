@@ -109,6 +109,9 @@ public class Character : Object {
 
 	public EquipmentItemData UnequipItem(Character.EquipPart part) {
 		EquipmentItemData equipedItem = items [(int)part];
+		if (null == equipedItem) {
+			return null;
+		}
 		equipedItem.part = Character.EquipPart.Max;
 		items [(int)part] = null;
 		return equipedItem;
@@ -150,7 +153,6 @@ public class Character : Object {
 	}
 	public override void Destroy() {
 		base.Destroy ();
-		OnDestroy ();
 	}
 
 	public static Status operator + (Character rhs, Status lhs)
@@ -161,6 +163,25 @@ public class Character : Object {
 		rhs.speed += lhs.speed;
 		rhs.defense += lhs.defense;
 		return lhs;
+	}
+
+	public bool IsVisible(Object.Position dest) {
+		if(sight < Vector2.Distance (new Vector2 (this.position.x, this.position.y), new Vector2 (dest.x, dest.y))) {
+			return false;
+		}
+		
+		List<Object.Position> positions = Raycast(new Object.Position(dest.x, dest.y));
+		foreach(Object.Position position in positions) {
+			if(position == dest) {
+				return true;
+			}
+			Tile tile = GameManager.Instance.map.GetTile(position.x, position.y);
+			if(Tile.Type.Floor != tile.type)
+			{
+				return false;
+			}
+		}
+		return false;
 	}
 
 	public static bool Hit(Character attacker, Character defender)
