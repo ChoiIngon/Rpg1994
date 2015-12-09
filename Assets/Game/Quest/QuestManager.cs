@@ -47,8 +47,12 @@ public class QuestData {
 			condition.Init ();
 		}
 		state = State.OnExecute;
+		QuestManager.Instance.OnStart (this);
 	}
 	public bool IsComplete() {
+		if (State.OnExecute != state) {
+			return false;
+		}
 		foreach (QuestCompleteCondition condition in conditions) {
 			if(false == condition.IsComplete())
 			{
@@ -96,10 +100,14 @@ public class QuestManager : Util.Singleton<QuestManager> {
 	public delegate void TriggerKillMonster(string monsterID);
 
 	public TriggerKillMonster triggerKillMonster;
-	
+
+	public void OnStart (QuestData quest)
+	{
+		LogView.Instance.Write ("quest starts");
+	}
 	public void OnComplete(QuestData quest)
 	{
-		LogView.Instance.Write ("quest complete");
+		LogView.Instance.Write ("quest completed");
 	}
 }
 
