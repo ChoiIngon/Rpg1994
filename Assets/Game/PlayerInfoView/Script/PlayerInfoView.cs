@@ -61,9 +61,9 @@ public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> {
 	}
 	private void InitEquipment()
 	{
-		EquipmentItemData [] items = GameManager.Instance.player.items;
-		for (int i=0; i<items.Length; i++) {
-			EquipmentItemData item = items[i];
+		EquipmentItemData [] equipments = GameManager.Instance.player.equipments;
+		for (int i=0; i<equipments.Length; i++) {
+			EquipmentItemData item = equipments[i];
 			if(null == item)
 			{
 				equipmentViews[i].gameObject.SetActive(false);

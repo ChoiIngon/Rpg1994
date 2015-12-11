@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class WeaponItemInfo : ItemInfo {
-	public Util.RangeInt attack = new Util.RangeInt();
+	public int attack;
 	public int speed;
 
 	public WeaponItemInfo() {

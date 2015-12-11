@@ -1,8 +1,8 @@
 {
 	"weapon" : [
-		{"id":"weapon_sword_001", "name":"투박한 돌 나이프", "cost":2, "weight":2, "description":"뾰족하고 모난 돌에 천을 감아 칼처럼 사용한다. 석기 시대 부터 꾸준히 사용되어 온 유서 깊은 무기 중의 하나.", "attack":"1~5", "range":1, "speed":-1},
-		{"id":"weapon_sword_002", "name":"녹슨 식칼", "cost":2, "weight":2, "description":"옆 마을의 이름 있는 주방장이 사용하다 버린 식칼. 군데 군데 쓸어 있는 녹 때문에 이 칼에 베이면 파상풍에 걸릴것 같다.", "attack":"3~8", "range":1, "speed":-1},
-		{"id":"weapon_sword_003", "name":"제법 멀쩡한 검", "cost":2, "weight":2, "description":"대장장이가 가내 수공업으로 한땀한땀 노력해 만든 검.", "attack":"5~10", "range":1, "speed":-1}
+		{"id":"weapon_sword_001", "name":"투박한 돌 나이프", "cost":2, "weight":2, "description":"뾰족하고 모난 돌에 천을 감아 칼처럼 사용한다. 석기 시대 부터 꾸준히 사용되어 온 유서 깊은 무기 중의 하나.", "attack":"5", "range":1, "speed":-1},
+		{"id":"weapon_sword_002", "name":"녹슨 식칼", "cost":2, "weight":2, "description":"옆 마을의 이름 있는 주방장이 사용하다 버린 식칼. 군데 군데 쓸어 있는 녹 때문에 이 칼에 베이면 파상풍에 걸릴것 같다.", "attack":"7", "range":1, "speed":-1},
+		{"id":"weapon_sword_003", "name":"제법 멀쩡한 검", "cost":2, "weight":2, "description":"대장장이가 가내 수공업으로 한땀한땀 노력해 만든 검.", "attack":"10", "range":1, "speed":-1}
 	],
 	"ring": [
 	    {"id": "ring_001", "name": "망가진 양철반지", "cost": 5, "weight": 0, "description": "장난삼아 만들어진 양철반지가 그나마도 망가져 있다." },

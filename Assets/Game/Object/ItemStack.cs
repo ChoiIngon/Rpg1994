@@ -17,7 +17,8 @@ public class ItemStack : Object {
 	{
 		if (null != view) {
 			view.transform.SetParent(null);
-			GameObject.Destroy (view);
+			GameObject.Destroy (view.gameObject);
 		}
+		view = null;
 	}
 }

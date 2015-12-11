@@ -32,7 +32,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		testNpc.health.value = 20;
 		testNpc.health.max = 20;
 		testNpc.visible = true;
-		testNpc.SetPosition (new Object.Position (9, 10));
+		testNpc.SetPosition (new Object.Position (12, 14));
 
 		player = new Player ();
 		player.name = "You";

@@ -15,12 +15,6 @@ public class QuestData {
 		public string image;
 	};
 
-	public class RewardInfo {
-		public int gold = 0;
-		public int exp = 0;
-		public List<ItemInfo> items = new List<ItemInfo> ();
-	}
-
 	public string id;
 	public string name;
 	public State state = State.BeforeStart;
@@ -86,7 +80,7 @@ public class QuestManager : Util.Singleton<QuestManager> {
 		QuestData quest = new QuestData();
 		quest.id = "quest_001";
 		quest.name = "first quest";
-		quest.reward.gold = 100;
+		quest.reward.gold = new Util.RangeInt("100");
 		quest.reward.items.Add(ItemManager.Instance.Find("shield_001"));
 		quest.triggers.Add (new QuestStartCondition_Level ());
 		quest.conditions.Add (new QuestCompleteCondition_KillMonster{monsterID="monster_001", goalKillCount=1, currentKillCount=0});

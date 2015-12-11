@@ -5,11 +5,11 @@
 			"name" : "슬라임",
 			"description" : "단세포 생물로써 어둡고 습한곳을 좋아하며 녹색의 젤리 같은 몸을 가지고 몸에 닿는 것들을 녹여 버린다.",
 			
-			"attack" : "1~6",
-			"speed" : "1~2",
+			"attack" : "10~12",
+			"speed" : "7~10",
 			"defense" : "10~12",
 			"health" : {
-				"max" : "5~8",
+				"max" : "38~45",
 				"amount" : 1,
 				"time" : 1
 			},
@@ -19,6 +19,7 @@
 			],
 			"reward" : [
 				{ "item" : "potion_heal_001" },
+				{ "item" : "ring_001" },
 				{ "gold" : "100~200" }
 			]
 		},

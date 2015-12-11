@@ -78,7 +78,7 @@ public class ItemManager : Util.Singleton<ItemManager> {
 			itemInfo.cost = jsonInfo["cost"].AsInt;
 			itemInfo.weight = jsonInfo["weight"].AsInt;
 			itemInfo.description = jsonInfo["description"];
-			itemInfo.attack.SetValue(jsonInfo["attack"]);
+			itemInfo.attack = jsonInfo["attack"].AsInt;
 			itemInfo.speed = jsonInfo["speed"].AsInt;
 			dictItemInfo.Add (itemInfo.id, itemInfo);
 		}

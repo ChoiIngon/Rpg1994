@@ -49,7 +49,7 @@ namespace Util {
 		}
 		public static AutoRecoveryInt<T> operator - (AutoRecoveryInt<T> value, int delta)
 		{
-			value.SetDelta (delta);
+			value.SetDelta (delta * -1);
 			return value;
 		}
 	}

@@ -59,7 +59,7 @@ public abstract class Object {
 	public Object() {
 		category = Category.Invalid;
 		position = new Position(0, 0);
-		visible = false;
+		visible = true;
 	}
 
 	public List<Position> Raycast(Object dest) {

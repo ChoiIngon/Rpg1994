@@ -30,13 +30,27 @@ public class MonsterManager : Util.Singleton<MonsterManager> {
 			info.speed.SetValue(jMonsterInfo["speed"]);
 			info.defense.SetValue(jMonsterInfo["defense"]);
 
-			info.items = InitItem (jMonsterInfo);
+			info.equipments = InitItem (jMonsterInfo);
 
 			JSONNode rewardInfos = jMonsterInfo["reward"];
 			for(int j=0; j<rewardInfos.Count; j++)
 			{
 				JSONNode rewardInfo = rewardInfos[j];
-				string id = rewardInfo["item"];
+				string rewardValue = rewardInfo["item"];
+				if(null != rewardValue)
+				{
+					info.reward.items.Add (ItemManager.Instance.Find (rewardValue));
+				}
+				rewardValue = rewardInfo["gold"];
+				if(null != rewardValue)
+				{
+					info.reward.gold.SetValue(rewardValue);
+				}
+				rewardValue = rewardInfo["exp"];
+				if(null != rewardValue)
+				{
+					info.reward.exp.SetValue(rewardValue);
+				}
 			}
 			dictInfo.Add (info.id, info);
 		}

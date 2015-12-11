@@ -5,9 +5,10 @@ using System.Collections.Generic;
 
 public class Player : Character
 {
-	public MonsterData target = null;
+	public Character target = null;
 	public Inventory inventory = null;
 	public ObjectView view = null;
+	public int exp = 0;
 	public Player() {
 		target = null;
 		category = Object.Category.Player;
@@ -15,7 +16,7 @@ public class Player : Character
 	}
 	public void EquipItem(int index, Character.EquipPart part) {
 		ItemData item = inventory.Pull (index);
-		EquipmentItemData equipedItem = items [(int)part];
+		EquipmentItemData equipedItem = equipments [(int)part];
 		if (null != equipedItem) {
 			inventory.Put (equipedItem);
 		}
@@ -23,7 +24,7 @@ public class Player : Character
 	}
 
 	public void UnequipItem(Character.EquipPart part) {
-		EquipmentItemData item = items [(int)part];
+		EquipmentItemData item = equipments [(int)part];
 		if (null == item) {
 			return;
 		}
@@ -32,12 +33,12 @@ public class Player : Character
 	}
 
 	public ItemStack DropItem(Character.EquipPart part) {
-		EquipmentItemData item = items [(int)part];
+		EquipmentItemData item = equipments [(int)part];
 		if (null == item) {
 			return null;
 		}
 		item.part = Character.EquipPart.Max;
-		items [(int)part] = null;
+		equipments [(int)part] = null;
 		ItemStack stack = CreateItemStack (item, new Object.Position(position.x, position.y));
 		OnDropItem (item);
 		return stack;
@@ -158,9 +159,8 @@ public class Player : Character
 						if(Object.Category.Item == v.Value.category) {
 							ItemStack itemStack = (ItemStack)v.Value;
 							GameManager.Instance.player.inventory.Put (itemStack.item);
-							//((PlayerView)view).OnPickupItem(itemStack.item);
-							itemStack.Destroy();
 							OnPickupItem(itemStack.item);
+							itemStack.Destroy();
 							return;
 						}
 					}
@@ -179,15 +179,9 @@ public class Player : Character
 				throw new System.Exception("no target selected");
 			}
 		}
-		OnAttack(target, 0);
-		if (true == Character.Hit (this, target)) {
-			int damage = GetStatus ().attack;
-			int effectiveDamage = Math.Max (damage - target.GetStatus ().defense, 0);
-			target.SetDamage (this, effectiveDamage);
-		} 
-		if (0 >= target.health) {
-			target = null;
-		}
+
+		Attack (target);
+		target = null;
 		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
 	}
 	
@@ -214,9 +208,13 @@ public class Player : Character
 	{
 		LogView.Instance.Write ("Now you have <b>'" + item.info.name + "'</b>");
 	}
-	public override void OnAttack(Character defender, int damage) {
+	public override void OnAttack(Character defender) {
 		MonsterData monster = (MonsterData)defender;
 		LogView.Instance.Write ("당신은 <color=red>" + monster.name + "[" + monster.position.x + "," + monster.position.y + "]</color>을(를) 공격합니다.");
+	}
+
+	public override void OnDodge(Character attacker) {
+		LogView.Instance.Write ("You dodge enemy's attack");
 	}
 	public override void OnDamage(Character attacker, int damage) {
 		LogView.Instance.Write ("당신은 " + damage + "의 피해를 입었습니다.");

@@ -10,18 +10,11 @@ public class ControlView : MonoBehaviour {
 		catch(System.Exception e) {
 			LogView.Instance.Write (e.Message);
 		}
-
-	}
-
-	public void OnShowInventory() {
-		//((PlayerView)GameManager.Instance.player.view).ShowInventory ();
-		//InventoryView view = new InventoryView (GameManager.Instance.player.inventory);
 	}
 
 	public void OnWest() {
 		try {
 			GameManager.Instance.player.MoveTo(Character.DirectionType.West);
-			//MapView.Instance.SetMapScale(2.0f);
 			MapView.Instance.Center();
 		}
 		catch(System.Exception e) {
@@ -31,7 +24,6 @@ public class ControlView : MonoBehaviour {
 	public void OnEast() {
 		try {
 			GameManager.Instance.player.MoveTo(Character.DirectionType.East);
-			//MapView.Instance.SetMapScale(2.0f);
 			MapView.Instance.Center();
 		}
 		catch(System.Exception e) {

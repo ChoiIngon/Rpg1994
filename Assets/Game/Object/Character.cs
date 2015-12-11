@@ -46,11 +46,11 @@ public class Character : Object {
 			return rhs;
 		}
 	}
-	
+
 	public string name;
 	public Util.AutoRecoveryInt<Util.TurnCounter> health = new Util.AutoRecoveryInt<Util.TurnCounter>();
 	public Util.AutoRecoveryInt<Util.TurnCounter> stamina = new Util.AutoRecoveryInt<Util.TurnCounter>();
-	public int sight = 4;
+	public int sight = 5;
 	public int attack;
 	public int speed;
 	public int defense;
@@ -58,27 +58,20 @@ public class Character : Object {
 
 	public List<BuffData> buffs = new List<BuffData> ();
 
-	public EquipmentItemData[] items = new EquipmentItemData[(int)EquipPart.Max];
-	public int updateTime = 0;
-	public Status status = null;
+	public EquipmentItemData[] equipments = new EquipmentItemData[(int)EquipPart.Max];
 	public DirectionType direction;
 
 	public Status GetStatus()
 	{
-		if (null != status && GameManager.Instance.currentTurn <= updateTime) {
-			return status;
-		}
-		updateTime = GameManager.Instance.currentTurn;
-
-		status = new Status();
+		Status status = new Status();
 		status.health = health;
 		status.stamina = stamina;
 		status.attack = attack;
 		status.defense = defense;
 		status.speed = speed;
 
-		for (int i=0; i<(int)items.Length; i++) {
-			EquipmentItemData item = items[i];
+		for (int i=0; i<(int)equipments.Length; i++) {
+			EquipmentItemData item = equipments[i];
 			if(null == item) {
 				continue;
 			}
@@ -104,65 +97,21 @@ public class Character : Object {
 			throw new System.Exception("can not equip " + item.info.name + " on " + part.ToString() + ", not proper item part");
 		}
 		item.part = part;
-		items [(int)part] = item;
+		equipments [(int)part] = item;
 	}
 
 	public EquipmentItemData UnequipItem(Character.EquipPart part) {
-		EquipmentItemData equipedItem = items [(int)part];
+		EquipmentItemData equipedItem = equipments [(int)part];
 		if (null == equipedItem) {
 			return null;
 		}
 		equipedItem.part = Character.EquipPart.Max;
-		items [(int)part] = null;
+		equipments [(int)part] = null;
 		return equipedItem;
 	}
-	
-	public void SetDamage(Character attacker, int damage) {
-		//Buff.detach( this, Frost.class );
-		
-		//Class<?> srcClass = src.getClass();
-		//if (immunities().contains( srcClass )) {
-		//	dmg = 0;
-		//} else if (resistances().contains( srcClass )) {
-		//	dmg = Random.IntRange( 0, dmg );
-		//}
-		
-//		if (buff( Paralysis.class ) != null) {
-//			if (Random.Int( dmg ) >= Random.Int( HP )) {
-//				Buff.detach( this, Paralysis.class );
-//				if (Dungeon.visible[pos]) {
-//					GLog.i( TXT_OUT_OF_PARALYSIS, name );
-//				}
-//			}
-//		}
-		
-		health += (damage*-1);
-		OnDamage (attacker, damage);
-//		if (dmg > 0 || src instanceof Char) {
-//			sprite.showStatus( HP > HT / 2 ? 
-//			                  CharSprite.WARNING : 
-//			                  CharSprite.NEGATIVE,
-//			                  Integer.toString( dmg ) );
-//		}
-		if (health <= 0) {
-			Destroy();
-		}
-	}
+
 	public virtual void Update() {
 		GetStatus();
-	}
-	public override void Destroy() {
-		base.Destroy ();
-	}
-
-	public static Status operator + (Character rhs, Status lhs)
-	{
-		rhs.health += lhs.health;
-		rhs.stamina += lhs.stamina;
-		rhs.attack += lhs.attack;
-		rhs.speed += lhs.speed;
-		rhs.defense += lhs.defense;
-		return lhs;
 	}
 
 	public bool IsVisible(Object.Position dest) {
@@ -182,13 +131,6 @@ public class Character : Object {
 			}
 		}
 		return false;
-	}
-
-	public static bool Hit(Character attacker, Character defender)
-	{
-		int attackerRoll = UnityEngine.Random.Range (0, attacker.GetStatus ().attack);
-		int defenderRoll = UnityEngine.Random.Range (0, defender.GetStatus ().defense);
-		return attackerRoll > defenderRoll;
 	}
 
 	public void Move(DirectionType direction) {
@@ -222,16 +164,67 @@ public class Character : Object {
 		OnMove (direction);
 	}
 
+	private bool Hit(Character attacker, Character defender)
+	{
+		int attackerRoll = UnityEngine.Random.Range (0, attacker.GetStatus ().speed);
+		int defenderRoll = UnityEngine.Random.Range (0, defender.GetStatus ().speed);
+		return attackerRoll > defenderRoll;
+	}
+
+	public void Attack(Character target)
+	{
+		if(range < Vector2.Distance(position, target.position)) {
+			throw new System.Exception("Can't not attack " + target.name + ". It is too far to attack!") ;
+		}
+
+		OnAttack (target);
+		if (true == Hit (this, target)) {
+			target.Damage (this, GetStatus ().attack);
+		} else {
+			target.OnDodge(this);
+		}
+		if (0 >= target.health) {
+			target = null;
+		}
+	}
+
+	public void Damage(Character attacker, int attack) {
+		//Buff.detach( this, Frost.class );
+		//Class<?> srcClass = src.getClass();
+		//if (immunities().contains( srcClass )) {
+		//	dmg = 0;
+		//} else if (resistances().contains( srcClass )) {
+		//	dmg = Random.IntRange( 0, dmg );
+		//}
+		
+		//		if (buff( Paralysis.class ) != null) {
+		//			if (Random.Int( dmg ) >= Random.Int( HP )) {
+		//				Buff.detach( this, Paralysis.class );
+		//				if (Dungeon.visible[pos]) {
+		//					GLog.i( TXT_OUT_OF_PARALYSIS, name );
+		//				}
+		//			}
+		//		}
+		int effectiveDamage = (int)(attack * Mathf.Min ((float)attack/GetStatus ().defense, 1.0f));
+		effectiveDamage += (int)(effectiveDamage * ((float)(UnityEngine.Random.Range (0, 100)) / 100.0f));
+		health -= effectiveDamage;
+		OnDamage (attacker, effectiveDamage);
+		if (health <= 0) {
+			Destroy();
+		}
+	}
 	public ItemStack CreateItemStack(ItemData item, Object.Position at) {
 		ItemStack itemStack = new ItemStack ();
 		itemStack.item = item;
+		itemStack.count = 1;
 		itemStack.SetPosition (at);
 		itemStack.OnCreate ();
 		return itemStack;
 	}
 
-	public virtual void OnAttack(Character target, int damage) {}
+	public virtual void OnAttack(Character target) {}
 	public virtual void OnDamage(Character attacker, int damage) {}
+	public virtual void OnDodge (Character attacker) {}
 	public virtual void OnMove(Character.DirectionType direction) {}
 	public virtual void OnEquipItem (ItemData item) {}
 	public virtual void OnUnequipItem(ItemData item) {}

@@ -25,7 +25,7 @@ public class MapView : Util.UI.Singleton<MapView> {
 		}
 		for (int i=0; i<tiles.childCount; i++) {
 			ObjectView view = tiles.GetChild(i).GetComponent<ObjectView>();
-			GameObject.Destroy(view);
+			GameObject.Destroy(view.gameObject);
 		}
 
 		for (int i=0; i<GameManager.Instance.map.tiles.Length; i++) {
