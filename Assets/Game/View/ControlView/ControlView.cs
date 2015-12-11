@@ -4,6 +4,12 @@ using System.Collections;
 public class ControlView : MonoBehaviour {
 	public void OnAttack() {
 		try {
+			PathFind_AStar path = new PathFind_AStar();
+			Object.Position next = path.FindNextPath(GameManager.Instance.player.position, new Object.Position(25, 5));
+			if(null != next)
+			{
+				GameManager.Instance.player.SetPosition(next);
+			}
 			GameManager.Instance.player.Attack ();
 			MapView.Instance.Center();
 		}

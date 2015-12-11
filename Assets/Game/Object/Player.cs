@@ -135,8 +135,30 @@ public class Player : Character
 	}
 	public void MoveTo(Character.DirectionType direction) {
 		this.direction = direction;
-		this.target = null;
-		base.Move (direction);
+		Object.Position dest = new Object.Position (position.x, position.y);
+		switch(direction) {
+		case DirectionType.East : dest.x += 1; break;
+		case DirectionType.West : dest.x -= 1; break;
+		case DirectionType.North : dest.y -= 1; break;
+		case DirectionType.South : dest.y += 1; break;
+		}
+		Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
+		if (0 < tile.objects.Count) {
+			foreach (var v in tile.objects) {
+				if (Object.Category.Monster == v.Value.category) {
+					MonsterData monster = (MonsterData)v.Value;
+					Attack (monster);
+				} else if (Object.Category.Item == v.Value.category) {
+					ItemStack itemStack = (ItemStack)v.Value;
+					GameManager.Instance.player.inventory.Put (itemStack.item);
+					OnPickupItem (itemStack.item);
+					itemStack.Destroy ();
+				
+				}
+			}
+		} else {
+			base.Move (direction);
+		}
 		FieldOfView ();
 		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
 	}

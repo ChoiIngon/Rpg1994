@@ -141,11 +141,16 @@ public class Character : Object {
 		case DirectionType.North : dest.y -= 1; break;
 		case DirectionType.South : dest.y += 1; break;
 		}
-		
+
+		Move (dest);
+	}
+
+	public void Move(Object.Position dest)
+	{
 		if (GameManager.Instance.map.width <= dest.x || 0 > dest.x || GameManager.Instance.map.height <= dest.y || 0 > dest.y) {
 			return;
 		}
-
+		
 		{
 			Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
 			if (Tile.Type.Floor != tile.type) {

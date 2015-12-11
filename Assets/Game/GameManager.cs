@@ -23,17 +23,18 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		spot.count = 0;
 		spot.deadTime = 0;
 		spot.interval = 5;
-		spot.position = new Object.Position (11, 10);
+		spot.position = new Object.Position (25, 5);
 		map.AddMonsterRegenSpot (spot);
 
+		/*
 		testNpc = new Npc ();
 		testNpc.name = "npc a";
 		testNpc.sight = 6;
 		testNpc.health.value = 20;
 		testNpc.health.max = 20;
 		testNpc.visible = true;
-		testNpc.SetPosition (new Object.Position (12, 14));
-
+		testNpc.SetPosition (new Object.Position (6, 5));
+		*/
 		player = new Player ();
 		player.name = "You";
 		player.sight = 6;
@@ -69,12 +70,12 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_poison_001"));
 		
 		player.visible = true;
-		player.SetPosition (new Object.Position (10, 10));
+		player.SetPosition (new Object.Position (5, 5));
 		player.FieldOfView ();
 
 		MapView.Instance.Init ();
 		player.OnCreate ();
-		testNpc.OnCreate ();
+		//testNpc.OnCreate ();
 	}
 	
 	// Update is called once per frame
@@ -85,7 +86,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 
 		MonsterManager.Instance.Update ();
 		player.Update ();
-		testNpc.Update ();
+		//testNpc.Update ();
 		map.Update ();
 	
 		lastTurn = currentTurn;

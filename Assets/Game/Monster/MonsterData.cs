@@ -37,11 +37,17 @@ public class MonsterData : Character {
 		base.Update ();
 	}
 	public virtual void Idle() {
-		Move();
+		//Move();
 		state = State.Idle;
 	}
 	public virtual void Move() {
-		base.Move((Character.DirectionType)UnityEngine.Random.Range(0, (int)Character.DirectionType.Max));
+		PathFind_AStar path = new PathFind_AStar ();
+		Object.Position next = path.FindNextPath (position, GameManager.Instance.player.position);
+		if (null != next) {
+			Debug.Log ("monster move to(x:" + next.x + ", y:" + next.y + ")");
+			base.Move(next);
+		}
+
 		if (null != view) {
 			view.SetVisible (visible);
 		}
