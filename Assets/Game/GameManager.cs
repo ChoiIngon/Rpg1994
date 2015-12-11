@@ -23,7 +23,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		spot.count = 0;
 		spot.deadTime = 0;
 		spot.interval = 5;
-		spot.position = new Object.Position (25, 5);
+		spot.position = new Object.Position (5, 6);
 		map.AddMonsterRegenSpot (spot);
 
 		/*
@@ -77,8 +77,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player.OnCreate ();
 		//testNpc.OnCreate ();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		if (lastTurn >= currentTurn) {
 			return ;

@@ -32,4 +32,13 @@ public class ObjectView : MonoBehaviour {
 		tView.position = position;
 		return tView;
 	}
+
+	public void CreateFloatingMessage(string text, Color color) {
+		GameObject obj = GameObject.Instantiate(Resources.Load ("Prefab/Map/FloatingMessage", typeof(GameObject))) as GameObject;
+		Text message = obj.GetComponent<Text> ();
+		message.text = text;
+		message.color = color;
+		obj.transform.SetParent (transform, false);
+		GameObject.Destroy (obj, 1.0f);
+	}
 }

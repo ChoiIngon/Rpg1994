@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Player : Character
 {
@@ -143,20 +144,24 @@ public class Player : Character
 		case DirectionType.South : dest.y += 1; break;
 		}
 		Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
-		if (0 < tile.objects.Count) {
-			foreach (var v in tile.objects) {
-				if (Object.Category.Monster == v.Value.category) {
-					MonsterData monster = (MonsterData)v.Value;
-					Attack (monster);
-				} else if (Object.Category.Item == v.Value.category) {
-					ItemStack itemStack = (ItemStack)v.Value;
-					GameManager.Instance.player.inventory.Put (itemStack.item);
-					OnPickupItem (itemStack.item);
-					itemStack.Destroy ();
-				
-				}
+		Object obj = null;
+		foreach (var v in tile.objects) {
+			obj = v.Value;
+			break;
+		}
+		if(null != obj)
+		{
+			if (Object.Category.Monster == obj.category) {
+				MonsterData monster = (MonsterData)obj;
+				Attack (monster);
+			} else if (Object.Category.Item == obj.category) {
+				ItemStack itemStack = (ItemStack)obj;
+				GameManager.Instance.player.inventory.Put (itemStack.item);
+				OnPickupItem (itemStack.item);
+				itemStack.Destroy ();
 			}
-		} else {
+		}
+		else {
 			base.Move (direction);
 		}
 		FieldOfView ();
@@ -236,9 +241,11 @@ public class Player : Character
 	}
 
 	public override void OnDodge(Character attacker) {
+		view.CreateFloatingMessage ("  Dodge!!", Color.white);
 		LogView.Instance.Write ("You dodge enemy's attack");
 	}
 	public override void OnDamage(Character attacker, int damage) {
+		view.CreateFloatingMessage ("-" + damage.ToString(), Color.red);
 		LogView.Instance.Write ("당신은 " + damage + "의 피해를 입었습니다.");
 	}
 }
