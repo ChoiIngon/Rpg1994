@@ -15,4 +15,16 @@ public class PotionItemInfo : ItemInfo {
 }
 
 public class PotionItemData : ItemData {
+	public override Character.Status Use (Character character) {
+		Character.Status state = new Character.Status ();
+		PotionItemInfo info = (PotionItemInfo)this.info;
+		foreach (BuffInfo buffInfo in info.buff) {
+			BuffData buffData = buffInfo.CreateInstance ();
+			state += buffData.ApplyBuff (character);
+			if (true == buffData.IsValid ()) {
+				character.buffs.Add (buffData);
+			}
+		}
+		return state;
+	}
 }

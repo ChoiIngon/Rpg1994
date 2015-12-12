@@ -55,11 +55,13 @@ public class Character : Object {
 	public int speed;
 	public int defense;
 	public int range = 1;
-
 	public List<BuffData> buffs = new List<BuffData> ();
-
 	public EquipmentItemData[] equipments = new EquipmentItemData[(int)EquipPart.Max];
 	public DirectionType direction;
+
+	public Character() {
+		size = 1.0f;
+	}
 
 	public Status GetStatus()
 	{
@@ -153,11 +155,18 @@ public class Character : Object {
 		
 		{
 			Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
-			if (Tile.Type.Floor != tile.type) {
+			if(Tile.Type.Floor != tile.type)
+			{
 				return;
 			}
-			if(0 < tile.objects.Count) {
-				return;
+			float size = 0.0f;
+			foreach(var v in tile.objects)
+			{
+				size += v.Value.size;
+				if(1.0f <= size)
+				{
+					return;
+				}
 			}
 			tile.AddObject(this);
 		}

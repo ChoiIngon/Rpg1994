@@ -6,12 +6,10 @@ using System.Linq;
 
 public class Player : Character
 {
-	public Character target = null;
 	public Inventory inventory = null;
 	public ObjectView view = null;
 	public int exp = 0;
 	public Player() {
-		target = null;
 		category = Object.Category.Player;
 		inventory = new Inventory ();
 	}
@@ -56,24 +54,19 @@ public class Player : Character
 		return stack;
 	}
 
+	public void PickupItem(ItemStack stack)
+	{
+		GameManager.Instance.player.inventory.Put (stack.item);
+		OnPickupItem (stack.item);
+		stack.Destroy ();
+	}
+
 	public Character.Status UseItem(int index) {
 		ItemData data = inventory.Pull(index);
-		switch (data.info.category) {
-		case ItemInfo.Category.Potion :
-			PotionItemInfo info = (PotionItemInfo)data.info;
-			Character.Status state = new Character.Status();
-			foreach(BuffInfo buffInfo in info.buff)
-			{
-				BuffData buffData = buffInfo.CreateInstance();
-				state += buffData.ApplyBuff(this);
-				if(true == buffData.IsValid()) {
-					buffs.Add (buffData);
-				}
-			}
-			return state;
-		default :
-			throw new System.Exception("the item can not be used");
+		if (null == data) {
+			throw new System.Exception("no item in slot");
 		}
+		return data.Use (this);
 	}
 	private void CheckVisible(Object.Position dest)
 	{
@@ -144,71 +137,24 @@ public class Player : Character
 		case DirectionType.South : dest.y += 1; break;
 		}
 		Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
-		Object obj = null;
+
+		List<Object> objects = new List<Object> ();
+		float size = 0.0f;
 		foreach (var v in tile.objects) {
-			obj = v.Value;
-			break;
+			objects.Add (v.Value);
+			size += v.Value.size;
 		}
-		if(null != obj)
-		{
+
+		foreach (Object obj in objects) {
 			if (Object.Category.Monster == obj.category) {
 				MonsterData monster = (MonsterData)obj;
 				Attack (monster);
-			} else if (Object.Category.Item == obj.category) {
-				ItemStack itemStack = (ItemStack)obj;
-				GameManager.Instance.player.inventory.Put (itemStack.item);
-				OnPickupItem (itemStack.item);
-				itemStack.Destroy ();
-			}
+			} 
 		}
-		else {
-			base.Move (direction);
-		}
+
+		base.Move (dest);
+
 		FieldOfView ();
-		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
-	}
-	public void Attack() {
-		if (null == target) {
-			for(int y=position.y - range; y<=position.y + range; y++) {
-				for(int x=position.x - range; x<=position.x + range; x++) {
-					if (GameManager.Instance.map.width <= x || 0 > x || GameManager.Instance.map.height <= y || 0 > y) {
-						continue;
-					}
-					if(range < Vector2.Distance(position, new Object.Position(x, y))) {
-						continue;
-					}
-
-					Tile tile = GameManager.Instance.map.GetTile (x, y);
-					foreach(var v in tile.objects) {
-						if(false == v.Value.visible) {
-							continue;
-						}
-						if(Object.Category.Item == v.Value.category) {
-							ItemStack itemStack = (ItemStack)v.Value;
-							GameManager.Instance.player.inventory.Put (itemStack.item);
-							OnPickupItem(itemStack.item);
-							itemStack.Destroy();
-							return;
-						}
-					}
-				}
-			}
-
-			foreach (var v in MonsterManager.Instance.monsters) {
-				MonsterData monster = v.Value;
-				if(range >= Vector2.Distance(position, monster.position))
-				{
-					target = monster;
-					break;
-				}
-			}
-			if(null == target) {
-				throw new System.Exception("no target selected");
-			}
-		}
-
-		Attack (target);
-		target = null;
 		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
 	}
 	
@@ -224,6 +170,21 @@ public class Player : Character
 	{
 		view.position = position;
 		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
+
+		DropItemView.Instance.gameObject.SetActive(false);
+		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+
+		List<ItemStack> stacks = new List<ItemStack> ();
+		foreach (var v in tile.objects) {
+			if(Object.Category.Item == v.Value.category)
+			{
+				stacks.Add ((ItemStack)v.Value);
+			}
+		}
+		if (0 < stacks.Count) {
+			DropItemView.Instance.Init (stacks);
+			DropItemView.Instance.gameObject.SetActive(true);
+		}
 	}
 
 	public override void OnDropItem(ItemData item)

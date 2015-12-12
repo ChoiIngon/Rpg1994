@@ -1,31 +1,28 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/GameManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/Popup/ItemStackView.cs">
     <Files>
-      <File FileName="Assets/Game/GameManager.cs" Line="32" Column="26" />
-      <File FileName="Assets/Util/PathFind_AStar.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Map/Map.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Map/MapView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Map/TileView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Monster/MonsterData.cs" Line="87" Column="63" />
-      <File FileName="Assets/Game/Object/Tile.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Monster/MonsterRegenSpot.cs" Line="22" Column="18" />
-      <File FileName="Assets/Game/Monster/MonsterManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Popup/ItemStackView.cs" Line="19" Column="30" />
+      <File FileName="Assets/Game/Item/ItemPotion.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Item/ItemRing.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Item/ItemShield.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/PlayerInfoView/Script/ItemView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/PlayerInfoView/Script/InventoryView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Object/Player.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Popup/DropItemView.cs" Line="35" Column="22" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Game" expanded="True">
-              <Node name="Map" expanded="True">
-                <Node name="Log" expanded="True" />
-              </Node>
-              <Node name="Monster" expanded="True" />
               <Node name="Object" expanded="True" />
+              <Node name="Popup" expanded="True">
+                <Node name="ItemStackView.cs" selected="True" />
+              </Node>
               <Node name="View" expanded="True">
                 <Node name="ControlView" expanded="True" />
               </Node>
-              <Node name="GameManager.cs" selected="True" />
             </Node>
             <Node name="MapEditor" expanded="True">
               <Node name="Script" expanded="True" />
@@ -46,7 +43,9 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/Popup/ItemStackView.cs" line="18" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

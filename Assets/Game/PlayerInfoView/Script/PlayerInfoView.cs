@@ -88,5 +88,8 @@ public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> {
 			slotView.Init (slot);
 			slotView.gameObject.SetActive(true);
 		}
+
+		inventoryView.gold.text = "gold : " + GameManager.Instance.player.inventory.gold.ToString();
+		inventoryView.weight.text = "weight : " + GameManager.Instance.player.inventory.weight.ToString () + "/" + GameManager.Instance.player.inventory.maxWeight.ToString();
 	}
 }

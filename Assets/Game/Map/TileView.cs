@@ -11,6 +11,9 @@ using UnityEngine;
 using System.Collections;
 
 public class TileView : ObjectView {
+	public void Start() {
+		display.fontStyle = FontStyle.Bold;
+	}
 	public override void SetVisible (bool value)
 	{
 		if(true == value) {

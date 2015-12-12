@@ -29,6 +29,9 @@ public abstract class ItemInfo {
 
 public abstract class ItemData {
 	public ItemInfo info;
+	public virtual Character.Status Use (Character character) {
+		throw new System.Exception ("the item can not be used");
+	}
 }
 
 public abstract class EquipmentItemData : ItemData {

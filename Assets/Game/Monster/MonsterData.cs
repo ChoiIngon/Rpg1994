@@ -38,14 +38,7 @@ public class MonsterData : Character {
 	}
 	public virtual void Idle() {
 		this.direction = (Character.DirectionType)UnityEngine.Random.Range(0, (int)Character.DirectionType.Max);
-		Object.Position dest = new Object.Position (position.x, position.y);
-		switch(direction) {
-		case DirectionType.East : dest.x += 1; break;
-		case DirectionType.West : dest.x -= 1; break;
-		case DirectionType.North : dest.y -= 1; break;
-		case DirectionType.South : dest.y += 1; break;
-		}
-		Move (dest);
+		Move (direction);
 		state = State.Idle;
 	}
 	public virtual void Move() {
@@ -54,7 +47,7 @@ public class MonsterData : Character {
 			PathFind_AStar path = new PathFind_AStar ();
 			Object.Position next = path.FindNextPath (position, GameManager.Instance.player.position);
 			if (null != next) {
-				base.Move (next);
+				Move (next);
 			}
 		}
 		if (null != view) {

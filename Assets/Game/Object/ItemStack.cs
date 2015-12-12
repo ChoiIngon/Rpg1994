@@ -6,6 +6,7 @@ public class ItemStack : Object {
 	public int count;
 	private ObjectView view;
 	public ItemStack() {
+		size = 0.0f;
 		category = Object.Category.Item;
 	}
 

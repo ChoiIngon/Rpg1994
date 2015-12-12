@@ -21,6 +21,7 @@ public class QuestData {
 	public RewardInfo reward = new RewardInfo();
 	public List<QuestStartCondition> triggers = new List<QuestStartCondition> ();
 	public List<QuestCompleteCondition> conditions = new List<QuestCompleteCondition> ();
+	public List<DialougeInfo> dialougs = new List<DialougeInfo> ();
 
 	public bool IsAvailable() {
 		if (State.BeforeStart != state) {

@@ -56,6 +56,7 @@ public abstract class Object {
 	public Position position;
 	public bool visible;
 	public Category category;
+	public float size;
 	public Object() {
 		category = Category.Invalid;
 		position = new Position(0, 0);

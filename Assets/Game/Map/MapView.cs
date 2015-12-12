@@ -48,27 +48,8 @@ public class MapView : Util.UI.Singleton<MapView> {
 	public void Center()
 	{
 		int x = GameManager.Instance.player.position.x - VIEW_WIDTH / 2;
-		/*
-		if (0 > x) { // if player locates more left side than center of map view 
-			x = 0;
-		}
-		else if (GameManager.Instance.player.position.x + VIEW_WIDTH/2 >= GameManager.Instance.map.width) { // if player locates right side than center of map view
-			x = GameManager.Instance.map.width - VIEW_WIDTH;
-		}
-		*/
-		
 		int y = GameManager.Instance.player.position.y - VIEW_HEIGHT / 2;
-		/*
-		if (0 > y) { // if player locates more left side than center of map view 
-			y = 0;
-		}
-		else if (GameManager.Instance.player.position.y + VIEW_HEIGHT/2 >= GameManager.Instance.map.height) { // if player locates right side than center of map view
-			y = GameManager.Instance.map.height - VIEW_HEIGHT;
-		}
-		*/
-
 		tiles.localPosition = new Vector3 (-x * TILE_SIZE, y * TILE_SIZE, 0);
-
 		for (int i=0; i<tiles.childCount; i++) {
 			ObjectView view = tiles.GetChild(i).GetComponent<ObjectView>();
 			global::Tile tile = GameManager.Instance.map.GetTile(view.position.x, view.position.y);
