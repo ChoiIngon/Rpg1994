@@ -38,7 +38,7 @@ public class ObjectView : MonoBehaviour {
 		Text message = obj.GetComponent<Text> ();
 		message.text = text;
 		message.color = color;
-		obj.transform.SetParent (transform, false);
+		obj.transform.SetParent (MapView.Instance.tiles.GetChild(position.x + position.y * GameManager.Instance.map.width), false);
 		GameObject.Destroy (obj, 1.0f);
 	}
 }

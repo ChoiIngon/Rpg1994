@@ -192,7 +192,7 @@ public class Character : Object {
 			target = null;
 		}
 	}
-
+	
 	public void Damage(Character attacker, int attack) {
 		//Buff.detach( this, Frost.class );
 		//Class<?> srcClass = src.getClass();

@@ -49,7 +49,6 @@ public class MonsterData : Character {
 		state = State.Idle;
 	}
 	public virtual void Move() {
-
 		float chaseWeight = (float)speed / GameManager.Instance.player.speed;
 		if (UnityEngine.Random.Range(1, 100) < chaseWeight * 100) {
 			PathFind_AStar path = new PathFind_AStar ();

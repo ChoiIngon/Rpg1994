@@ -18,10 +18,11 @@ public class PoisonBuffData : BuffData {
 		return GameManager.Instance.currentTurn < expire;
 	}
 	public override Character.Status ApplyBuff (Character character) {
-		int damage = ((PoisonBuffInfo)info).damage * -1;
-		character.health.SetDelta (damage);
+		int damage = ((PoisonBuffInfo)info).damage;
+		character.health -= damage;
 		Character.Status status = new Character.Status ();
-		status.health += damage;
+		status.health -= damage;
+		character.OnDamage(character, damage);
 		return status;
 	}
 }
