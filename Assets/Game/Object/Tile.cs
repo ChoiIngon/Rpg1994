@@ -51,6 +51,5 @@ public class Tile : Object {
 
 	public void RemoveObject(Object obj) {
 		objects.Remove (obj);
-		Debug.Log ("tile(" + position.x + ", " + position.y + ") child count:" + objects.Count);
 	}
 };

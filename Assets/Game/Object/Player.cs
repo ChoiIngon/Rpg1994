@@ -241,7 +241,6 @@ public class Player : Character
 	}
 
 	public override void OnDodge(Character attacker) {
-		view.CreateFloatingMessage ("  Dodge!!", Color.white);
 		LogView.Instance.Write ("You dodge enemy's attack");
 	}
 	public override void OnDamage(Character attacker, int damage) {

@@ -18,14 +18,60 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 
 		map = new Map ();
 		map.Load ("Map/dungeon_001");
-		MonsterRegenSpot spot = new MonsterRegenSpot ();
-		spot.id = "monster_001";
-		spot.count = 0;
-		spot.deadTime = 0;
-		spot.interval = 5;
-		spot.position = new Object.Position (5, 6);
-		map.AddMonsterRegenSpot (spot);
-
+		{
+			MonsterRegenSpot spot = new MonsterRegenSpot ();
+			spot.id = "monster_001";
+			spot.count = 0;
+			spot.deadTime = 0;
+			spot.interval = 5;
+			spot.position = new Object.Position (25, 5);
+			map.AddMonsterRegenSpot (spot);
+		}
+		{
+			MonsterRegenSpot spot = new MonsterRegenSpot ();
+			spot.id = "monster_002";
+			spot.count = 0;
+			spot.deadTime = 0;
+			spot.interval = 5;
+			spot.position = new Object.Position (6, 17);
+			map.AddMonsterRegenSpot (spot);
+		}
+		{
+			MonsterRegenSpot spot = new MonsterRegenSpot ();
+			spot.id = "monster_001";
+			spot.count = 0;
+			spot.deadTime = 0;
+			spot.interval = 5;
+			spot.position = new Object.Position (20, 15);
+			map.AddMonsterRegenSpot (spot);
+		}
+		{
+			MonsterRegenSpot spot = new MonsterRegenSpot ();
+			spot.id = "monster_002";
+			spot.count = 0;
+			spot.deadTime = 0;
+			spot.interval = 5;
+			spot.position = new Object.Position (24, 5);
+			map.AddMonsterRegenSpot (spot);
+		}
+		{
+			MonsterRegenSpot spot = new MonsterRegenSpot ();
+			spot.id = "monster_001";
+			spot.count = 0;
+			spot.deadTime = 0;
+			spot.interval = 5;
+			spot.position = new Object.Position (5, 6);
+			map.AddMonsterRegenSpot (spot);
+		}
+		{
+			MonsterRegenSpot spot = new MonsterRegenSpot ();
+			spot.id = "monster_001";
+			spot.count = 0;
+			spot.deadTime = 0;
+			spot.interval = 5;
+			spot.position = new Object.Position (11, 10);
+			map.AddMonsterRegenSpot (spot);
+		}
 		/*
 		testNpc = new Npc ();
 		testNpc.name = "npc a";

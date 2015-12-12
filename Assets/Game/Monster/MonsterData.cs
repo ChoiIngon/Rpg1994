@@ -37,25 +37,35 @@ public class MonsterData : Character {
 		base.Update ();
 	}
 	public virtual void Idle() {
-		//Move();
+		this.direction = (Character.DirectionType)UnityEngine.Random.Range(0, (int)Character.DirectionType.Max);
+		Object.Position dest = new Object.Position (position.x, position.y);
+		switch(direction) {
+		case DirectionType.East : dest.x += 1; break;
+		case DirectionType.West : dest.x -= 1; break;
+		case DirectionType.North : dest.y -= 1; break;
+		case DirectionType.South : dest.y += 1; break;
+		}
+		Move (dest);
 		state = State.Idle;
 	}
 	public virtual void Move() {
-		PathFind_AStar path = new PathFind_AStar ();
-		Object.Position next = path.FindNextPath (position, GameManager.Instance.player.position);
-		if (null != next) {
-			Debug.Log ("monster move to(x:" + next.x + ", y:" + next.y + ")");
-			base.Move(next);
-		}
 
+		float chaseWeight = (float)speed / GameManager.Instance.player.speed;
+		if (UnityEngine.Random.Range(1, 100) < chaseWeight * 100) {
+			PathFind_AStar path = new PathFind_AStar ();
+			Object.Position next = path.FindNextPath (position, GameManager.Instance.player.position);
+			if (null != next) {
+				base.Move (next);
+			}
+		}
 		if (null != view) {
 			view.SetVisible (visible);
 		}
 		state = State.Chase;
 	}
 	public virtual void Attack() {
-		state = State.Fight;
 		Attack(GameManager.Instance.player);
+		state = State.Fight;
 	}
 
 	public override void Destroy() {
@@ -75,6 +85,7 @@ public class MonsterData : Character {
 
 	public override void OnCreate() {
 		view = ObjectView.Create<ObjectView> (this, "M", Color.red);
+		view.SetVisible (false);
 		view.position = position;
 		view.transform.SetParent (MapView.Instance.tiles, false);
 		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
@@ -90,7 +101,6 @@ public class MonsterData : Character {
 		LogView.Instance.Write ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>이(가) 당신을 공격합니다.");
 	}
 	public override void OnDodge(Character attacker) {
-		view.CreateFloatingMessage ("  Dodge!!", Color.white);
 		LogView.Instance.Write (name + " dodge your attack");
 	}
 	public override void OnDamage(Character attacker, int damage) {

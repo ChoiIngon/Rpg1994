@@ -19,7 +19,6 @@
 			],
 			"reward" : [
 				{ "item" : "potion_heal_001" },
-				{ "item" : "ring_001" },
 				{ "gold" : "100~200" }
 			]
 		},
@@ -27,11 +26,11 @@
 			"id" : "monster_002",
 			"name" : "goblin",
 			"description" : "it is a monster!!",
-			"attack" : "8~10",
-			"speed" : "8~10",
-			"defense" : "8~10",
+			"attack" : "10~24",
+			"speed" : "5~6",
+			"defense" : "25~32",
 			"health" : {
-				"max" : "20~30",
+				"max" : "40~60",
 				"amount" : 1,
 				"time" : 2
 			},
@@ -39,7 +38,8 @@
 			"armor" : [
 			],
 			"reward" : [
-				{ "gold" : "100~200" }
+				{ "item" : "potion_attack_001" },
+				{ "gold" : "50~300" }
 			]
 		}
 	]

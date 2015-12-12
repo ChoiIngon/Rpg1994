@@ -20,23 +20,37 @@ public class PathFind_AStar {
 		public int path_cost = 0;
 		public int expect_cost = 0;
 		public Object.Position position;
+		public Node parent = null;
 		private PathFind_AStar finder;
 
-		public Node(PathFind_AStar finder, Object.Position position, int path_cost)
+		public Node(PathFind_AStar finder, Node parent, Object.Position position, int path_cost)
 		{
 			this.finder = finder;
 			this.position = position;
 			this.expect_cost += Mathf.Abs(finder.destination.x - position.x);
 			this.expect_cost += Mathf.Abs(finder.destination.y - position.y);
 			this.path_cost = path_cost;
+			this.parent = parent;
 		}
 
 		public Object.Position FindNextPath() {
-			Debug.Log ("===== find path(x:" + position.x + ", y:" + position.y +"), " + expect_cost + "/" + path_cost + "/" + cost +" =====");
 			if (true == finder.openNodes.ContainsKey (id)) {
 				finder.openNodes.Remove (id);
 			}
+
+			if(true == finder.closeNodes.ContainsKey(id) ){
+				return null;
+			}
 			finder.closeNodes.Add (id, this);
+			if(finder.destination == position)
+			{
+				Node trace = this;
+				while(null != trace.parent)
+				{
+					trace = trace.parent;
+				}
+				return trace.position;
+			}
 
 			List<Object.Position> childPositions = new List<Object.Position> ();
 			childPositions.Add(new Object.Position(position.x-1, position.y)); 
@@ -59,7 +73,7 @@ public class PathFind_AStar {
 					continue;
 				}
 
-				Node childNode = new Node(finder, childPosition, path_cost+1);
+				Node childNode = new Node(finder, this, childPosition, path_cost+1);
 				if(finder.closeNodes.ContainsKey(childNode.id))
 				{
 					//Debug.Log ("already close node(child position:x" + childPosition.x + ", y:" + childPosition.y +")");
@@ -71,18 +85,13 @@ public class PathFind_AStar {
 					Node openNode = finder.openNodes[childNode.id];
 					if(openNode.path_cost < path_cost)
 					{
-						Debug.Log ("weight over(child position:x" + childPosition.x + ", y:" + childPosition.y +")");
-						return null;
+						this.path_cost = openNode.path_cost + 1;
+						this.parent = openNode;
+						continue;
 					}
 				}
 				else {
 					finder.openNodes.Add(childNode.id, childNode);
-					//Debug.Log ("insert into open list(x:" + childNode.position.x + ", y:" + childNode.position.y + ")"+ childNode.expect_cost + "/" + childNode.path_cost + "/" + childNode.cost +" =====");
-				}
-				if(finder.destination == childNode.position)
-				{
-					//Debug.Log ("find destination(x:" + childNode.position.x + ", y:" + childNode.position.y + "), return position(x:" + position.x + ", y:" + position.y + ")");
-					return position;
 				}
 				children.Add (childNode);
 			}
@@ -93,11 +102,10 @@ public class PathFind_AStar {
 			foreach (Node child in children) {
 				if(null != child.FindNextPath())
 				{
-					//Debug.Log ("find destination(x:" + child.position.x + ", y:" + child.position.y + "), return position(x:" + position.x + ", y:" + position.y + ")");
 					return child.position;
 				}
 			}
-			Debug.Log ("cant find destination(x:" + position.x + ", y:" + position.y + ")");
+			//Debug.Log ("cant find destination(x:" + position.x + ", y:" + position.y + ")");
 			return null;
 		}
 	}
@@ -105,7 +113,7 @@ public class PathFind_AStar {
 	public Object.Position FindNextPath(Object.Position start, Object.Position dest)
 	{
 		destination = dest;
-		Node node = new Node (this, start, 0);
+		Node node = new Node (this, null, start, 0);
 		Object.Position position = node.FindNextPath ();
 		if (null != position) {
 			Debug.Log ("find destination(x:" + position.x + ", y:" + position.y + ")");
