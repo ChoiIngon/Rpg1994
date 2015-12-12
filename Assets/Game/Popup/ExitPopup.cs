@@ -12,4 +12,11 @@ public class ExitPopup : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	public void OnYes() {
+		Application.Quit ();
+	}
+	public void OnNo() {
+		gameObject.SetActive (false);
+	}
 }

@@ -125,6 +125,9 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 	}
 
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.Escape)) { 
+			OnEscape();
+		}
 		if (lastTurn >= currentTurn) {
 			return ;
 		}
@@ -135,5 +138,32 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		map.Update ();
 	
 		lastTurn = currentTurn;
+	}
+
+	void OnEscape()
+	{
+		GameObject obj = null;
+		obj = GameObject.Find ("Canvas/Popup/ExitPopup");
+		if (null != obj && true == obj.activeSelf) {
+			obj.SetActive (false);
+			return;
+		}
+		obj = GameObject.Find ("Canvas/Popup/DropItemView");
+		if (null != obj && true == obj.activeSelf) {
+			obj.SetActive (false);
+			return;
+		}
+		obj = GameObject.Find ("Canvas/Popup/ItemView");
+		if (null != obj && true == obj.activeSelf) {
+			obj.SetActive (false);
+			return;
+		}
+		obj = GameObject.Find ("Canvas/Popup/PlayerInfoView");
+		if (null != obj && true == obj.activeSelf) {
+			obj.SetActive (false);
+			return;
+		}
+		obj = GameObject.Find ("Canvas/Popup/ExitPopup");
+		obj.SetActive (true);
 	}
 }
