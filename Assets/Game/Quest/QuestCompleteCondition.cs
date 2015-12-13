@@ -10,7 +10,7 @@ public abstract class QuestCompleteCondition {
 		Max
 	}
 
-	public abstract void Init();
+	public abstract void Start();
 	public abstract bool IsComplete();
 	public QuestCompleteCondition.Type type {
 		protected set;
@@ -25,7 +25,7 @@ public class QuestCompleteCondition_KillMonster : QuestCompleteCondition {
 
 	public QuestCompleteCondition_KillMonster() {
 		type = QuestCompleteCondition.Type.KillMonster;
-		QuestManager.Instance.triggerKillMonster = this.Trigger;
+
 	}
 
 	public void Trigger(string monsterID) {
@@ -34,12 +34,14 @@ public class QuestCompleteCondition_KillMonster : QuestCompleteCondition {
 		}
 	}
 
-	public override void Init() {
+	public override void Start() {
 		currentKillCount = 0;
+		QuestManager.Instance.triggerKillMonster += this.Trigger;
 	}
 
 	public override bool IsComplete() {
 		if (currentKillCount >= goalKillCount) {
+			QuestManager.Instance.triggerKillMonster -= this.Trigger;
 			return true;
 		}
 		return false;

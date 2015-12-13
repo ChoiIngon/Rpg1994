@@ -39,6 +39,14 @@ public class ObjectView : MonoBehaviour {
 		message.text = text;
 		message.color = color;
 		obj.transform.SetParent (MapView.Instance.tiles.GetChild(position.x + position.y * GameManager.Instance.map.width), false);
-		GameObject.Destroy (obj, 1.0f);
+		StartCoroutine (WaitForAnimation (obj.GetComponent<Animator> ()));
+	}
+
+	IEnumerator WaitForAnimation(Animator animator)
+	{
+		while (false == animator.GetCurrentAnimatorStateInfo(0).IsName("FloatingMessage")) {
+			yield return new WaitForEndOfFrame();
+		}
+		GameObject.Destroy (animator.gameObject, 2.0f);
 	}
 }

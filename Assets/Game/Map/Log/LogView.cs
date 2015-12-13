@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 
 public class LogView : Util.UI.Singleton<LogView> {
 	public Text textPref;
+	public Transform dialougePref;
 	public Transform contents;
 	public const int MAX_LINE_COUNT = 30;
 	void Start() {
@@ -22,6 +23,21 @@ public class LogView : Util.UI.Singleton<LogView> {
 		text.text = s;
 		text.transform.SetParent (contents, false);
 	
+		while (MAX_LINE_COUNT < contents.childCount) {
+			Transform line = contents.GetChild(0);
+			line.SetParent(null);
+			GameObject.Destroy(line.gameObject);
+		}
+		GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
+	}
+
+	public void Write(QuestData.Dialouge data)
+	{
+		Transform view = Instantiate<Transform> (dialougePref);
+		view.FindChild ("Speaker").GetComponent<Text> ().text = data.speacker;
+		view.FindChild ("Script").GetComponent<Text> ().text = data.script;
+		view.SetParent (contents, false);
+
 		while (MAX_LINE_COUNT < contents.childCount) {
 			Transform line = contents.GetChild(0);
 			line.SetParent(null);

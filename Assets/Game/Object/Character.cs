@@ -58,7 +58,26 @@ public class Character : Object {
 	public List<BuffData> buffs = new List<BuffData> ();
 	public EquipmentItemData[] equipments = new EquipmentItemData[(int)EquipPart.Max];
 	public DirectionType direction;
-
+	public Object target {
+		get {
+			Object.Position dest = new Object.Position (position.x, position.y);
+			switch(direction) {
+			case DirectionType.East : dest.x += 1; break;
+			case DirectionType.West : dest.x -= 1; break;
+			case DirectionType.North : dest.y -= 1; break;
+			case DirectionType.South : dest.y += 1; break;
+			}
+			Tile tile = GameManager.Instance.map.GetTile(dest.x, dest.y);
+			if(null == tile) {
+				return null;
+			}
+			foreach(var v in tile.objects)
+			{
+				return v.Value;
+			}
+			return null;
+		}
+	}
 	public Character() {
 		size = 1.0f;
 	}
@@ -196,9 +215,6 @@ public class Character : Object {
 			target.Damage (this, GetStatus ().attack);
 		} else {
 			target.OnDodge(this);
-		}
-		if (0 >= target.health) {
-			target = null;
 		}
 	}
 	

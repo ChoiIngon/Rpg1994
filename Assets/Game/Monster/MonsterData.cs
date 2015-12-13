@@ -70,7 +70,9 @@ public class MonsterData : Character {
 			OnDropItem (item);
 		}
 
-		QuestManager.Instance.triggerKillMonster (info.id);
+		if (null != QuestManager.Instance.triggerKillMonster) {
+			QuestManager.Instance.triggerKillMonster (info.id);
+		}
 		MonsterManager.Instance.Remove (seq);
 		base.Destroy();
 	}
@@ -101,7 +103,7 @@ public class MonsterData : Character {
 	}
 	public override void OnDestroy() {
 		GameObject.Destroy (view.gameObject);
-		view = null;
+		view.transform.SetParent (null);
 		LogView.Instance.Write ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color> 은(는) 죽었습니다.");
 		LogView.Instance.Write ("You get " + reward.exp + " exp");
 		LogView.Instance.Write ("You get " + reward.gold + " gold");

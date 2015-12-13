@@ -53,6 +53,9 @@ public class MapView : Util.UI.Singleton<MapView> {
 		for (int i=0; i<tiles.childCount; i++) {
 			ObjectView view = tiles.GetChild(i).GetComponent<ObjectView>();
 			global::Tile tile = GameManager.Instance.map.GetTile(view.position.x, view.position.y);
+			if(null == tile) {
+				throw new System.Exception("out of map position");
+			}
 			view.SetVisible(tile.visible);
 		}
 	}

@@ -12,7 +12,7 @@ public class RewardInfo {
 		data.gold = gold;
 		data.exp = exp;
 		foreach (ItemInfo item in items) {
-		//	if(UnityEngine.Random.Range(1, 10) <= 3)
+			if(UnityEngine.Random.Range(1, 10) <= 3)
 			{
 				data.items.Add(ItemManager.Instance.CreateInstance(item.id));
 			}

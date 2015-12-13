@@ -43,6 +43,9 @@ public class Map {
 			int x = tileNode["x"].AsInt;
 			int y = tileNode["y"].AsInt;
 			Tile tile = GetTile(x, y);
+			if(null == tile) {
+				throw new System.Exception("out of map position");
+			}
 			tile.id = tileNode["text"];
 			tile.type = Tile.ToType(tileNode["type"]);
 			tile.color = Util.Color.HexToColor(tileNode["color"]);
@@ -50,6 +53,9 @@ public class Map {
 	}
 
 	public Tile GetTile(int x, int y) {
+		if (width <= x || 0 > x || height <= y || 0 > y) {
+			return null;
+		}
 		return tiles [x + y * width];
 	}
 	

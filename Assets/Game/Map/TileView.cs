@@ -22,6 +22,9 @@ public class TileView : ObjectView {
 		}
 		else {
 			Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+			if(null == tile) {
+				throw new System.Exception("out of map position");
+			}
 			if(true == tile.visit)
 			{
 				gameObject.SetActive(true);

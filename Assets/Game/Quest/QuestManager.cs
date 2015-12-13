@@ -9,10 +9,9 @@ public class QuestData {
 		Complete,
 		Max
 	};
-	public class DialougeInfo {
-		public Character speacker;
+	public class Dialouge {
+		public string speacker;
 		public string script;
-		public string image;
 	};
 
 	public string id;
@@ -21,7 +20,8 @@ public class QuestData {
 	public RewardInfo reward = new RewardInfo();
 	public List<QuestStartCondition> triggers = new List<QuestStartCondition> ();
 	public List<QuestCompleteCondition> conditions = new List<QuestCompleteCondition> ();
-	public List<DialougeInfo> dialougs = new List<DialougeInfo> ();
+	public List<Dialouge> triggerDialouges = new List<Dialouge> ();
+	public List<Dialouge> completeDialouges = new List<Dialouge> ();
 
 	public bool IsAvailable() {
 		if (State.BeforeStart != state) {
@@ -39,11 +39,12 @@ public class QuestData {
 	public void Start()
 	{
 		foreach (QuestCompleteCondition condition in conditions) {
-			condition.Init ();
+			condition.Start ();
 		}
 		state = State.OnExecute;
 		QuestManager.Instance.OnStart (this);
 	}
+
 	public bool IsComplete() {
 		if (State.OnExecute != state) {
 			return false;
@@ -83,6 +84,8 @@ public class QuestManager : Util.Singleton<QuestManager> {
 		quest.name = "first quest";
 		quest.reward.gold = new Util.RangeInt("100");
 		quest.reward.items.Add(ItemManager.Instance.Find("shield_001"));
+		quest.triggerDialouges.Add (new QuestData.Dialouge() { speacker="촌장", script="어서 오세요. 용사님. 누군가가 이 마을에 찾아 온건 참 오랜만이군요. 요즘 들어 부쩍 마을 근처 몬스터들이 사람들을 공격하는 횟수가 늘었 답니다. 마을 주변에서 슬라임을 처치해 주시지 않겠습니까?"});
+		quest.completeDialouges.Add (new QuestData.Dialouge() { speacker="촌장", script="good!!"});
 		quest.triggers.Add (new QuestStartCondition_Level ());
 		quest.conditions.Add (new QuestCompleteCondition_KillMonster{monsterID="monster_001", goalKillCount=1, currentKillCount=0});
 		quests.Add (quest.id, quest);
@@ -98,11 +101,20 @@ public class QuestManager : Util.Singleton<QuestManager> {
 
 	public void OnStart (QuestData quest)
 	{
-		LogView.Instance.Write ("quest starts");
+		foreach (QuestData.Dialouge dialouge in quest.triggerDialouges) {
+			LogView.Instance.Write (dialouge);
+		}
 	}
 	public void OnComplete(QuestData quest)
 	{
-		LogView.Instance.Write ("quest completed");
+		foreach (QuestData.Dialouge dialouge in quest.completeDialouges) {
+			LogView.Instance.Write (dialouge);
+		}
+		LogView.Instance.Write ("You get " + (int)quest.reward.exp + " exp");
+		LogView.Instance.Write ("You get " + (int)quest.reward.gold + " gold");
+		foreach (ItemInfo info in quest.reward.items) {
+			LogView.Instance.Write ("You get " + info.name);
+		}
 	}
 }
 
