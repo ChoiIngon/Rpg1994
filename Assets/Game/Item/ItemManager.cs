@@ -94,6 +94,12 @@ public class ItemManager : Util.Singleton<ItemManager> {
 			info.amount = attr ["amount"].AsInt;
 			return info;
 		};
+		buffInfo ["stamina"] = (JSONNode attr) => { 
+			StaminaBuffInfo info = new StaminaBuffInfo ();
+			info.name = attr ["name"];
+			info.amount = attr ["amount"].AsInt;
+			return info;
+		};
 		buffInfo ["attack"] = (JSONNode attr) => { 
 			AttackBuffInfo info = new AttackBuffInfo();
 			info.name = attr ["name"];

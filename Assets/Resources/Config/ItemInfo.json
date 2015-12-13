@@ -34,6 +34,9 @@
 		{"id":"potion_heal_001", "name":"Healing Potion", "cost":1, "weight":1, "description":"10의 HP를 즉시 회복한다", 
 			"buff" : {"type":"heal", "name" : "heal", "amount":10}
 		},
+		{"id":"potion_stamina_001", "name":"Stamina Potion", "cost":1, "weight":1, "description":"100의 stamina를 즉시 회복한다", 
+			"buff" : {"type":"stamina", "name" : "stamina", "amount":100}
+		},
 		{"id":"potion_attack_001", "name":"attack potion", "cost":1, "weight":1, "description":"additional 10 attack power for 5 turns",
 			"buff" : {"type":"attack", "name":"attack buff", "attack":10, "turn":5}
 		},

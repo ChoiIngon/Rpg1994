@@ -5,8 +5,9 @@ using System.Collections.Generic;
 public class Npc : Character {
 	public List<string> quests = new List<string>();
 	public ObjectView view;
-
+	public string id;
 	public Npc() {
+		category = Character.Category.NPC;
 		sight = 1;
 	}
 
@@ -23,10 +24,6 @@ public class Npc : Character {
 						quest.Start();
 						return;
 					}
-				}
-				if(QuestData.State.OnExecute == quest.state)
-				{
-					quest.IsComplete();
 				}
 			}
 		}

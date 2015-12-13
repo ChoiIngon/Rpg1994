@@ -39,6 +39,7 @@
 			],
 			"reward" : [
 				{ "item" : "potion_attack_001" },
+				{ "item" : "potion_stamina_001" },
 				{ "gold" : "50~300" }
 			]
 		}

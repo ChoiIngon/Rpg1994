@@ -132,7 +132,7 @@ public class Character : Object {
 	}
 
 	public virtual void Update() {
-		GetStatus();
+		GetStatus ();
 	}
 
 	public bool IsVisible(Object.Position dest) {

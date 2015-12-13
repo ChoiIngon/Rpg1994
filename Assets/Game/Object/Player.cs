@@ -8,10 +8,14 @@ public class Player : Character
 {
 	public Inventory inventory = null;
 	public ObjectView view = null;
+	public int level = 1;
 	public int exp = 0;
+	public Dictionary<string, QuestData> quests = null;
+
 	public Player() {
 		category = Object.Category.Player;
 		inventory = new Inventory ();
+		quests = new Dictionary<string, QuestData>();
 	}
 	public void EquipItem(int index, Character.EquipPart part) {
 		ItemData item = inventory.Pull (index);
@@ -129,6 +133,7 @@ public class Player : Character
 	}
 	public void MoveTo(Character.DirectionType direction) {
 		this.direction = direction;
+
 		Object.Position dest = new Object.Position (position.x, position.y);
 		switch(direction) {
 		case DirectionType.East : dest.x += 1; break;
@@ -144,10 +149,32 @@ public class Player : Character
 		if (null != obj && Object.Category.Monster == obj.category) {
 			MonsterData monster = (MonsterData)obj;
 			Attack (monster);
+			stamina -= 1;
 		} 
 
 		FieldOfView ();
 		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
+		stamina -= 1;
+	}
+
+	public override void Update() {
+		base.Update ();
+		List<string> completeQuestIDs = new List<string> ();
+		foreach (var v in quests) {
+			if(true == v.Value.IsComplete())
+			{
+				completeQuestIDs.Add (v.Value.id);
+			}
+		}
+		foreach (string questID in completeQuestIDs) {
+			quests.Remove(questID);
+		}
+
+		if (0 == stamina) {
+			int damage = health.max/20;
+			health -= damage;
+			OnDamage(this, damage);
+		}
 	}
 	
 	public override void OnCreate()

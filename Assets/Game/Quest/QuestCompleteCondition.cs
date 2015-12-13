@@ -47,3 +47,26 @@ public class QuestCompleteCondition_KillMonster : QuestCompleteCondition {
 		return false;
 	}
 }
+
+public class QuestCompleteCondition_MeetNpc : QuestCompleteCondition {
+	public string npcID;
+	
+	public QuestCompleteCondition_MeetNpc() {
+		type = QuestCompleteCondition.Type.MeetNpc;
+	}
+	
+	public override void Start() {
+	}
+	
+	public override bool IsComplete() {
+		Object obj = GameManager.Instance.player.target;
+		if(null != obj && Object.Category.NPC == obj.category) {
+			Npc npc = (Npc)obj;
+			if(npcID == npc.id)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+}

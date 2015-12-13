@@ -74,6 +74,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		}
 
 		testNpc = new Npc ();
+		testNpc.id = "npc_001";
 		testNpc.name = "npc a";
 		testNpc.visible = false;
 		testNpc.quests.Add ("quest_001");
@@ -82,11 +83,19 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player = new Player ();
 		player.name = "You";
 		player.sight = 6;
-		player.health.value = 20;
-		player.health.max = 20;
-		player.health.interval = 2;
-		player.health.recovery = 1;
+
+		player.health.value = 200;
+		player.health.max = 200;
+		player.health.interval = 10;
+		player.health.recovery = 3;
 		player.health.time = 0;
+
+		player.stamina.value = 100;
+		player.stamina.max = 100;
+		player.stamina.interval = 0;
+		player.stamina.recovery = 0;
+		player.stamina.time = 0;
+
 		player.attack = 10;
 		player.speed = 10;
 		player.defense = 10;
@@ -107,9 +116,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player.inventory.Put (ItemManager.Instance.CreateInstance("ring_002"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("ring_003"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_heal_001"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_heal_001"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_attack_001"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_attack_001"));
+		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_stamina_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_attack_001"));
 		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_poison_001"));
 		

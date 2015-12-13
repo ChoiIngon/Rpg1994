@@ -23,6 +23,7 @@ public class MonsterData : Character {
 	}
 
 	public override void Update() {
+		base.Update ();
 		if (true == IsVisible (GameManager.Instance.player.position)) {
 			if(range >= Vector2.Distance (position, GameManager.Instance.player.position)) {
 				Attack ();
@@ -34,7 +35,6 @@ public class MonsterData : Character {
 			}
 		}
 		Idle ();
-		base.Update ();
 	}
 	public virtual void Idle() {
 		this.direction = (Character.DirectionType)UnityEngine.Random.Range(0, (int)Character.DirectionType.Max);

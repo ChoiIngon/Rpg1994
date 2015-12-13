@@ -11,7 +11,7 @@ namespace Util {
 
 		public int GetValue() {
 			int currentTime = Timer<T>.Instance.GetTime ();
-			if (max > value) {
+			if (max > value && 0 < interval) {
 				int deltaTime = currentTime - time;
 				int recoveryCount = deltaTime / interval;
 				value = Math.Min (recoveryCount * recovery + value, max);

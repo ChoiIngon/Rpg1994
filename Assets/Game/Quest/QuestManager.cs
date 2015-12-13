@@ -42,6 +42,7 @@ public class QuestData {
 			condition.Start ();
 		}
 		state = State.OnExecute;
+		GameManager.Instance.player.quests.Add (id, this);
 		QuestManager.Instance.OnStart (this);
 	}
 
@@ -88,10 +89,11 @@ public class QuestManager : Util.Singleton<QuestManager> {
 		quest.reward.items.Add(ItemManager.Instance.Find("shield_001"));
 		quest.triggerDialouges.Add (new QuestData.Dialouge() { speacker="촌장", script="어서 오세요. 용사님. 누군가가 이 마을에 찾아 온건 참 오랜만이군요. 요즘 들어 부쩍 마을 근처 몬스터들이 사람들을 공격하는 횟수가 늘었 답니다. 마을 주변에서 슬라임을 처치해 주시지 않겠습니까?"});
 		quest.completeDialouges.Add (new QuestData.Dialouge() { speacker="촌장", script="good!!"});
-		quest.triggers.Add (new QuestStartCondition_Level ());
+		quest.triggers.Add (new QuestStartCondition_Level () );
 		quest.triggers.Add (new QuestStartCondition_Incomplete() { questID = "quest_001"});
 		quest.triggers.Add (new QuestStartCondition_Incomplete() { questID = "quest_002"});
-		quest.conditions.Add (new QuestCompleteCondition_KillMonster{monsterID="monster_001", goalKillCount=1, currentKillCount=0});
+		quest.conditions.Add (new QuestCompleteCondition_KillMonster() {monsterID="monster_001", goalKillCount=1});
+		quest.conditions.Add (new QuestCompleteCondition_MeetNpc() {npcID="npc_001"});
 		quests.Add (quest.id, quest);
 	}
 	public QuestData Find(string questID)

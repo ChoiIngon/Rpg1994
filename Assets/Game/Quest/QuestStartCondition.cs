@@ -9,8 +9,12 @@ public abstract class QuestStartCondition
 
 public class QuestStartCondition_Level : QuestStartCondition
 {
+	public int level;
 	public override bool IsAvailable() {
-		return true;
+		if (level <= GameManager.Instance.player.level) {
+			return true;
+		}
+		return false;
 	}
 }
 
