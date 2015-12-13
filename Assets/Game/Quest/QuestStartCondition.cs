@@ -14,27 +14,21 @@ public class QuestStartCondition_Level : QuestStartCondition
 	}
 }
 
-public class QuestStartCondition_Complete : QuestStartCondition
-{
-	public List<string> completeQuestIDs = new List<string> ();
-	
+public class QuestStartCondition_Complete : QuestStartCondition {
+	public string questID;
 	public override bool IsAvailable() {
-		foreach (string questID in completeQuestIDs) {
-			if (false == QuestManager.Instance.complete.ContainsKey (questID)) {
-				return false;
-			}
+		if (false == QuestManager.Instance.completes.ContainsKey (questID)) {
+			return false;
 		}
 		return true;
 	}
 }
 
 public class QuestStartCondition_Incomplete : QuestStartCondition {
-	public List<string> incompleteQuestIDs = new List<string> ();
+	public string questID;
 	public override bool IsAvailable() {
-		foreach (string questID in incompleteQuestIDs) {
-			if (true == QuestManager.Instance.complete.ContainsKey (questID)) {
-				return false;
-			}
+		if (true == QuestManager.Instance.completes.ContainsKey (questID)) {
+			return false;
 		}
 		return true;
 	}

@@ -9,7 +9,6 @@ public class Player : Character
 	public Inventory inventory = null;
 	public ObjectView view = null;
 	public int exp = 0;
-	public Object target;
 	public Player() {
 		category = Object.Category.Player;
 		inventory = new Inventory ();
@@ -129,41 +128,26 @@ public class Player : Character
 		}
 	}
 	public void MoveTo(Character.DirectionType direction) {
-//		try {
-			this.direction = direction;
-			Object.Position dest = new Object.Position (position.x, position.y);
-			switch(direction) {
-			case DirectionType.East : dest.x += 1; break;
-			case DirectionType.West : dest.x -= 1; break;
-			case DirectionType.North : dest.y -= 1; break;
-			case DirectionType.South : dest.y += 1; break;
-			}
+		this.direction = direction;
+		Object.Position dest = new Object.Position (position.x, position.y);
+		switch(direction) {
+		case DirectionType.East : dest.x += 1; break;
+		case DirectionType.West : dest.x -= 1; break;
+		case DirectionType.North : dest.y -= 1; break;
+		case DirectionType.South : dest.y += 1; break;
+		}
 
-			base.Move (dest);
+		base.Move (dest);
 
-			Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
-			List<Object> objects = new List<Object> ();
-			foreach (var v in tile.objects) {
-				objects.Add (v.Value);
-			}
-			foreach (Object obj in objects) {
-				if (Object.Category.Monster == obj.category) {
-					MonsterData monster = (MonsterData)obj;
-					Attack (monster);
-				} 
-				else if(Object.Category.NPC == obj.category) {
-					Npc npc = (Npc)obj;
-				}
-				break;
-			}
+		Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
+		Object obj = this.target;
+		if (null != obj && Object.Category.Monster == obj.category) {
+			MonsterData monster = (MonsterData)obj;
+			Attack (monster);
+		} 
 
-			FieldOfView ();
-			Util.Timer<Util.TurnCounter>.Instance.NextTime ();
-//		}
-//		catch(System.Exception e) {
-//			LogView.Instance.Write (e.Message);
-//		}
-
+		FieldOfView ();
+		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
 	}
 	
 	public override void OnCreate()

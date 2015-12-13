@@ -55,14 +55,16 @@ public class QuestData {
 				return false;
 			}
 		}
-
-		state = State.Complete;
+		state = State.BeforeStart;
 		GameManager.Instance.player.inventory.gold += reward.gold;
 		foreach (ItemInfo info in reward.items) {
 			ItemData data = ItemManager.Instance.CreateInstance(info.id);
 			GameManager.Instance.player.inventory.Put (data);
 		}
+		CompleteQuest complete = new CompleteQuest ();
+		complete.id = id;
 
+		QuestManager.Instance.completes.Add (id, complete);
 		QuestManager.Instance.OnComplete (this);
 		return true;
 	}
@@ -75,7 +77,7 @@ public class CompleteQuest {
 };
 
 public class QuestManager : Util.Singleton<QuestManager> {
-	public Dictionary<string, CompleteQuest> complete = new Dictionary<string, CompleteQuest>();
+	public Dictionary<string, CompleteQuest> completes = new Dictionary<string, CompleteQuest>();
 	public Dictionary<string, QuestData> quests = new Dictionary<string, QuestData>();
 
 	public void Init() {
@@ -87,6 +89,8 @@ public class QuestManager : Util.Singleton<QuestManager> {
 		quest.triggerDialouges.Add (new QuestData.Dialouge() { speacker="촌장", script="어서 오세요. 용사님. 누군가가 이 마을에 찾아 온건 참 오랜만이군요. 요즘 들어 부쩍 마을 근처 몬스터들이 사람들을 공격하는 횟수가 늘었 답니다. 마을 주변에서 슬라임을 처치해 주시지 않겠습니까?"});
 		quest.completeDialouges.Add (new QuestData.Dialouge() { speacker="촌장", script="good!!"});
 		quest.triggers.Add (new QuestStartCondition_Level ());
+		quest.triggers.Add (new QuestStartCondition_Incomplete() { questID = "quest_001"});
+		quest.triggers.Add (new QuestStartCondition_Incomplete() { questID = "quest_002"});
 		quest.conditions.Add (new QuestCompleteCondition_KillMonster{monsterID="monster_001", goalKillCount=1, currentKillCount=0});
 		quests.Add (quest.id, quest);
 	}
@@ -101,6 +105,7 @@ public class QuestManager : Util.Singleton<QuestManager> {
 
 	public void OnStart (QuestData quest)
 	{
+		LogView.Instance.Write ("[" + quest.name + "]");
 		foreach (QuestData.Dialouge dialouge in quest.triggerDialouges) {
 			LogView.Instance.Write (dialouge);
 		}
