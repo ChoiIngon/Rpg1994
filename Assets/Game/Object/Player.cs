@@ -144,7 +144,6 @@ public class Player : Character
 
 		base.Move (dest);
 
-		Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
 		Object obj = this.target;
 		if (null != obj && Object.Category.Monster == obj.category) {
 			MonsterData monster = (MonsterData)obj;

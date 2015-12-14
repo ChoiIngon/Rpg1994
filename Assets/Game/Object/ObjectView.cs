@@ -44,9 +44,9 @@ public class ObjectView : MonoBehaviour {
 
 	IEnumerator WaitForAnimation(Animator animator)
 	{
-		while (false == animator.GetCurrentAnimatorStateInfo(0).IsName("FloatingMessage")) {
+		while (true == animator.GetCurrentAnimatorStateInfo(0).IsName("FloatingMessage")) {
 			yield return new WaitForEndOfFrame();
 		}
-		GameObject.Destroy (animator.gameObject, 2.0f);
+		GameObject.Destroy (animator.gameObject);
 	}
 }

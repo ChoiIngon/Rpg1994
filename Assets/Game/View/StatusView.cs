@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class StatusView : MonoBehaviour {
+	private const int BAR_WIDTH = 18;
 	public Text player;
 	public AttributeView health;
 	public AttributeView stamina;
@@ -22,14 +23,14 @@ public class StatusView : MonoBehaviour {
 	string StatusBar(int current, int max, string color) {
 		float rate = (float)current / (float)max;
 		string bar = "<color=" + color + ">";
-		int count = (int)(20 * rate);
+		int count = (int)(BAR_WIDTH * rate);
 
 		for (int i=0; i<count; i++) {
 			bar += "=";
 		}
 		bar += "</color>";
 
-		for (int i=count; i<20; i++) {
+		for (int i=count; i<BAR_WIDTH; i++) {
 			bar += "=";
 		}
 		return bar;
