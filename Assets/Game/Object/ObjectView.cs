@@ -38,13 +38,14 @@ public class ObjectView : MonoBehaviour {
 		Text message = obj.GetComponent<Text> ();
 		message.text = text;
 		message.color = color;
-		obj.transform.SetParent (MapView.Instance.tiles.GetChild(position.x + position.y * GameManager.Instance.map.width), false);
-		StartCoroutine (WaitForAnimation (obj.GetComponent<Animator> ()));
+		obj.transform.SetParent (transform, false);
+		StartCoroutine (WaitForAnimation (obj.GetComponent<Animator> (), "FloatingMessage"));
 	}
-
-	IEnumerator WaitForAnimation(Animator animator)
+	
+	IEnumerator WaitForAnimation(Animator animator, string name)
 	{
-		while (true == animator.GetCurrentAnimatorStateInfo(0).IsName("FloatingMessage")) {
+		//while (true == animator.GetCurrentAnimatorStateInfo(0).IsName(name)) {
+		while(false == animator.IsInTransition(0)) {
 			yield return new WaitForEndOfFrame();
 		}
 		GameObject.Destroy (animator.gameObject);

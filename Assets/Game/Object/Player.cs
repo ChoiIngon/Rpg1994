@@ -223,7 +223,8 @@ public class Player : Character
 		LogView.Instance.Write ("You dodge enemy's attack");
 	}
 	public override void OnDamage(Character attacker, int damage) {
-		view.CreateFloatingMessage ("-" + damage.ToString(), Color.red);
+		TileView tileView = MapView.Instance.tiles.GetChild (position.x + position.y * GameManager.Instance.map.width).GetComponent<TileView>();
+		tileView.CreateFloatingMessage ("-" + damage.ToString(), Color.red);
 		LogView.Instance.Write ("당신은 " + damage + "의 피해를 입었습니다.");
 	}
 }
