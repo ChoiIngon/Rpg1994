@@ -84,14 +84,14 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player.name = "You";
 		player.sight = 6;
 
-		player.health.value = 200;
-		player.health.max = 200;
+		player.health.value = 150;
+		player.health.max = 150;
 		player.health.interval = 10;
 		player.health.recovery = 3;
 		player.health.time = 0;
 
-		player.stamina.value = 100;
-		player.stamina.max = 100;
+		player.stamina.value = 300;
+		player.stamina.max = 300;
 		player.stamina.interval = 0;
 		player.stamina.recovery = 0;
 		player.stamina.time = 0;

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class StatusView : MonoBehaviour {
-	private const int BAR_WIDTH = 18;
+	private const int BAR_WIDTH = 20;
 	public Text player;
 	public AttributeView health;
 	public AttributeView stamina;
@@ -15,8 +15,8 @@ public class StatusView : MonoBehaviour {
 		if (GameManager.Instance.player.health.max / 3 > GameManager.Instance.player.health) {
 			player.color = Color.red;
 		}
-		health.Value = ":" + StatusBar (GameManager.Instance.player.health, GameManager.Instance.player.health.max, "#FF0000");
-		stamina.Value = ":" + StatusBar (GameManager.Instance.player.stamina, GameManager.Instance.player.stamina.max, "#3BB9FF");
+		health.Value = StatusBar (GameManager.Instance.player.health, GameManager.Instance.player.health.max, "#FF0000");
+		stamina.Value = StatusBar (GameManager.Instance.player.stamina, GameManager.Instance.player.stamina.max, "#3BB9FF");
 		location.text = GameManager.Instance.map.name;
 	}
 

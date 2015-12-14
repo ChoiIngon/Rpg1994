@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class ItemView : Util.UI.Singleton<ItemView> {
+public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 	public enum ButtonType
 	{
 		Equip,
@@ -13,6 +13,7 @@ public class ItemView : Util.UI.Singleton<ItemView> {
 		Drop,
 		Max
 	};
+	public Text itemName;
 	public Image image;
 	public Text description;
 	public Button[] buttons;
@@ -23,15 +24,6 @@ public class ItemView : Util.UI.Singleton<ItemView> {
 	// Use this for initialization
 	void Start () {
 		gameObject.SetActive (false);
-		image = transform.FindChild ("Background/Image").GetComponent<Image> ();
-		buttons = new Button[(int)ButtonType.Max];
-		buttons [(int)ButtonType.Equip] = transform.FindChild ("Background/Buttons/Equip").GetComponent<Button>();
-		buttons [(int)ButtonType.EquipLeftRing] = transform.FindChild ("Background/Buttons/EquipLeftRing").GetComponent<Button>();
-		buttons [(int)ButtonType.EquipRightRing] = transform.FindChild ("Background/Buttons/EquipRightRing").GetComponent<Button>();
-		buttons [(int)ButtonType.Unequip] = transform.FindChild ("Background/Buttons/Unequip").GetComponent<Button>();
-		buttons [(int)ButtonType.Use] = transform.FindChild ("Background/Buttons/Use").GetComponent<Button>();
-		buttons [(int)ButtonType.Drop] = transform.FindChild ("Background/Buttons/Drop").GetComponent<Button>();
-		description = transform.FindChild ("Background/Description/Text").GetComponent<Text> ();
 	}
 
 	public void Init(SlotView slot)
@@ -41,6 +33,7 @@ public class ItemView : Util.UI.Singleton<ItemView> {
 			button.gameObject.SetActive(false);
 		}
 		ItemInfo info = slot.slot.item.info;
+		itemName.text = info.name;
 		switch (info.category) {
 		case ItemInfo.Category.Weapon:
 			buttons[(int)ButtonType.Equip].gameObject.SetActive(true);

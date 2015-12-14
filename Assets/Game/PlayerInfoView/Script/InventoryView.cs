@@ -11,7 +11,7 @@ public class InventoryView : MonoBehaviour {
 	public SlotView selectedSlotView;
 
 	public Transform slots;
-	public Button[] buttons;
+	//public Button[] buttons;
 	public Text weight;
 	public Text gold;
 	void Start() {

@@ -15,6 +15,6 @@ public class EquipmentView : MonoBehaviour {
 		if (null == equipment) {
 			return;
 		}
-		ItemView.Instance.Init (this);
+		ItemInfoView.Instance.Init (this);
 	}
 }

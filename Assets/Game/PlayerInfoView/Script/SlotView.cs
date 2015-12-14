@@ -18,6 +18,6 @@ public class SlotView : MonoBehaviour {
 		if (null == slot) {
 			return;
 		}
-		ItemView.Instance.Init (this);
+		ItemInfoView.Instance.Init (this);
 	}
 }

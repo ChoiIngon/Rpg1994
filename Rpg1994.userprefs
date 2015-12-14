@@ -1,44 +1,47 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/ControlPanel/ArrowKeyPanel.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Config/ItemInfo.json">
     <Files>
-      <File FileName="Assets/Game/Buff/BuffStamina.cs" Line="22" Column="30" />
-      <File FileName="Assets/Game/Object/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Item/Item.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Item/ItemPotion.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Monster/MonsterData.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Object/Character.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Monster/MonsterData.cs" Line="115" Column="1" />
       <File FileName="Assets/Util/AutoRecoveryInt.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/View/StatusView.cs" Line="23" Column="19" />
-      <File FileName="Assets/Game/View/ControlView/ControlView.cs" Line="9" Column="24" />
+      <File FileName="Assets/Game/View/StatusView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/View/ControlView/ControlView.cs" Line="1" Column="1" />
       <File FileName="Assets/Game/ControlPanel/ArrowKeyPanel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/View/AttributeView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Object/ObjectView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Object/Player.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Object/Character.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Object/Object.cs" Line="1" Column="1" />
+      <File FileName="Assets/MapEditor/Script/Map.cs" Line="1" Column="1" />
+      <File FileName="Assets/MapEditor/Script/Tile/Wall.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/PlayerInfoView/Script/PlayerInfoView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/PlayerInfoView/Script/EquipmentView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/PlayerInfoView/Script/SlotView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/PlayerInfoView/Script/InventoryView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/PlayerInfoView/Script/ItemInfoView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Config/ItemInfo.json" Line="4" Column="65" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Game" expanded="True">
-              <Node name="Buff" expanded="True" />
-              <Node name="ControlPanel" expanded="True">
-                <Node name="ArrowKeyPanel.cs" selected="True" />
-              </Node>
-              <Node name="Item" expanded="True" />
-              <Node name="Map" expanded="True" />
               <Node name="Monster" expanded="True" />
               <Node name="Object" expanded="True" />
-              <Node name="Popup" expanded="True" />
-              <Node name="Quest" expanded="True" />
-              <Node name="View" expanded="True">
-                <Node name="ControlView" expanded="True" />
+              <Node name="PlayerInfoView" expanded="True">
+                <Node name="Script" expanded="True">
+                  <Node name="PlayerInfoView.cs" selected="True" />
+                </Node>
               </Node>
+              <Node name="Popup" expanded="True" />
+              <Node name="View" expanded="True" />
             </Node>
             <Node name="MapEditor" expanded="True">
-              <Node name="Script" expanded="True" />
+              <Node name="Script" expanded="True">
+                <Node name="Tile" expanded="True" />
+              </Node>
             </Node>
-            <Node name="Util" expanded="True" />
           </Node>
-          <Node name="Assembly-CSharp-firstpass" expanded="True" />
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">

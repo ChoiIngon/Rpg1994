@@ -1,8 +1,8 @@
 {
 	"weapon" : [
-		{"id":"weapon_sword_001", "name":"투박한 돌 나이프", "cost":2, "weight":2, "description":"뾰족하고 모난 돌에 천을 감아 칼처럼 사용한다. 석기 시대 부터 꾸준히 사용되어 온 유서 깊은 무기 중의 하나.", "attack":"5", "range":1, "speed":-1},
-		{"id":"weapon_sword_002", "name":"녹슨 식칼", "cost":2, "weight":2, "description":"옆 마을의 이름 있는 주방장이 사용하다 버린 식칼. 군데 군데 쓸어 있는 녹 때문에 이 칼에 베이면 파상풍에 걸릴것 같다.", "attack":"7", "range":1, "speed":-1},
-		{"id":"weapon_sword_003", "name":"제법 멀쩡한 검", "cost":2, "weight":2, "description":"대장장이가 가내 수공업으로 한땀한땀 노력해 만든 검.", "attack":"10", "range":1, "speed":-1}
+		{"id":"weapon_sword_001", "name":"투박한 돌 나이프", "cost":2, "weight":1, "description":"뾰족하고 모난 돌에 천을 감아 칼처럼 사용한다. 석기 시대 부터 꾸준히 사용되어 온 유서 깊은 무기 중의 하나.", "attack":"5", "range":1, "speed":-1},
+		{"id":"weapon_sword_002", "name":"녹슨 식칼", "cost":2, "weight":1, "description":"옆 마을의 이름 있는 주방장이 사용하다 버린 식칼. 군데 군데 쓸어 있는 녹 때문에 이 칼에 베이면 파상풍에 걸릴것 같다.", "attack":"7", "range":1, "speed":-1},
+		{"id":"weapon_sword_003", "name":"제법 멀쩡한 검", "cost":2, "weight":2, "description":"대장장이가 가내 수공업으로 한땀한땀 노력해 만든 검.", "attack":"13", "range":1, "speed":-1}
 	],
 	"ring": [
 	    {"id": "ring_001", "name": "망가진 양철반지", "cost": 5, "weight": 0, "description": "장난삼아 만들어진 양철반지가 그나마도 망가져 있다." },
@@ -11,16 +11,16 @@
   ],
 		
 	"shield" : [
-		{"id":"shield_001", "name":"나무 판자", "cost":2, "weight":2, "description":"한때는 상점의 간판으로 쓰이던 나무 판자. 어린아이의 주먹으로는 깰수 없을 정도로 단단해 보인다.", "defense":1, "speed":-1},
-		{"id":"shield_002", "name":"냄비 뚜껑", "cost":2, "weight":2, "description":"무쇠로 되어있는 냄비 뚜껑은 적의 어떠한 공격이라도 충분히 막아 낼수 있을 듯 하다. 하지만 무겁다.", "defense":1, "speed":-1},
-		{"id":"shield_003", "name":"제법 멀쩡한 방패", "cost":2, "weight":2, "description":"방어라는 목적을 가지고 만들어진 물건. 튼튼해 보인다.", "defense":1, "speed":-1}
+		{"id":"shield_001", "name":"나무 판자", "cost":2, "weight":1, "description":"한때는 상점의 간판으로 쓰이던 나무 판자. 어린아이의 주먹으로는 깰수 없을 정도로 단단해 보인다.", "defense":1, "speed":-1},
+		{"id":"shield_002", "name":"냄비 뚜껑", "cost":2, "weight":2, "description":"무쇠로 되어있는 냄비 뚜껑은 적의 어떠한 공격이라도 충분히 막아 낼수 있을 듯 하다. 하지만 무겁다.", "defense":3, "speed":-1},
+		{"id":"shield_003", "name":"제법 멀쩡한 방패", "cost":2, "weight":4, "description":"방어라는 목적을 가지고 만들어진 물건. 튼튼해 보인다.", "defense":12, "speed":-2}
 	],
 	"helmet" : [
 	],
 	"shirt" : [
 		{"id":"shirt_001", "name":"낡은 천 옷", "cost":2, "weight":1, "description":"싼 값이라는 장점 보다는 춥고 볼품 없다는 단점이 돋보이는 제품.", "defense":1, "speed":-1},
-		{"id":"shirt_002", "name":"엉성한 가죽 갑옷", "cost":2, "weight":1, "description":"낡고 오래 되어 여기 저기 떨어진 곳이 있지만 소가죽 제품이다. 빈티지 가죽 매니아에게 인기 있을 듯.", "defense":1, "speed":-1},
-		{"id":"shirt_003", "name":"제법 멀쩡한 갑옷", "cost":2, "weight":1, "description":"갑옷이라고 쓰고 갑옷이라고 읽는다.", "defense":1, "speed":-1}
+		{"id":"shirt_002", "name":"엉성한 가죽 갑옷", "cost":2, "weight":2, "description":"낡고 오래 되어 여기 저기 떨어진 곳이 있지만 소가죽 제품이다. 빈티지 가죽 매니아에게 인기 있을 듯.", "defense":5, "speed":-1},
+		{"id":"shirt_003", "name":"제법 멀쩡한 갑옷", "cost":2, "weight":5, "description":"갑옷이라고 쓰고 갑옷이라고 읽는다.", "defense":12, "speed":-2}
 	],
 	"necklace" : [
 	],
@@ -31,17 +31,17 @@
 	"pants" : [
 	],
 	"potion" : [
-		{"id":"potion_heal_001", "name":"Healing Potion", "cost":1, "weight":1, "description":"10의 HP를 즉시 회복한다", 
-			"buff" : {"type":"heal", "name" : "heal", "amount":10}
+		{"id":"potion_heal_001", "name":"Healing Potion", "cost":1, "weight":1, "description":"100의 HP를 즉시 회복한다", 
+			"buff" : {"type":"heal", "name" : "heal", "amount":100}
 		},
-		{"id":"potion_stamina_001", "name":"Stamina Potion", "cost":1, "weight":1, "description":"100의 stamina를 즉시 회복한다", 
-			"buff" : {"type":"stamina", "name" : "stamina", "amount":100}
+		{"id":"potion_stamina_001", "name":"Stamina Potion", "cost":1, "weight":1, "description":"200의 stamina를 즉시 회복한다", 
+			"buff" : {"type":"stamina", "name" : "stamina", "amount":200}
 		},
 		{"id":"potion_attack_001", "name":"attack potion", "cost":1, "weight":1, "description":"additional 10 attack power for 5 turns",
 			"buff" : {"type":"attack", "name":"attack buff", "attack":10, "turn":5}
 		},
-		{"id":"potion_poison_001", "name":"poison potion", "cost":1, "weight":1, "description":"poisoning!! 1~3 damage for 5 turns",
-			"buff" : {"type":"poison", "name":"poison buff", "damage":"1~3", "turn":5}
+		{"id":"potion_poison_001", "name":"poison potion", "cost":1, "weight":1, "description":"poisoning!! 5~10 damage for 5 turns",
+			"buff" : {"type":"poison", "name":"poison buff", "damage":"5~10", "turn":5}
 		}
 	],
 	"key" : [
