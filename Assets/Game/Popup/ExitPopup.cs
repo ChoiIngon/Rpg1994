@@ -6,6 +6,7 @@ public class ExitPopup : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		gameObject.SetActive (false);
+		transform.localPosition = Vector3.zero;
 	}
 	
 	// Update is called once per frame

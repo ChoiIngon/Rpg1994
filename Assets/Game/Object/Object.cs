@@ -51,7 +51,8 @@ public abstract class Object {
 		Monster,
 		Player,
 		NPC,
-		Item
+		Item,
+		Wall
 	}
 	public Position position;
 	public bool visible;
@@ -155,8 +156,12 @@ public abstract class Object {
 	public virtual void Destroy() {
 		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
 		tile.RemoveObject(this);
-		OnDestroy ();
+		if (null != onDestroy) {
+			onDestroy();
+		}
 	}
-	public virtual void OnCreate () {}
-	public virtual void OnDestroy() {}
+	public delegate void Delegate_OnCreate();
+	public Delegate_OnCreate onCreate;
+	public delegate void Delegate_OnDestroy();
+	public Delegate_OnDestroy onDestroy;
 }

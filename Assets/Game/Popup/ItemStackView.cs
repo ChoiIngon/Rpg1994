@@ -8,8 +8,8 @@ public class ItemStackView : MonoBehaviour {
 	public void Init(ItemStack stack)
 	{
 		this.stack = stack;
-		Image image = transform.FindChild ("Image").GetComponent<Image>();
-		Text name = transform.FindChild ("Name").GetComponent<Text> ();
+		Image image = transform.FindChild ("Content/Image").GetComponent<Image>();
+		Text name = transform.FindChild ("Content/Name").GetComponent<Text> ();
 		image.sprite = Resources.Load<Sprite> ("Texture/Item/"+ stack.item.info.id);
 		name.text = stack.item.info.name;
 	}

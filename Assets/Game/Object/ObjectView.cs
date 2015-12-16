@@ -18,18 +18,14 @@ public class ObjectView : MonoBehaviour {
 	}
 
 	public static T Create<T>(Object obj, string text, Color color) where T : ObjectView {
-		return Create<T>(obj.position, text, color);
-	}
-
-	public static T Create<T>(Object.Position position, string text, Color color) where T : ObjectView {
-		// "Prefab/Map/ObjectView"
 		GameObject objectView = GameObject.Instantiate(Resources.Load("Prefab/Map/ObjectView", typeof(GameObject)) ) as GameObject;
 		objectView.transform.FindChild("Text").GetComponent<Text> ().fontSize = MapView.TILE_SIZE;
 		T tView = objectView.AddComponent<T> ();
 		tView.name = text;
 		tView.display.text = text;
 		tView.display.color = color;
-		tView.position = position;
+		tView.position = obj.position;
+		obj.onDestroy += tView.OnDestroy;
 		return tView;
 	}
 
@@ -44,10 +40,14 @@ public class ObjectView : MonoBehaviour {
 	
 	IEnumerator WaitForAnimation(Animator animator, string name)
 	{
-		//while (true == animator.GetCurrentAnimatorStateInfo(0).IsName(name)) {
 		while(false == animator.IsInTransition(0)) {
 			yield return new WaitForEndOfFrame();
 		}
 		GameObject.Destroy (animator.gameObject);
+	}
+
+	public void OnDestroy() {
+		transform.SetParent (null);
+		GameObject.Destroy (gameObject);
 	}
 }

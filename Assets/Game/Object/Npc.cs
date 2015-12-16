@@ -6,37 +6,18 @@ public class Npc : Character {
 	public List<string> quests = new List<string>();
 	public ObjectView view;
 	public string id;
+	public List<string> dialouge = new List<string> ();
 	public Npc() {
 		category = Character.Category.NPC;
 		sight = 1;
-	}
-
-	public override void Update()
-	{
-		if (sight >= Vector2.Distance (position, GameManager.Instance.player.position)) {
-			foreach(string questID in quests)
-			{
-				QuestData quest = QuestManager.Instance.Find(questID);
-				if(null != quest)
-				{
-					if(true == quest.IsAvailable())
-					{
-						quest.Start();
-						return;
-					}
-				}
-			}
-		}
+		onCreate += OnCreate;
 	}
 	
-	public override void OnCreate () {
+	public void OnCreate () {
 		view = ObjectView.Create<ObjectView> (this, "N", Color.green);
 		view.SetVisible (visible);
 		view.position = position;
 		view.transform.SetParent (MapView.Instance.tiles, false);
 		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
-	}
-	public override void OnDestroy() {
-		GameObject.Destroy (view.gameObject);
 	}
 }

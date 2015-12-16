@@ -244,12 +244,14 @@ public class Character : Object {
 		}
 	}
 	public ItemStack CreateItemStack(ItemData item, Object.Position at) {
-		ItemStack itemStack = new ItemStack ();
-		itemStack.item = item;
-		itemStack.count = 1;
-		itemStack.SetPosition (at);
-		itemStack.OnCreate ();
-		return itemStack;
+		ItemStack stack = new ItemStack ();
+		stack.item = item;
+		stack.count = 1;
+		stack.SetPosition (at);
+		if (null != stack.onCreate) {
+			stack.onCreate ();
+		}
+		return stack;
 	}
 
 	public virtual void OnAttack(Character target) {}
@@ -260,4 +262,6 @@ public class Character : Object {
 	public virtual void OnUnequipItem(ItemData item) {}
 	public virtual void OnDropItem(ItemData item) {}
 	public virtual void OnPickupItem(ItemData item) {}
+
+
 }

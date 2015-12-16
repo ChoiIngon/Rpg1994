@@ -12,15 +12,18 @@ public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> {
 	public AttributeView attack;
 	public AttributeView defense;
 	public AttributeView speed;
+	public AttributeView gold;
+	public AttributeView weight;
 
 	void Start () {
+		transform.localPosition = Vector3.zero;
 		gameObject.SetActive (false);
 		//transform.localScale = new Vector3 (0, 0, 0);
-		equipmentViews[(int)Character.EquipPart.Weapon] = transform.FindChild ("Background/Content/Avata/Weapon").GetComponent<EquipmentView> ();
-		equipmentViews[(int)Character.EquipPart.Shield] = transform.FindChild("Background/Content/Avata/Shield").GetComponent<EquipmentView>();
-		equipmentViews[(int)Character.EquipPart.LeftRing] = transform.FindChild("Background/Content/Avata/LeftRing").GetComponent<EquipmentView>();
-		equipmentViews[(int)Character.EquipPart.RightRing] = transform.FindChild("Background/Content/Avata/RightRing").GetComponent<EquipmentView>();
-		equipmentViews[(int)Character.EquipPart.Shirt] = transform.FindChild("Background/Content/Avata/Shirt").GetComponent<EquipmentView>();
+		equipmentViews[(int)Character.EquipPart.Weapon] = transform.FindChild ("Background/Content/Avata/Content/Weapon").GetComponent<EquipmentView> ();
+		equipmentViews[(int)Character.EquipPart.Shield] = transform.FindChild("Background/Content/Avata/Content/Shield").GetComponent<EquipmentView>();
+		equipmentViews[(int)Character.EquipPart.LeftRing] = transform.FindChild("Background/Content/Avata/Content/LeftRing").GetComponent<EquipmentView>();
+		equipmentViews[(int)Character.EquipPart.RightRing] = transform.FindChild("Background/Content/Avata/Content/RightRing").GetComponent<EquipmentView>();
+		equipmentViews[(int)Character.EquipPart.Shirt] = transform.FindChild("Background/Content/Avata/Content/Shirt").GetComponent<EquipmentView>();
 
 		for (int i=0; i<Inventory.MAX_SLOT_COUNT; i++) {
 			SlotView slotView = Instantiate<SlotView>(slotViewPref);
@@ -85,7 +88,7 @@ public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> {
 			slotView.gameObject.SetActive(true);
 		}
 
-		//inventoryView.gold.text = "gold : " + GameManager.Instance.player.inventory.gold.ToString();
-		//inventoryView.weight.text = "weight : " + GameManager.Instance.player.inventory.weight.ToString () + "/" + GameManager.Instance.player.inventory.maxWeight.ToString();
+		gold.Value = GameManager.Instance.player.inventory.gold.ToString();
+		weight.Value = GameManager.Instance.player.inventory.weight.ToString () + "/" + GameManager.Instance.player.inventory.maxWeight.ToString();
 	}
 }

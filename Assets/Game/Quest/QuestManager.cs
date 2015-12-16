@@ -59,6 +59,7 @@ public class QuestData {
 				return false;
 			}
 		}
+		GameManager.Instance.player.quests.Remove (id);
 		state = State.BeforeStart;
 		GameManager.Instance.player.inventory.gold += reward.gold;
 		foreach (ItemInfo info in reward.items) {

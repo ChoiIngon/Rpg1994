@@ -20,6 +20,8 @@ public class MonsterData : Character {
 
 	public MonsterData() {
 		category = Object.Category.Monster;
+		onCreate += OnCreate;
+		onDestroy += OnDestroy;
 	}
 
 	public override void Update() {
@@ -77,7 +79,7 @@ public class MonsterData : Character {
 		base.Destroy();
 	}
 
-	public override void OnCreate() {
+	public void OnCreate() {
 		view = ObjectView.Create<ObjectView> (this, "M", Color.red);
 		view.SetVisible (false);
 		view.position = position;
@@ -103,9 +105,7 @@ public class MonsterData : Character {
 		// view.CreateFloatingMessage ("-" + damage.ToString(), Color.yellow);
 		LogView.Instance.Write ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>은(는) " + damage + "의 피해를 입었습니다.");
 	}
-	public override void OnDestroy() {
-		GameObject.Destroy (view.gameObject);
-		view.transform.SetParent (null);
+	public void OnDestroy() {
 		LogView.Instance.Write ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color> 은(는) 죽었습니다.");
 		LogView.Instance.Write ("You get " + reward.exp + " exp");
 		LogView.Instance.Write ("You get " + reward.gold + " gold");

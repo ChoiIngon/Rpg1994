@@ -49,6 +49,11 @@ public class Map {
 			tile.id = tileNode["text"];
 			tile.type = Tile.ToType(tileNode["type"]);
 			tile.color = Util.Color.HexToColor(tileNode["color"]);
+			if(Tile.Type.Wall == tile.type)
+			{
+				Wall wall = new Wall();
+				wall.SetPosition(tile.position);
+			}
 		}
 	}
 

@@ -16,6 +16,7 @@ public class Player : Character
 		category = Object.Category.Player;
 		inventory = new Inventory ();
 		quests = new Dictionary<string, QuestData>();
+		onCreate += OnCreate;
 	}
 	public void EquipItem(int index, Character.EquipPart part) {
 		ItemData item = inventory.Pull (index);
@@ -143,12 +144,19 @@ public class Player : Character
 		}
 
 		base.Move (dest);
-
-		Object obj = this.target;
-		if (null != obj && Object.Category.Monster == obj.category) {
-			MonsterData monster = (MonsterData)obj;
-			Attack (monster);
-			stamina -= 1;
+		Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
+		if(null != tile)
+		{
+			MonsterData monster = tile.FindObject<MonsterData> ();
+			if(null != monster) {
+				Attack(monster);
+				stamina -= 1;
+			}
+			Npc npc = tile.FindObject<Npc>();
+			if(null != npc)
+			{
+				Talk(npc);
+			}
 		} 
 
 		FieldOfView ();
@@ -156,17 +164,29 @@ public class Player : Character
 		stamina -= 1;
 	}
 
-	public override void Update() {
-		base.Update ();
-		List<string> completeQuestIDs = new List<string> ();
-		foreach (var v in quests) {
-			if(true == v.Value.IsComplete())
+	public void Talk(Npc npc)
+	{
+		foreach(string questID in npc.quests)
+		{
+			QuestData quest = QuestManager.Instance.Find(questID);
+			if(null != quest)
 			{
-				completeQuestIDs.Add (v.Value.id);
+				if(true == quest.IsAvailable())
+				{
+					quest.Start();
+					return;
+				}
 			}
 		}
-		foreach (string questID in completeQuestIDs) {
-			quests.Remove(questID);
+	}
+	public override void Update() {
+		base.Update ();
+		// Call ToList.
+		List<KeyValuePair<string, QuestData>> list = quests.ToList ();
+		// Loop over list.
+		foreach (KeyValuePair<string, QuestData> pair in list)
+		{
+			pair.Value.IsComplete();
 		}
 
 		if (0 == stamina) {
@@ -176,7 +196,7 @@ public class Player : Character
 		}
 	}
 	
-	public override void OnCreate()
+	public void OnCreate()
 	{
 		view = ObjectView.Create<ObjectView> (this, "@", Color.green);
 		view.position = position;
@@ -197,6 +217,10 @@ public class Player : Character
 			if(Object.Category.Item == v.Value.category)
 			{
 				stacks.Add ((ItemStack)v.Value);
+			}
+			if(5 <= stacks.Count())
+			{
+				break;
 			}
 		}
 		if (0 < stacks.Count) {

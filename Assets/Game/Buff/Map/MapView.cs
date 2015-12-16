@@ -29,20 +29,22 @@ public class MapView : Util.UI.Singleton<MapView> {
 		}
 
 		for (int i=0; i<GameManager.Instance.map.tiles.Length; i++) {
-			global::Tile tile = GameManager.Instance.map.tiles[i];
-			
-			TileView view = null;
-			if("" == tile.id) {
-				view = CreateTileView(tile, ".", tile.color);
-			}
-			else {
-				view = CreateTileView(tile, tile.id, tile.color);
-			}
+			Tile tile = GameManager.Instance.map.tiles[i];
+			TileView view = CreateTileView(tile, tile.color);
 			view.SetVisible(false);
 		}
 
-		Center();
+		for (int i=0; i<tiles.childCount; i++) {
+			Tile tile = GameManager.Instance.map.tiles[i];
+			if(null == tile.FindObject<Wall>())
+			{
+				continue;
+			}
+			TileView view = tiles.GetChild(i).GetComponent<TileView>();
+			view.Init(tile);
+		}
 
+		Center();
 	}
 
 	public void Center()
@@ -60,8 +62,8 @@ public class MapView : Util.UI.Singleton<MapView> {
 		}
 	}
 
-	private TileView CreateTileView(Object obj, string text, Color color) {
-		TileView view = ObjectView.Create<TileView> (obj, text, color);
+	private TileView CreateTileView(Tile obj, Color color) {
+		TileView view = ObjectView.Create<TileView> (obj, ".", color);
 		view.transform.SetParent (tiles, false);
 		view.transform.localPosition = new Vector3(view.position.x * TILE_SIZE, -view.position.y * TILE_SIZE, 0);
 		return view;
@@ -69,7 +71,7 @@ public class MapView : Util.UI.Singleton<MapView> {
 
 	public ObjectView AddItemStack(ItemStack stack)
 	{
-		ObjectView view = ObjectView.Create<ObjectView>(stack.position, "$", Color.yellow);
+		ObjectView view = ObjectView.Create<ObjectView>(stack, "$", Color.yellow);
 		view.transform.SetParent (tiles, false);
 		view.transform.localPosition = new Vector3(view.position.x * TILE_SIZE, -view.position.y * TILE_SIZE, 0);
 		return view;

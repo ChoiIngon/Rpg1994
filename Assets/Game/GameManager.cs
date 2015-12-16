@@ -125,8 +125,12 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player.FieldOfView ();
 
 		MapView.Instance.Init ();
-		player.OnCreate ();
-		testNpc.OnCreate ();
+		if (null != player.onCreate) {
+			player.onCreate ();
+		}
+		if (null != testNpc.onCreate) {
+			testNpc.onCreate ();
+		}
 	}
 
 	void Update () {

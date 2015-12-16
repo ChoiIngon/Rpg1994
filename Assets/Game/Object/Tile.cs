@@ -40,7 +40,7 @@ public class Tile : Object {
 		} else if ("Tree" == type) {
 			return Tile.Type.Tree;
 		} else if ("EnterPoint" == type) {
-			return Tile.Type.EnterPoint;
+			return Tile.Type.Floor;
 		}
 		throw new System.Exception("invalid tile type(" + type + ")");
 	}
@@ -51,5 +51,15 @@ public class Tile : Object {
 
 	public void RemoveObject(Object obj) {
 		objects.Remove (obj);
+	}
+
+	public T FindObject<T>() where T : Object {
+		foreach (var v in objects) {
+			if(v.Value is T)
+			{
+				return (T)v.Value;
+			}
+		}
+		return null;
 	}
 };

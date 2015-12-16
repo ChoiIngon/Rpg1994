@@ -16,6 +16,10 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 	public Text itemName;
 	public Image image;
 	public Text description;
+
+	public AttributeView cost;
+	public AttributeView weight;
+	public AttributeView count;
 	public Button[] buttons;
 
 	private SlotView slot;
@@ -23,17 +27,19 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 	private ItemData item;
 	// Use this for initialization
 	void Start () {
+		transform.localPosition = Vector3.zero;
 		gameObject.SetActive (false);
 	}
 
 	public void Init(SlotView slot)
 	{
 		this.slot = slot;
+		this.equipment = null;
+		count.Value = slot.slot.count.ToString ();
 		foreach (Button button in buttons) {
 			button.gameObject.SetActive(false);
 		}
 		ItemInfo info = slot.slot.item.info;
-		itemName.text = info.name;
 		switch (info.category) {
 		case ItemInfo.Category.Weapon:
 			buttons[(int)ButtonType.Equip].gameObject.SetActive(true);
@@ -61,6 +67,8 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 	public void Init(EquipmentView equipment)
 	{
 		this.equipment = equipment;
+		this.slot = null;
+		count.Value = "1";
 		foreach (Button button in buttons) {
 			button.gameObject.SetActive(false);
 		}
@@ -71,8 +79,11 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 	private void Init(ItemData data)
 	{
 		item = data;
+		itemName.text = data.info.name;
 		buttons [(int)ButtonType.Drop].gameObject.SetActive (true);
 		image.sprite = Resources.Load<Sprite> ("Texture/Item/"+data.info.id);
+		weight.Value = data.info.weight.ToString();
+		cost.Value = data.info.cost.ToString ();
 		description.text = data.info.description;
 		gameObject.SetActive (true);
 	}
