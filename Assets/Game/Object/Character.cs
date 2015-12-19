@@ -248,9 +248,7 @@ public class Character : Object {
 		stack.item = item;
 		stack.count = 1;
 		stack.SetPosition (at);
-		if (null != stack.onCreate) {
-			stack.onCreate ();
-		}
+		stack.OnCreate ();
 		return stack;
 	}
 
@@ -262,6 +260,4 @@ public class Character : Object {
 	public virtual void OnUnequipItem(ItemData item) {}
 	public virtual void OnDropItem(ItemData item) {}
 	public virtual void OnPickupItem(ItemData item) {}
-
-
 }

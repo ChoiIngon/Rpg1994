@@ -8,11 +8,15 @@ public class ItemStack : Object {
 	public ItemStack() {
 		size = 0.0f;
 		category = Object.Category.Item;
-		onCreate += OnCreate;
 	}
 
-	public void OnCreate()
+	public override void OnCreate()
 	{
-		MapView.Instance.AddItemStack (this);
+		view = MapView.Instance.AddItemStack (this);
+	}
+
+	public override void OnDestroy()
+	{
+		GameObject.Destroy (view.gameObject);
 	}
 }

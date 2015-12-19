@@ -25,7 +25,6 @@ public class ObjectView : MonoBehaviour {
 		tView.display.text = text;
 		tView.display.color = color;
 		tView.position = obj.position;
-		obj.onDestroy += tView.OnDestroy;
 		return tView;
 	}
 

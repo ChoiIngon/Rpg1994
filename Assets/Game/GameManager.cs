@@ -122,15 +122,16 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		
 		player.visible = true;
 		player.SetPosition (new Object.Position (5, 5));
-		player.FieldOfView ();
+
 
 		MapView.Instance.Init ();
-		if (null != player.onCreate) {
-			player.onCreate ();
-		}
-		if (null != testNpc.onCreate) {
-			testNpc.onCreate ();
-		}
+
+		Gateway gateway = new Gateway ();
+		gateway.OnCreate ();
+		gateway.SetPosition(new Object.Position(3, 5));
+		player.OnCreate ();
+		testNpc.OnCreate ();
+		player.FieldOfView ();
 	}
 
 	void Update () {

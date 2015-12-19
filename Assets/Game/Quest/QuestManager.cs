@@ -111,10 +111,7 @@ public class QuestManager : Util.Singleton<QuestManager> {
 
 	public void OnStart (QuestData quest)
 	{
-		LogView.Instance.Write ("[" + quest.name + "]");
-		foreach (QuestData.Dialouge dialouge in quest.startDialouges) {
-			LogView.Instance.Write (dialouge);
-		}
+		LogView.Instance.Write ("[" + quest.name + "] starts");
 	}
 	public void OnComplete(QuestData quest)
 	{

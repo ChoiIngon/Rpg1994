@@ -143,7 +143,7 @@ public abstract class Object {
 		return positions;
 	}
 
-	public void SetPosition(Position position) {
+	public virtual void SetPosition(Position position) {
 		if (GameManager.Instance.map.width <= position.x || 0 > position.x || GameManager.Instance.map.height <= position.y || 0 > position.y) {
 			return;
 		}
@@ -156,12 +156,9 @@ public abstract class Object {
 	public virtual void Destroy() {
 		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
 		tile.RemoveObject(this);
-		if (null != onDestroy) {
-			onDestroy();
-		}
+		OnDestroy ();
 	}
-	public delegate void Delegate_OnCreate();
-	public Delegate_OnCreate onCreate;
-	public delegate void Delegate_OnDestroy();
-	public Delegate_OnDestroy onDestroy;
+
+	public virtual void OnCreate() {}
+	public virtual void OnDestroy() {}
 }

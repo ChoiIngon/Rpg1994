@@ -62,4 +62,11 @@ public class Tile : Object {
 		}
 		return null;
 	}
+
+	public override void OnCreate ()
+	{
+
+	}
+	public override void OnDestroy() {
+	}
 };

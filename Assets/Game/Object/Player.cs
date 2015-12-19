@@ -16,7 +16,6 @@ public class Player : Character
 		category = Object.Category.Player;
 		inventory = new Inventory ();
 		quests = new Dictionary<string, QuestData>();
-		onCreate += OnCreate;
 	}
 	public void EquipItem(int index, Character.EquipPart part) {
 		ItemData item = inventory.Pull (index);
@@ -166,17 +165,8 @@ public class Player : Character
 
 	public void Talk(Npc npc)
 	{
-		foreach(string questID in npc.quests)
-		{
-			QuestData quest = QuestManager.Instance.Find(questID);
-			if(null != quest)
-			{
-				if(true == quest.IsAvailable())
-				{
-					quest.Start();
-					return;
-				}
-			}
+		if (false == npc.CheckQuest ()) {
+			// do normal dialouge
 		}
 	}
 	public override void Update() {
@@ -196,12 +186,16 @@ public class Player : Character
 		}
 	}
 	
-	public void OnCreate()
+	public override void OnCreate()
 	{
 		view = ObjectView.Create<ObjectView> (this, "@", Color.green);
 		view.position = position;
 		view.transform.SetParent (MapView.Instance.tiles, false);
 		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
+	}
+
+	public override void OnDestroy()
+	{
 	}
 
 	public override void OnMove(Character.DirectionType direction)

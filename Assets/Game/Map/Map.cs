@@ -5,6 +5,7 @@ using System.IO;
 using SimpleJSON;
 
 public class Map {
+	public string id;
 	public int width;
 	public int height;
 	public string name;
@@ -32,6 +33,7 @@ public class Map {
 	{
 		TextAsset json = Resources.Load(path) as TextAsset;
 		JSONNode root = JSON.Parse (json.text);
+		id = path;
 		name = root ["name"];
 		description = root ["description"];
 		width = root ["size"] ["width"].AsInt;
