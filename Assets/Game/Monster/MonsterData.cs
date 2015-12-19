@@ -109,5 +109,9 @@ public class MonsterData : Character {
 		LogView.Instance.Write ("You get " + reward.gold + " gold");
 		GameObject.Destroy (view.gameObject);
 	}
+
+	public override void OnTrigger(Object obj) {
+		GameManager.Instance.player.Attack (this);
+	}
 }
 

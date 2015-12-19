@@ -146,15 +146,11 @@ public class Player : Character
 		Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
 		if(null != tile)
 		{
-			MonsterData monster = tile.FindObject<MonsterData> ();
-			if(null != monster) {
-				Attack(monster);
-				stamina -= 1;
-			}
-			Npc npc = tile.FindObject<Npc>();
-			if(null != npc)
+			List<KeyValuePair<Object, Object>> list = tile.objects.ToList ();
+			// Loop over list.
+			foreach (KeyValuePair<Object, Object> pair in list)
 			{
-				Talk(npc);
+				pair.Value.OnTrigger(this);
 			}
 		} 
 
@@ -163,22 +159,40 @@ public class Player : Character
 		stamina -= 1;
 	}
 
-	public void Talk(Npc npc)
-	{
-		if (false == npc.CheckQuest ()) {
-			// do normal dialouge
-		}
-	}
 	public override void Update() {
 		base.Update ();
 		// Call ToList.
-		List<KeyValuePair<string, QuestData>> list = quests.ToList ();
-		// Loop over list.
-		foreach (KeyValuePair<string, QuestData> pair in list)
 		{
-			pair.Value.IsComplete();
+			QuestData quest = QuestManager.Instance.GetAvailableQuest ();
+			if (null != quest) {
+				string script = "";
+				foreach (QuestData.Dialouge dialouge in quest.startDialouges) {
+					script += dialouge.speacker + ":\n\n";
+					script += dialouge.script;
+				}
+				
+				PopupMessageView.Instance.AddSubmitListener (() => {
+					quest.Start ();
+				});
+				PopupMessageView.Instance.SetText (script);
+				PopupMessageView.Instance.SetWidth (500);
+				PopupMessageView.Instance.gameObject.SetActive (true);
+			}
 		}
-
+		{
+			QuestData quest = QuestManager.Instance.GetCompleteQuest ();
+			if (null != quest) {
+				string script = "";
+				foreach (QuestData.Dialouge dialouge in quest.completeDialouges) {
+					script += dialouge.speacker + ":\n\n";
+					script += dialouge.script;
+				}
+				
+				PopupMessageView.Instance.SetText (script);
+				PopupMessageView.Instance.SetWidth (500);
+				PopupMessageView.Instance.gameObject.SetActive (true);
+			}
+		}
 		if (0 == stamina) {
 			int damage = health.max/20;
 			health -= damage;

@@ -7,6 +7,20 @@ public abstract class QuestStartCondition
 	public abstract bool IsAvailable();
 }
 
+public class QuestStartCondition_MeetNpc : QuestStartCondition {
+	public string npcID;
+	public override bool IsAvailable() {
+		Object target = GameManager.Instance.player.target;
+		if (null != target && Object.Category.NPC == target.category) {
+			Npc npc = (Npc)target;
+			if(npc.id == npcID)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+}
 public class QuestStartCondition_Level : QuestStartCondition
 {
 	public int level;

@@ -6,7 +6,14 @@ public class Gateway : Object {
 		public string mapID;
 		public Object.Position position;
 	}
+	
 	public ObjectView view;
+	public Destination dest = new Destination();
+
+	public Gateway() {
+		size = 1.0f;
+		OnCreate ();
+	}
 	public override void OnCreate() {
 		view = ObjectView.Create<ObjectView> (this, ">", Color.white);
 		view.SetVisible (false);

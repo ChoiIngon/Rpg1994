@@ -161,4 +161,5 @@ public abstract class Object {
 
 	public virtual void OnCreate() {}
 	public virtual void OnDestroy() {}
+	public virtual void OnTrigger(Object obj) {}
 }

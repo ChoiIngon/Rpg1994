@@ -5,17 +5,20 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 	public Player player;
 	public Npc testNpc;
 	public Map map;
-
+	public Transform popupLayer;
 	private int lastTurn = 0;
 	public int currentTurn {
 		get { return Util.Timer<Util.TurnCounter>.Instance.GetTime(); }
 	}
 
-	void Start () {
+	void Start() {
 		ItemManager.Instance.Init ();
 		MonsterManager.Instance.Init ();
 		QuestManager.Instance.Init ();
+		Init ();
+	}
 
+	void Init () {
 		map = new Map ();
 		map.Load ("Map/dungeon_001");
 		{
@@ -83,6 +86,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player = new Player ();
 		player.name = "You";
 		player.sight = 6;
+		player.level = 1;
 
 		player.health.value = 150;
 		player.health.max = 150;
@@ -122,16 +126,16 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		
 		player.visible = true;
 		player.SetPosition (new Object.Position (5, 5));
-
+		player.FieldOfView ();
 
 		MapView.Instance.Init ();
-
 		Gateway gateway = new Gateway ();
-		gateway.OnCreate ();
+		gateway.dest.mapID = "Map/dungeon_001";
+		gateway.dest.position = new Object.Position (5, 5);
 		gateway.SetPosition(new Object.Position(3, 5));
 		player.OnCreate ();
 		testNpc.OnCreate ();
-		player.FieldOfView ();
+
 	}
 
 	void Update () {
@@ -153,9 +157,8 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 	void OnEscape()
 	{
 		GameObject obj = null;
-		obj = GameObject.Find ("Canvas/Popup/ExitPopup");
-		if (null != obj && true == obj.activeSelf) {
-			obj.SetActive (false);
+		if(true == PopupMessageView.Instance.gameObject.activeSelf)
+		{	PopupMessageView.Instance.gameObject.SetActive (false);
 			return;
 		}
 		obj = GameObject.Find ("Canvas/Popup/DropItemView");
@@ -173,7 +176,12 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 			obj.SetActive (false);
 			return;
 		}
-		obj = GameObject.Find ("Canvas/Popup/ExitPopup");
-		obj.SetActive (true);
+
+		PopupMessageView.Instance.SetText ("Exit?", TextAnchor.MiddleCenter);
+		PopupMessageView.Instance.SetWidth (400);
+		PopupMessageView.Instance.AddSubmitListener (() => {
+			Application.Quit();
+		});
+		PopupMessageView.Instance.gameObject.SetActive (true);
 	}
 }
