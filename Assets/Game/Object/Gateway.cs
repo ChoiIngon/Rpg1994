@@ -14,6 +14,7 @@ public class Gateway : Object {
 		size = 1.0f;
 		OnCreate ();
 	}
+
 	public override void OnCreate() {
 		view = ObjectView.Create<ObjectView> (this, ">", Color.white);
 		view.SetVisible (false);
@@ -29,6 +30,19 @@ public class Gateway : Object {
 		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
 	}
 
+	public void MoveMap() {
+		GameManager.Instance.Init ();
+		GameManager.Instance.player.SetPosition (dest.position);
+	}
 	public override void OnDestroy() {
+	}
+
+	public override void OnTrigger(Object obj) {
+		PopupMessageView.Instance.AddSubmitListener (() => {
+			this.MoveMap();
+		});
+		PopupMessageView.Instance.SetText ("Do you want to move to " + dest.mapID + "?");
+		PopupMessageView.Instance.SetWidth (500);
+		PopupMessageView.Instance.gameObject.SetActive (true);
 	}
 }

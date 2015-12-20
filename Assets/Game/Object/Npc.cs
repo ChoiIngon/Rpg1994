@@ -22,6 +22,6 @@ public class Npc : Character {
 
 	public override void OnTrigger(Object obj)
 	{
-
 	}
+	
 }

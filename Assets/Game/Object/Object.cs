@@ -147,7 +147,10 @@ public abstract class Object {
 		if (GameManager.Instance.map.width <= position.x || 0 > position.x || GameManager.Instance.map.height <= position.y || 0 > position.y) {
 			return;
 		}
-		
+
+		if (this.position == position) {
+			return;
+		}
 		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
 		tile.AddObject(this);
 		this.position = position;

@@ -87,6 +87,9 @@ public class QuestManager : Util.Singleton<QuestManager> {
 	public Dictionary<string, QuestData> quests = new Dictionary<string, QuestData>();
 
 	public void Init() {
+		completes = new Dictionary<string, CompleteQuest>();
+		quests = new Dictionary<string, QuestData>();
+
 		QuestData quest = new QuestData();
 		quest.id = "quest_001";
 		quest.name = "first quest";

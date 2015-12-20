@@ -9,11 +9,11 @@ public class MonsterManager : Util.Singleton<MonsterManager> {
 	private Dictionary<string, MonsterInfo> dictInfo = null;
 	public Dictionary<int, MonsterData> monsters = null;
 	public MonsterManager() {
+	}
+	public void Init() {
 		sequence = 1;
 		dictInfo = new Dictionary<string, MonsterInfo>();
 		monsters = new Dictionary<int, MonsterData>();
-	}
-	public void Init() {
 		TextAsset resource = Resources.Load("Config/MonsterInfo") as TextAsset;
 		JSONNode root = JSON.Parse (resource.text);
 		JSONNode jMonsterInfos = root ["monster"];

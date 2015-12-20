@@ -14,6 +14,11 @@ public class MapView : Util.UI.Singleton<MapView> {
 	public void Init()
 	{
 		tiles = transform.FindChild ("Tiles");
+		while(0<tiles.childCount) {
+			Transform child = tiles.GetChild(0);
+			child.SetParent(null);
+			GameObject.Destroy(child.gameObject);
+		}
 		{
 			RectTransform rect = GetComponent<RectTransform>();
 			VIEW_WIDTH = (int)rect.rect.width/TILE_SIZE;
@@ -23,10 +28,7 @@ public class MapView : Util.UI.Singleton<MapView> {
 			RectTransform rect = tiles.GetComponent<RectTransform> ();
 			rect.sizeDelta = new Vector2 (GameManager.Instance.map.width * TILE_SIZE, GameManager.Instance.map.height * TILE_SIZE);
 		}
-		for (int i=0; i<tiles.childCount; i++) {
-			ObjectView view = tiles.GetChild(i).GetComponent<ObjectView>();
-			GameObject.Destroy(view.gameObject);
-		}
+
 
 		for (int i=0; i<GameManager.Instance.map.tiles.Length; i++) {
 			Tile tile = GameManager.Instance.map.tiles[i];

@@ -11,6 +11,9 @@ public class StatusView : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (null == GameManager.Instance.player) {
+			return;
+		}
 		player.color = Color.green;
 		if (GameManager.Instance.player.health.max / 3 > GameManager.Instance.player.health) {
 			player.color = Color.red;

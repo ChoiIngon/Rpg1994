@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using SimpleJSON;
 
 public class ItemManager : Util.Singleton<ItemManager> {
-	private Dictionary<string, ItemInfo> dictItemInfo = new Dictionary<string, ItemInfo>();
+	private Dictionary<string, ItemInfo> dictItemInfo;
 	public ItemManager() {
 	}
 
 	public void Init() {
+		dictItemInfo = new Dictionary<string, ItemInfo>();
 		TextAsset resource = Resources.Load ("Config/ItemInfo") as TextAsset;
 		JSONNode root = JSON.Parse (resource.text);
 

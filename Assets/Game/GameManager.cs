@@ -12,13 +12,14 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 	}
 
 	void Start() {
-		ItemManager.Instance.Init ();
-		MonsterManager.Instance.Init ();
-		QuestManager.Instance.Init ();
 		Init ();
 	}
 
-	void Init () {
+	public void Init () {
+		ItemManager.Instance.Init ();
+		MonsterManager.Instance.Init ();
+		QuestManager.Instance.Init ();
+
 		map = new Map ();
 		map.Load ("Map/dungeon_001");
 		{
