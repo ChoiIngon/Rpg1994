@@ -18,7 +18,7 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 	public Text description;
 
 	public AttributeView cost;
-	public AttributeView weight;
+	//public AttributeView weight;
 	public AttributeView count;
 	public Button[] buttons;
 
@@ -82,7 +82,7 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 		itemName.text = data.info.name;
 		buttons [(int)ButtonType.Drop].gameObject.SetActive (true);
 		image.sprite = Resources.Load<Sprite> ("Texture/Item/"+data.info.id);
-		weight.Value = data.info.weight.ToString();
+		//weight.Value = data.info.weight.ToString();
 		cost.Value = data.info.cost.ToString ();
 		description.text = data.info.description;
 		gameObject.SetActive (true);
