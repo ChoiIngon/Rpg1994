@@ -1,13 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/View/AttributeView.cs">
-    <Files>
-      <File FileName="Assets/Game/GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Popup/PopupMessageView.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/Object/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Game/View/AttributeView.cs" Line="20" Column="1" />
-      <File FileName="Assets/Game/PlayerInfoView/Script/ItemInfoView.cs" Line="85" Column="12" />
-    </Files>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
@@ -37,8 +30,6 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/Popup/ExitPopup.cs" line="18" />
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/PlayerInfoView/Script/ItemInfoView.cs" line="81" />
-      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Game/View/AttributeView.cs" line="20" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

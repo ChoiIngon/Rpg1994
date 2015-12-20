@@ -161,17 +161,17 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		{	PopupMessageView.Instance.gameObject.SetActive (false);
 			return;
 		}
-		obj = GameObject.Find ("Canvas/Popup/DropItemView");
+		obj = GameObject.Find ("Canvas/PopupLayer/DropItemView");
 		if (null != obj && true == obj.activeSelf) {
 			obj.SetActive (false);
 			return;
 		}
-		obj = GameObject.Find ("Canvas/Popup/ItemView");
+		obj = GameObject.Find ("Canvas/PopupLayer/ItemInfoView");
 		if (null != obj && true == obj.activeSelf) {
 			obj.SetActive (false);
 			return;
 		}
-		obj = GameObject.Find ("Canvas/Popup/PlayerInfoView");
+		obj = GameObject.Find ("Canvas/PopupLayer/PlayerInfoView");
 		if (null != obj && true == obj.activeSelf) {
 			obj.SetActive (false);
 			return;
