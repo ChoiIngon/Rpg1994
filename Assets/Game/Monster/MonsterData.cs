@@ -98,9 +98,8 @@ public class MonsterData : Character {
 		LogView.Instance.Write (name + " dodge your attack");
 	}
 	public override void OnDamage(Character attacker, int damage) {
-		TileView tileView = MapView.Instance.tiles.GetChild (position.x + position.y * GameManager.Instance.map.width).GetComponent<TileView>();
-		tileView.CreateFloatingMessage("-" + damage.ToString(), Color.yellow);
-		// view.CreateFloatingMessage ("-" + damage.ToString(), Color.yellow);
+		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+		tile.view.CreateFloatingMessage ("-" + damage.ToString(), Color.yellow);
 		LogView.Instance.Write ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>은(는) " + damage + "의 피해를 입었습니다.");
 	}
 	public override void OnDestroy() {

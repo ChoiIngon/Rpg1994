@@ -1,19 +1,21 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/GameManager.cs">
     <Files>
-      <File FileName="Assets/Game/View/StatusView.cs" Line="15" Column="11" />
-      <File FileName="Assets/Game/GameManager.cs" Line="15" Column="1" />
-      <File FileName="Assets/Game/ControlPanel/ArrowKeyPanel.cs" Line="9" Column="7" />
-      <File FileName="Assets/Game/Map/Log/LogView.cs" Line="13" Column="7" />
+      <File FileName="Assets/Game/Object/TileView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Game/Object/Wall.cs" Line="14" Column="20" />
+      <File FileName="Assets/Game/Monster/MonsterManager.cs" Line="57" Column="1" />
+      <File FileName="Assets/Game/Map/MapView.cs" Line="54" Column="26" />
+      <File FileName="Assets/Game/Object/Object.cs" Line="59" Column="27" />
+      <File FileName="Assets/Game/Object/Player.cs" Line="92" Column="5" />
+      <File FileName="Assets/Game/Object/WallView.cs" Line="111" Column="22" />
+      <File FileName="Assets/Game/GameManager.cs" Line="146" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Game" expanded="True">
-              <Node name="ControlPanel" expanded="True" />
-              <Node name="Item" expanded="True" />
               <Node name="Map" expanded="True">
                 <Node name="Log" expanded="True" />
               </Node>

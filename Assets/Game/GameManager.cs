@@ -127,9 +127,14 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		
 		player.visible = true;
 		player.SetPosition (new Object.Position (5, 5));
-		player.FieldOfView ();
+
 
 		MapView.Instance.Init ();
+		Wall wall = new Wall ();
+		wall.SetPosition(new Object.Position(3, 7));
+		wall.type = Wall.Type.HiddenDoor;
+		wall.OnCreate ();
+		//wall.view.Init (wall);
 		Gateway gateway = new Gateway ();
 		gateway.dest.mapID = "Map/dungeon_001";
 		gateway.dest.position = new Object.Position (5, 5);
@@ -137,6 +142,8 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player.OnCreate ();
 		testNpc.OnCreate ();
 
+		player.FieldOfView ();
+		MapView.Instance.Center ();
 	}
 
 	void Update () {
@@ -147,11 +154,11 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 			return ;
 		}
 
-		MonsterManager.Instance.Update ();
 		player.Update ();
+		MonsterManager.Instance.Update ();
 		testNpc.Update ();
 		map.Update ();
-	
+		MapView.Instance.Center ();
 		lastTurn = currentTurn;
 	}
 

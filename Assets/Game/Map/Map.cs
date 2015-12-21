@@ -13,7 +13,6 @@ public class Map {
 	public Tile[] tiles;
 	public ItemData[] items;
 	public List<MonsterRegenSpot> monsterRegenSpots;
-
 	private void Init(int width, int height) {
 		tiles = new Tile[width * height];
 		for (int y=0; y<height; y++) {

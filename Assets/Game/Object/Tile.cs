@@ -22,6 +22,7 @@ public class Tile : Object {
 	public Color color;
 	public bool visit;
 	public Dictionary<Object, Object> objects;
+	public TileView view;
 	public Tile(int x, int y) {
 		category = Object.Category.Tile;
 		visit = false;

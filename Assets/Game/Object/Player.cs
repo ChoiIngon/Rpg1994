@@ -79,15 +79,16 @@ public class Player : Character
 			if(sight < Vector2.Distance(this.position, position)) {
 				return;
 			}
+
 			Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
-			tile.visible = true;
 			tile.visit = true;
+			tile.visible = true;
 			foreach(var v in tile.objects) {
 				v.Value.visible = true;
-			}
-			if(Tile.Type.Floor != tile.type)
-			{
-				return;
+				if(1.0f < v.Value.size)
+				{
+					return;
+				}
 			}
 		}
 	}
@@ -255,8 +256,8 @@ public class Player : Character
 		LogView.Instance.Write ("You dodge enemy's attack");
 	}
 	public override void OnDamage(Character attacker, int damage) {
-		TileView tileView = MapView.Instance.tiles.GetChild (position.x + position.y * GameManager.Instance.map.width).GetComponent<TileView>();
-		tileView.CreateFloatingMessage ("-" + damage.ToString(), Color.red);
+		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+		tile.view.CreateFloatingMessage ("-" + damage.ToString(), Color.red);
 		LogView.Instance.Write ("당신은 " + damage + "의 피해를 입었습니다.");
 	}
 }

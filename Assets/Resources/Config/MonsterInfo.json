@@ -3,6 +3,8 @@
 		{
 			"id" : "monster_001",
 			"name" : "슬라임",
+			"display" : "s",
+			"color" : "#00FF00FF",
 			"description" : "단세포 생물로써 어둡고 습한곳을 좋아하며 녹색의 젤리 같은 몸을 가지고 몸에 닿는 것들을 녹여 버린다.",
 			
 			"attack" : "10~12",
@@ -25,6 +27,8 @@
 		{
 			"id" : "monster_002",
 			"name" : "goblin",
+			"display" : "g",
+			"color" : "#00FF00FF",
 			"description" : "it is a monster!!",
 			"attack" : "10~24",
 			"speed" : "5~6",

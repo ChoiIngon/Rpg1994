@@ -32,18 +32,26 @@ public class MapView : Util.UI.Singleton<MapView> {
 
 		for (int i=0; i<GameManager.Instance.map.tiles.Length; i++) {
 			Tile tile = GameManager.Instance.map.tiles[i];
-			TileView view = CreateTileView(tile, tile.color);
-			view.SetVisible(false);
-		}
+			tile.view = CreateTileView(tile, tile.color);
+			tile.view.SetVisible(false);
 
-		for (int i=0; i<tiles.childCount; i++) {
-			Tile tile = GameManager.Instance.map.tiles[i];
-			if(null == tile.FindObject<Wall>())
+			Wall wall = tile.FindObject<Wall>();
+			if(null == wall)
 			{
 				continue;
 			}
-			TileView view = tiles.GetChild(i).GetComponent<TileView>();
-			view.Init(tile);
+			wall.view = CreateWallView(wall, Color.white);
+		}
+
+		for (int i=0; i<GameManager.Instance.map.tiles.Length; i++) {
+			Tile tile = GameManager.Instance.map.tiles[i];
+			
+			Wall wall = tile.FindObject<Wall>();
+			if(null == wall)
+			{
+				continue;
+			}
+			wall.view.Init (wall);
 		}
 
 		Center();
@@ -56,7 +64,7 @@ public class MapView : Util.UI.Singleton<MapView> {
 		tiles.localPosition = new Vector3 (-x * TILE_SIZE, y * TILE_SIZE, 0);
 		for (int i=0; i<tiles.childCount; i++) {
 			ObjectView view = tiles.GetChild(i).GetComponent<ObjectView>();
-			global::Tile tile = GameManager.Instance.map.GetTile(view.position.x, view.position.y);
+			Tile tile = GameManager.Instance.map.GetTile(view.position.x, view.position.y);
 			if(null == tile) {
 				throw new System.Exception("out of map position");
 			}
@@ -66,6 +74,13 @@ public class MapView : Util.UI.Singleton<MapView> {
 
 	private TileView CreateTileView(Tile obj, Color color) {
 		TileView view = ObjectView.Create<TileView> (obj, ".", color);
+		view.transform.SetParent (tiles, false);
+		view.transform.localPosition = new Vector3(view.position.x * TILE_SIZE, -view.position.y * TILE_SIZE, 0);
+		return view;
+	}
+
+	private WallView CreateWallView(Wall wall, Color color) {
+		WallView view = ObjectView.Create<WallView> (wall, ".", color);
 		view.transform.SetParent (tiles, false);
 		view.transform.localPosition = new Vector3(view.position.x * TILE_SIZE, -view.position.y * TILE_SIZE, 0);
 		return view;
