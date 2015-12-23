@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class RandomMapGenerator {
     class Devider
     {
-        enum DevideDirectionType
+        public enum DevideDirectionType
         {
             Horizon, Vertical
         }
@@ -19,7 +19,7 @@ public class RandomMapGenerator {
         public int width { get { return right - left; } }
         public int height { get { return bottom - top; } }
         public int area { get { return width * height; } }
-        public DevideDirectionType direction = DevideDirectionType.Vertical
+        public DevideDirectionType direction = DevideDirectionType.Vertical;
 
         public void Devide(RandomMapGenerator dungeon)
         {

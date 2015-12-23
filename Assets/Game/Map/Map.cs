@@ -30,7 +30,7 @@ public class Map {
 
 	public void Load(string path)
 	{
-        Dungeon dungeon = new Dungeon();
+        RandomMapGenerator generator = new RandomMapGenerator();
         
 		TextAsset json = Resources.Load(path) as TextAsset;
 		JSONNode root = JSON.Parse (json.text);
@@ -40,7 +40,7 @@ public class Map {
 		width = root ["size"] ["width"].AsInt;
 		height = root ["size"] ["height"].AsInt;
 
-        dungeon.Init(width, height, 10);
+        generator.Create(width, height, 10);
 		Init (width, height);
 		JSONNode tileNodes = root ["tile"];
 		for (int i=0; i<tileNodes.Count; i++) {
