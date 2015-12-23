@@ -12,7 +12,7 @@ public class Map {
 	public string description;
 	public Tile[] tiles;
 	public ItemData[] items;
-	public List<MonsterRegenSpot> monsterRegenSpots;
+    public List<MonsterSpawnSpot> monsterSpawnSpots;
 	private void Init(int width, int height) {
 		tiles = new Tile[width * height];
 		for (int y=0; y<height; y++) {
@@ -25,11 +25,13 @@ public class Map {
 			}
 		}
 		items = new ItemData[width * height];
-		monsterRegenSpots = new List<MonsterRegenSpot> ();
+        monsterSpawnSpots = new List<MonsterSpawnSpot>();
 	}
 
 	public void Load(string path)
 	{
+        Dungeon dungeon = new Dungeon();
+        
 		TextAsset json = Resources.Load(path) as TextAsset;
 		JSONNode root = JSON.Parse (json.text);
 		id = path;
@@ -37,6 +39,8 @@ public class Map {
 		description = root ["description"];
 		width = root ["size"] ["width"].AsInt;
 		height = root ["size"] ["height"].AsInt;
+
+        dungeon.Init(width, height, 10);
 		Init (width, height);
 		JSONNode tileNodes = root ["tile"];
 		for (int i=0; i<tileNodes.Count; i++) {
@@ -64,15 +68,16 @@ public class Map {
 		}
 		return tiles [x + y * width];
 	}
-	
-	public void AddMonsterRegenSpot(MonsterRegenSpot spot)
+
+    public void AddMonsterRegenSpot(MonsterSpawnSpot spot)
 	{
-		monsterRegenSpots.Add (spot);
+        monsterSpawnSpots.Add(spot);
 	}
 
 	public void Update()
 	{
-		foreach (MonsterRegenSpot spot in monsterRegenSpots) {
+        foreach (MonsterSpawnSpot spot in monsterSpawnSpots)
+        {
 			spot.Update();
 		}
 	}

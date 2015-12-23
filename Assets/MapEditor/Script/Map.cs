@@ -15,7 +15,7 @@ namespace MapEditor {
 		public string mapName;
 		public string mapDescription;
 		public MapEditor.Tile tilePref;
-
+        public Dungeon dungeon;
 		// Use this for initialization
 		void Start () {
 			EnterPointDialog.Instance.gameObject.SetActive (false);

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MonsterRegenSpot {
+public class MonsterSpawnSpot {
 	public string id;
 	public MonsterData monster;
 	public int interval;
@@ -9,7 +9,8 @@ public class MonsterRegenSpot {
 	public int count; // zero means infinity
 	public Object.Position position;
 
-	public MonsterRegenSpot() {
+    public MonsterSpawnSpot()
+    {
 		id = "";
 		monster = null;
 		interval = 0;
