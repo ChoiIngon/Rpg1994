@@ -14,6 +14,7 @@ using System.Collections.Generic;
 public class TileView : ObjectView {
 	public void Start() {
 		display.fontStyle = FontStyle.Bold;
+		display.color = Color.white;
 	}
 	public override void SetVisible (bool value)
 	{
@@ -21,7 +22,6 @@ public class TileView : ObjectView {
 		if(null == tile) {
 			throw new System.Exception("out of map position");
 		}
-
 		display.text = ".";
 		if(true == value) {
 			gameObject.SetActive(true);

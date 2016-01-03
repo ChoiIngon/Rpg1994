@@ -59,7 +59,7 @@ public class Map {
 			}
 		}
 
-		Dungeon dungeon = new Dungeon (50, 50, 10);
+		Dungeon dungeon = new Dungeon (30, 25, 7);
 		width = dungeon.width;
 		height = dungeon.height;
 		tiles = dungeon.Generate();

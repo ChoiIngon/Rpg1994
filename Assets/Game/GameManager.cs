@@ -23,7 +23,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player = new Player ();
 		map = new Map ();
 		map.Load ("Map/dungeon_001");
-		/*
+
 		{
 			MonsterSpawnSpot spot = new MonsterSpawnSpot ();
 			spot.id = "monster_001";
@@ -78,7 +78,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 			spot.position = new Object.Position (11, 10);
             map.AddMonsterRegenSpot(spot);
 		}
-
+		/*
 		testNpc = new Npc ();
 		testNpc.id = "npc_001";
 		testNpc.name = "npc a";

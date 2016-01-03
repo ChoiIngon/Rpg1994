@@ -25,7 +25,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22490610}
-  - 61: {fileID: 6145502}
   m_Layer: 5
   m_Name: ObjectView
   m_TagString: Untagged
@@ -33,19 +32,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &6145502
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 186996}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
 --- !u!114 &11468498
 MonoBehaviour:
   m_ObjectHideFlags: 1

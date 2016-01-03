@@ -90,7 +90,9 @@ public class Dungeon {
 			}
 
 			directions.Add (direction);
-			direction = directions[Random.Range (0, directions.Count)];
+			if (0 == Random.Range (0, 3)) {
+				direction = directions [Random.Range (0, directions.Count)];
+			}
 
 			while (0 < directions.Count)
 			{
