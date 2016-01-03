@@ -29,7 +29,6 @@ public class MapView : Util.UI.Singleton<MapView> {
 			rect.sizeDelta = new Vector2 (GameManager.Instance.map.width * TILE_SIZE, GameManager.Instance.map.height * TILE_SIZE);
 		}
 
-
 		for (int i=0; i<GameManager.Instance.map.tiles.Length; i++) {
 			Tile tile = GameManager.Instance.map.tiles[i];
 			tile.view = CreateTileView(tile, tile.color);

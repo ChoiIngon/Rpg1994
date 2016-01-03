@@ -36,7 +36,8 @@ public class WallView : ObjectView {
 	}
 	
 	public void Init (Wall wall) {
-        /*
+
+		/*
 		int x = wall.position.x;
 		int y = wall.position.y;
 		int neighborDirection = NONE;
@@ -58,7 +59,7 @@ public class WallView : ObjectView {
 		if (null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			neighborDirection |= SOUTH;
 		}
-		
+		/*
 		neighborTile = GameManager.Instance.map.GetTile (x - 1, y - 1);
 		if ((neighborDirection & (WEST|NORTH)) == (WEST|NORTH) && null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			throw new System.Exception("can't put the wall at " + wall.position.ToString());
@@ -75,6 +76,7 @@ public class WallView : ObjectView {
 		if ((neighborDirection & (WEST|SOUTH)) == (WEST|SOUTH) && null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			throw new System.Exception("can't put the wall at " + wall.position.ToString());
 		}
+
 		
 		if (display.text != PRESET [neighborDirection]) {
 			display.text = PRESET [neighborDirection];
@@ -107,7 +109,7 @@ public class WallView : ObjectView {
 				}
 			}
 		}
-        */
+		*/
         display.text = "#";
 	}
 

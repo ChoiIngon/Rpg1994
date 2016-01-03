@@ -174,10 +174,6 @@ public class Character : Object {
 		
 		{
 			Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
-			if(Tile.Type.Floor != tile.type)
-			{
-				return;
-			}
 			float size = 0.0f;
 			foreach(var v in tile.objects)
 			{

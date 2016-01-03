@@ -17,6 +17,10 @@ public class AttributeView : MonoBehaviour {
 	}
 	public string Value {
 		set {
+			if(null == _value)
+			{
+				_value = transform.FindChild("Value").GetComponent<Text>();
+			}
 			_value.text = value;
 		}
 		get {

@@ -13,6 +13,7 @@ public class Map {
 	public Tile[] tiles;
 	public ItemData[] items;
     public List<MonsterSpawnSpot> monsterSpawnSpots;
+	public Object.Position enter;
 	private void Init(int width, int height) {
 		tiles = new Tile[width * height];
 		for (int y=0; y<height; y++) {
@@ -30,9 +31,7 @@ public class Map {
 
 	public void Load(string path)
 	{
-        RandomMapGenerator generator = new RandomMapGenerator();
-        
-		TextAsset json = Resources.Load(path) as TextAsset;
+        TextAsset json = Resources.Load(path) as TextAsset;
 		JSONNode root = JSON.Parse (json.text);
 		id = path;
 		name = root ["name"];
@@ -40,8 +39,7 @@ public class Map {
 		width = root ["size"] ["width"].AsInt;
 		height = root ["size"] ["height"].AsInt;
 
-        generator.Create(width, height, 10);
-		Init (width, height);
+       	Init (width, height);
 		JSONNode tileNodes = root ["tile"];
 		for (int i=0; i<tileNodes.Count; i++) {
 			JSONNode tileNode = tileNodes[i];
@@ -60,6 +58,13 @@ public class Map {
 				wall.SetPosition(tile.position);
 			}
 		}
+
+		Dungeon dungeon = new Dungeon (50, 50, 10);
+		width = dungeon.width;
+		height = dungeon.height;
+		tiles = dungeon.Generate();
+		enter = dungeon.enter;
+		GameManager.Instance.player.SetPosition (enter);
 	}
 
 	public Tile GetTile(int x, int y) {

@@ -20,8 +20,10 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		MonsterManager.Instance.Init ();
 		QuestManager.Instance.Init ();
 
+		player = new Player ();
 		map = new Map ();
 		map.Load ("Map/dungeon_001");
+		/*
 		{
 			MonsterSpawnSpot spot = new MonsterSpawnSpot ();
 			spot.id = "monster_001";
@@ -83,8 +85,8 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		testNpc.visible = false;
 		testNpc.quests.Add ("quest_001");
 		testNpc.SetPosition (new Object.Position (12, 11));
+*/
 
-		player = new Player ();
 		player.name = "You";
 		player.sight = 6;
 		player.level = 1;
@@ -126,10 +128,9 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_poison_001"));
 		
 		player.visible = true;
-		player.SetPosition (new Object.Position (5, 5));
-
 
 		MapView.Instance.Init ();
+		/*
 		Wall wall = new Wall ();
 		wall.SetPosition(new Object.Position(3, 7));
 		wall.type = Wall.Type.HiddenDoor;
@@ -139,9 +140,10 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		gateway.dest.mapID = "Map/dungeon_001";
 		gateway.dest.position = new Object.Position (5, 5);
 		gateway.SetPosition(new Object.Position(3, 3));
-		player.OnCreate ();
-		testNpc.OnCreate ();
 
+		testNpc.OnCreate ();
+*/
+		player.OnCreate ();
 		player.FieldOfView ();
 		MapView.Instance.Center ();
 	}
@@ -156,7 +158,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 
 		player.Update ();
 		MonsterManager.Instance.Update ();
-		testNpc.Update ();
+//		testNpc.Update ();
 		map.Update ();
 		MapView.Instance.Center ();
 		lastTurn = currentTurn;
