@@ -3,15 +3,16 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MapView : Util.UI.Singleton<MapView> {
-	public const int TILE_SIZE = 45;
+public class MapView : MonoBehaviour {
+	public static int TILE_SIZE = 45;
 	[HideInInspector]
 	public int VIEW_WIDTH = 0;
 	[HideInInspector]
 	public int VIEW_HEIGHT = 0;
 	[HideInInspector]
 	public Transform tiles;
-	public void Init()
+
+	public void Init(Map map)
 	{
 		tiles = transform.FindChild ("Tiles");
 		while(0<tiles.childCount) {
@@ -26,34 +27,8 @@ public class MapView : Util.UI.Singleton<MapView> {
 		}
 		{
 			RectTransform rect = tiles.GetComponent<RectTransform> ();
-			rect.sizeDelta = new Vector2 (GameManager.Instance.map.width * TILE_SIZE, GameManager.Instance.map.height * TILE_SIZE);
+			rect.sizeDelta = new Vector2 (map.width * TILE_SIZE, map.height * TILE_SIZE);
 		}
-
-		for (int i=0; i<GameManager.Instance.map.tiles.Length; i++) {
-			Tile tile = GameManager.Instance.map.tiles[i];
-			tile.view = CreateTileView(tile, tile.color);
-			tile.view.SetVisible(false);
-
-			Wall wall = tile.FindObject<Wall>();
-			if(null == wall)
-			{
-				continue;
-			}
-			wall.view = CreateWallView(wall, Color.white);
-		}
-
-		for (int i=0; i<GameManager.Instance.map.tiles.Length; i++) {
-			Tile tile = GameManager.Instance.map.tiles[i];
-			
-			Wall wall = tile.FindObject<Wall>();
-			if(null == wall)
-			{
-				continue;
-			}
-			wall.view.Init (wall);
-		}
-
-		Center();
 	}
 
 	public void Center()
@@ -69,27 +44,5 @@ public class MapView : Util.UI.Singleton<MapView> {
 			}
 			view.SetVisible(tile.visible);
 		}
-	}
-
-	private TileView CreateTileView(Tile obj, Color color) {
-		TileView view = ObjectView.Create<TileView> (obj, ".", color);
-		view.transform.SetParent (tiles, false);
-		view.transform.localPosition = new Vector3(view.position.x * TILE_SIZE, -view.position.y * TILE_SIZE, 0);
-		return view;
-	}
-
-	private WallView CreateWallView(Wall wall, Color color) {
-		WallView view = ObjectView.Create<WallView> (wall, ".", color);
-		view.transform.SetParent (tiles, false);
-		view.transform.localPosition = new Vector3(view.position.x * TILE_SIZE, -view.position.y * TILE_SIZE, 0);
-		return view;
-	}
-
-	public ObjectView AddItemStack(ItemStack stack)
-	{
-		ObjectView view = ObjectView.Create<ObjectView>(stack, "$", Color.yellow);
-		view.transform.SetParent (tiles, false);
-		view.transform.localPosition = new Vector3(view.position.x * TILE_SIZE, -view.position.y * TILE_SIZE, 0);
-		return view;
 	}
 }

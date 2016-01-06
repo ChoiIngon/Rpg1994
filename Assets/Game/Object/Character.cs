@@ -50,7 +50,6 @@ public class Character : Object {
 	public string name;
 	public Util.AutoRecoveryInt<Util.TurnCounter> health = new Util.AutoRecoveryInt<Util.TurnCounter>();
 	public Util.AutoRecoveryInt<Util.TurnCounter> stamina = new Util.AutoRecoveryInt<Util.TurnCounter>();
-	public int sight = 5;
 	public int attack;
 	public int speed;
 	public int defense;
@@ -244,7 +243,6 @@ public class Character : Object {
 		stack.item = item;
 		stack.count = 1;
 		stack.SetPosition (at);
-		stack.OnCreate ();
 		return stack;
 	}
 

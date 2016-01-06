@@ -17,6 +17,7 @@ public class Player : Character
 		inventory = new Inventory ();
 		quests = new Dictionary<string, QuestData>();
 	}
+
 	public void EquipItem(int index, Character.EquipPart part) {
 		ItemData item = inventory.Pull (index);
 		EquipmentItemData equipedItem = equipments [(int)part];
@@ -72,66 +73,7 @@ public class Player : Character
 		}
 		return data.Use (this);
 	}
-	private void CheckVisible(Object.Position dest)
-	{
-		List<Object.Position> positions = base.Raycast(dest);
-		foreach(Object.Position position in positions) {
-			if(sight < Vector2.Distance(this.position, position)) {
-				return;
-			}
 
-			Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
-			tile.visit = true;
-			tile.visible = true;
-			foreach(var v in tile.objects) {
-				v.Value.visible = true;
-				if(1.0f < v.Value.size)
-				{
-					return;
-				}
-			}
-		}
-	}
-	public void FieldOfView() {
-		Object.Position src = position;
-		int sight = this.sight;
-
-		foreach(Tile tile in GameManager.Instance.map.tiles) {
-			tile.visible = false;
-			foreach(var v in tile.objects) {
-				v.Value.visible =  false;
-			}
-		}
-
-		{
-			int y = Math.Max(0, src.y - sight);
-			for(int x=Math.Max (0, src.x - sight); x < Math.Min (src.x + sight, GameManager.Instance.map.width); x++)
-			{
-				CheckVisible(new Object.Position(x, y));
-			}
-		}
-		{
-			int y = Math.Min(GameManager.Instance.map.height-1, src.y + sight);
-			for(int x=Math.Max (0, src.x - sight); x < Math.Min (src.x + sight, GameManager.Instance.map.width); x++)
-			{
-				CheckVisible(new Object.Position(x, y));
-			}
-		}
-		{
-			int x = Math.Max(0, src.x - sight);
-			for(int y=Math.Max (0, src.y - sight); y < Math.Min (src.y + sight, GameManager.Instance.map.height); y++)
-			{
-				CheckVisible(new Object.Position(x, y));
-			}
-		}
-		{
-			int x = Math.Min(GameManager.Instance.map.width-1, src.x + sight);
-			for(int y=Math.Max (0, src.y - sight); y < Math.Min (src.y + sight, GameManager.Instance.map.height); y++)
-			{
-				CheckVisible(new Object.Position(x, y));
-			}
-		}
-	}
 	public void MoveTo(Character.DirectionType direction) {
 		this.direction = direction;
 
@@ -155,11 +97,33 @@ public class Player : Character
 			}
 		} 
 
-		FieldOfView ();
 		Util.Timer<Util.TurnCounter>.Instance.NextTime ();
 		stamina -= 1;
 	}
 
+	public override void OnMove(Character.DirectionType direction)
+	{
+		view.SetPosition(position);
+		
+		DropItemView.Instance.gameObject.SetActive(false);
+		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+		
+		List<ItemStack> stacks = new List<ItemStack> ();
+		foreach (var v in tile.objects) {
+			if(Object.Category.Item == v.Value.category)
+			{
+				stacks.Add ((ItemStack)v.Value);
+			}
+			if(5 <= stacks.Count())
+			{
+				break;
+			}
+		}
+		if (0 < stacks.Count) {
+			DropItemView.Instance.Init (stacks);
+			DropItemView.Instance.gameObject.SetActive(true);
+		}
+	}
 	public override void Update() {
 		base.Update ();
 		// Call ToList.
@@ -203,40 +167,19 @@ public class Player : Character
 	
 	public override void OnCreate()
 	{
-		view = ObjectView.Create<ObjectView> (this, "@", Color.green);
-		view.position = position;
-		view.transform.SetParent (MapView.Instance.tiles, false);
-		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
+		view = ObjectView.Create<PlayerView> (this, "@", Color.green);
 	}
 
 	public override void OnDestroy()
 	{
+		//view.OnDestroy ();
 	}
 
-	public override void OnMove(Character.DirectionType direction)
-	{
-		view.position = position;
-		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
-
-		DropItemView.Instance.gameObject.SetActive(false);
-		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
-
-		List<ItemStack> stacks = new List<ItemStack> ();
-		foreach (var v in tile.objects) {
-			if(Object.Category.Item == v.Value.category)
-			{
-				stacks.Add ((ItemStack)v.Value);
-			}
-			if(5 <= stacks.Count())
-			{
-				break;
-			}
-		}
-		if (0 < stacks.Count) {
-			DropItemView.Instance.Init (stacks);
-			DropItemView.Instance.gameObject.SetActive(true);
-		}
+	public override void SetPosition(Object.Position position) {
+		base.SetPosition (position);
+		view.SetPosition (position);
 	}
+
 
 	public override void OnDropItem(ItemData item)
 	{

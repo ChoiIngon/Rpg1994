@@ -79,16 +79,11 @@ public class MonsterData : Character {
 
 	public override void OnCreate() {
 		view = ObjectView.Create<ObjectView> (this, "M", Color.red);
-		view.SetVisible (false);
-		view.position = position;
-		view.transform.SetParent (MapView.Instance.tiles, false);
-		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
 	}
 
 	public override void OnMove(Character.DirectionType direction)
 	{
-		view.position = position;
-		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
+		view.SetPosition(position);
 	}
 
 	public override void OnAttack(Character defender) {
@@ -106,7 +101,7 @@ public class MonsterData : Character {
 		LogView.Instance.Write ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color> 은(는) 죽었습니다.");
 		LogView.Instance.Write ("You get " + reward.exp + " exp");
 		LogView.Instance.Write ("You get " + reward.gold + " gold");
-		GameObject.Destroy (view.gameObject);
+		view.OnDestroy ();
 	}
 
 	public override void OnTrigger(Object obj) {

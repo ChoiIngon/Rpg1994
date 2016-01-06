@@ -4,7 +4,16 @@ using System.Collections.Generic;
 using System.IO;
 using SimpleJSON;
 
+public abstract class MapImpl {
+	public int width;
+	public int height;
+
+	public abstract void Generate();
+}
+
 public class Map {
+	public MapView view;
+	public MapImpl impl;
 	public string id;
 	public int width;
 	public int height;
@@ -14,19 +23,20 @@ public class Map {
 	public ItemData[] items;
     public List<MonsterSpawnSpot> monsterSpawnSpots;
 	public Object.Position enter;
-	private void Init(int width, int height) {
+	private void Init() {
+		view = GameObject.Find ("MapView").GetComponent<MapView>();
+		view.Init (this);
+
+		items = new ItemData[width * height];
+		monsterSpawnSpots = new List<MonsterSpawnSpot>();
 		tiles = new Tile[width * height];
 		for (int y=0; y<height; y++) {
 			for(int x=0;x<width; x++) {
-				Tile tile = new Tile(x, y);
-				tile.id = "";
-				tile.type = Tile.Type.Floor;
-				tile.color = Color.white;
-				tiles[x+y*width] = tile;
+				Tile tile = new Tile();
+				tile.SetPosition(new Object.Position(x, y));
+				tiles[x + y * width] = tile;
 			}
 		}
-		items = new ItemData[width * height];
-        monsterSpawnSpots = new List<MonsterSpawnSpot>();
 	}
 
 	public void Load(string path)
@@ -39,7 +49,7 @@ public class Map {
 		width = root ["size"] ["width"].AsInt;
 		height = root ["size"] ["height"].AsInt;
 
-       	Init (width, height);
+		/*
 		JSONNode tileNodes = root ["tile"];
 		for (int i=0; i<tileNodes.Count; i++) {
 			JSONNode tileNode = tileNodes[i];
@@ -58,13 +68,13 @@ public class Map {
 				wall.SetPosition(tile.position);
 			}
 		}
-
-		Dungeon dungeon = new Dungeon (30, 25, 7);
+		*/
+		Dungeon dungeon = new Dungeon (width, height, 7);
 		width = dungeon.width;
 		height = dungeon.height;
-		tiles = dungeon.Generate();
+		Init ();
+		dungeon.Generate();
 		enter = dungeon.enter;
-		GameManager.Instance.player.SetPosition (enter);
 	}
 
 	public Tile GetTile(int x, int y) {
@@ -79,8 +89,19 @@ public class Map {
         monsterSpawnSpots.Add(spot);
 	}
 
+	public void AddMonster(MonsterSpawnSpot spot)
+	{
+		monsterSpawnSpots.Add(spot);
+	}
 	public void Update()
 	{
+		foreach(Tile tile in tiles) {
+			tile.visible = false;
+			foreach(var v in tile.objects) {
+				v.Value.visible =  false;
+			}
+		}
+
         foreach (MonsterSpawnSpot spot in monsterSpawnSpots)
         {
 			spot.Update();

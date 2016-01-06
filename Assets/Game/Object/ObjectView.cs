@@ -5,13 +5,13 @@ using System.Collections;
 public class ObjectView : MonoBehaviour {
 	public Text display;
 	public Object.Position position;
-
 	public ObjectView() {
 		Transform tileTextTransform = transform.FindChild ("Text");
 		if (null == tileTextTransform) {
 			throw new System.Exception ("can't find text object");
 		}
 		display = tileTextTransform.GetComponent<Text> ();
+		transform.localPosition = new Vector3(-1 * MapView.TILE_SIZE, 1 * MapView.TILE_SIZE, 0);
 	}
 	public virtual void SetVisible(bool value) {
 		gameObject.SetActive (value);
@@ -20,6 +20,7 @@ public class ObjectView : MonoBehaviour {
 	public static T Create<T>(Object obj, string text, Color color) where T : ObjectView {
 		GameObject objectView = GameObject.Instantiate(Resources.Load("Prefab/Map/ObjectView", typeof(GameObject)) ) as GameObject;
 		objectView.transform.FindChild("Text").GetComponent<Text> ().fontSize = MapView.TILE_SIZE;
+		objectView.transform.SetParent (GameManager.Instance.map.view.tiles, false);
 		T tView = objectView.AddComponent<T> ();
 		tView.name = text;
 		tView.display.text = text;
@@ -48,5 +49,11 @@ public class ObjectView : MonoBehaviour {
 	public void OnDestroy() {
 		transform.SetParent (null);
 		GameObject.Destroy (gameObject);
+	}
+
+	public void SetPosition(Object.Position position)
+	{
+		this.position = position;
+		transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
 	}
 }

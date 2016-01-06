@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Dungeon {
-	public int width, height;
+public class Dungeon : MapImpl {
 	public int[] tiles;
 	public int group;
 	public int roomCount;
@@ -90,9 +89,9 @@ public class Dungeon {
 			}
 
 			directions.Add (direction);
-			if (0 == Random.Range (0, 3)) {
+			//if (0 == Random.Range (0, 3)) {
 				direction = directions [Random.Range (0, directions.Count)];
-			}
+			//}
 
 			while (0 < directions.Count)
 			{
@@ -160,6 +159,12 @@ public class Dungeon {
 			this.top = (0 == this.top % 2) ? this.top + 1 : this.top;
 			this.bottom = (0 == this.bottom % 2) ? this.bottom - 1 : this.bottom;
 		}
+
+		public Object.Position GetRandomPosition()
+		{
+			return new Object.Position(Random.Range (left, right), Random.Range (top, bottom));
+		}
+
 		public void Digging()
 		{
 			for(int y=this.top; y<=this.bottom; y++)
@@ -289,15 +294,8 @@ public class Dungeon {
 		Corridor
 	}
 
-    public Tile[] Generate()
+    public override void Generate()
     {
-		Tile [] map = new Tile[this.width * this.height];
-		for (int y=0; y<this.height; y++) {
-			for(int x=0;x<this.width; x++) {
-				map[x + y * this.width] = new Tile(x, y);
-			}
-		}
-
 		for(int i=0; i<1000 && rooms.Count < this.roomCount; i++)
 		{
 			int x = Random.Range(1, this.width - 10);
@@ -371,15 +369,12 @@ public class Dungeon {
 					if(0 != count)
 					{
 						Wall wall = new Wall();
-						wall.position.x = x;
-						wall.position.y = y;
-						map[x + y * this.width].AddObject(wall);
+						wall.SetPosition(new Object.Position(x, y));
 					}
 				}
 			}
 		}
 
-		enter = new Object.Position (Random.Range (rooms [0].left, rooms [0].right), Random.Range (rooms [0].top, rooms [0].bottom));
-		return map;
+		enter = rooms [0].GetRandomPosition ();
     }
 }

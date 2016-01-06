@@ -58,10 +58,14 @@ public abstract class Object {
 	public bool visible;
 	public Category category;
 	public float size;
+	public int sight;
 	public Object() {
 		category = Category.Invalid;
 		position = new Position(0, 0);
 		visible = true;
+		sight = 1;
+		size = 0.0f;
+		OnCreate ();
 	}
 
 	public List<Position> Raycast(Object dest) {
@@ -153,7 +157,8 @@ public abstract class Object {
 		}
 		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
 		tile.AddObject(this);
-		this.position = position;
+		this.position.x = position.x;
+		this.position.y = position.y;
 	}
 
 	public virtual void Destroy() {
@@ -162,6 +167,57 @@ public abstract class Object {
 		OnDestroy ();
 	}
 
+	private void CheckVisible(Object.Position dest)
+	{
+		List<Object.Position> positions = Raycast(dest);
+		foreach(Object.Position position in positions) {
+			if(sight < Vector2.Distance(this.position, position)) {
+				return;
+			}
+			
+			Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+			tile.visit = true;
+			tile.visible = true;
+			foreach(var v in tile.objects) {
+				v.Value.visible = true;
+				if(1.0f < v.Value.size)
+				{
+					return;
+				}
+			}
+		}
+	}
+	public void FieldOfView() {
+		Object.Position src = position;
+		{
+			int y = Math.Max(0, src.y - sight);
+			for(int x=Math.Max (0, src.x - sight); x < Math.Min (src.x + sight, GameManager.Instance.map.width); x++)
+			{
+				CheckVisible(new Object.Position(x, y));
+			}
+		}
+		{
+			int y = Math.Min(GameManager.Instance.map.height-1, src.y + sight);
+			for(int x=Math.Max (0, src.x - sight); x < Math.Min (src.x + sight, GameManager.Instance.map.width); x++)
+			{
+				CheckVisible(new Object.Position(x, y));
+			}
+		}
+		{
+			int x = Math.Max(0, src.x - sight);
+			for(int y=Math.Max (0, src.y - sight); y < Math.Min (src.y + sight, GameManager.Instance.map.height); y++)
+			{
+				CheckVisible(new Object.Position(x, y));
+			}
+		}
+		{
+			int x = Math.Min(GameManager.Instance.map.width-1, src.x + sight);
+			for(int y=Math.Max (0, src.y - sight); y < Math.Min (src.y + sight, GameManager.Instance.map.height); y++)
+			{
+				CheckVisible(new Object.Position(x, y));
+			}
+		}
+	}
 	public virtual void OnCreate() {}
 	public virtual void OnDestroy() {}
 	public virtual void OnTrigger(Object obj) {}

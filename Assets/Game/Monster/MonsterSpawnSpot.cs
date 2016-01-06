@@ -30,8 +30,7 @@ public class MonsterSpawnSpot {
 		}
 		if (null == monster && GameManager.Instance.player.position != position && (deadTime + interval < GameManager.Instance.currentTurn || 0 == deadTime)) {
 			monster = MonsterManager.Instance.CreateInstance (id);
-			monster.SetPosition(new Object.Position (position.x, position.y));
-			monster.OnCreate ();
+			monster.SetPosition(position);
 		}
 	}
 }

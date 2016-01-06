@@ -12,7 +12,7 @@ namespace Util {
 	};
 
 	public class TurnCounter : ITimerImpl {
-		private int turn = 0;
+		private int turn = 1;
 		public TurnCounter() {
 		}
 		public override int GetTime() {

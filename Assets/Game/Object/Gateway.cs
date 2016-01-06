@@ -10,16 +10,15 @@ public class Gateway : Object {
 	public ObjectView view;
 	public Destination dest = new Destination();
 
-	public Gateway() {
+	public Gateway(int x, int y) {
 		size = 1.0f;
 		OnCreate ();
 	}
 
 	public override void OnCreate() {
 		view = ObjectView.Create<ObjectView> (this, ">", Color.white);
-		view.SetVisible (false);
 		view.position = position;
-		view.transform.SetParent (MapView.Instance.tiles, false);
+		view.transform.SetParent (GameManager.Instance.map.view.tiles, false);
 		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
 	}
 

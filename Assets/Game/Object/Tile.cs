@@ -23,12 +23,10 @@ public class Tile : Object {
 	public bool visit;
 	public Dictionary<Object, Object> objects;
 	public TileView view;
-	public Tile(int x, int y) {
+	public Tile() {
 		category = Object.Category.Tile;
 		visit = false;
-		position.x = x;
-		position.y = y;
-		type = Type.Unused;
+		type = Type.Floor;
 		objects = new Dictionary<Object, Object> ();
 	}
 	
@@ -64,10 +62,28 @@ public class Tile : Object {
 		return null;
 	}
 
+	public virtual void SetPosition(Position position) {
+		if (GameManager.Instance.map.width <= position.x || 0 > position.x || GameManager.Instance.map.height <= position.y || 0 > position.y) {
+			return;
+		}
+		
+		if (this.position == position) {
+			return;
+		}
+		this.position.x = position.x;
+		this.position.y = position.y;
+		view.SetPosition (position);
+	}
+
 	public override void OnCreate ()
 	{
-
+		view = ObjectView.Create<TileView> (this, ".", Color.white);
 	}
 	public override void OnDestroy() {
+		view.OnDestroy ();
+	}
+
+	public override void Destroy() {
+		OnDestroy ();
 	}
 };

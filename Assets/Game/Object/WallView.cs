@@ -31,10 +31,6 @@ public class WallView : ObjectView {
 		PRESET [NORTH|SOUTH|EAST|WEST] = "┼";
 	}
 
-	public void Start() {
-		//display.fontStyle = FontStyle.Bold;
-	}
-	
 	public void Init (Wall wall) {
 
 		/*

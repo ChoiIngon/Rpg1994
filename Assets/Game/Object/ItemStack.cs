@@ -12,11 +12,16 @@ public class ItemStack : Object {
 
 	public override void OnCreate()
 	{
-		view = MapView.Instance.AddItemStack (this);
+		view = ObjectView.Create<ObjectView>(this, "$", Color.yellow);
+	}
+
+	public override void SetPosition(Object.Position position) {
+		view.SetPosition (position);
+		base.SetPosition (position);
 	}
 
 	public override void OnDestroy()
 	{
-		GameObject.Destroy (view.gameObject);
+		view.OnDestroy ();
 	}
 }

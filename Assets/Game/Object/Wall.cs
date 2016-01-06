@@ -15,16 +15,17 @@ public class Wall : Object {
 		size = 1.1f;
 	}
 	public override void OnCreate() {
-		view = ObjectView.Create<WallView> (this, ".", Color.white);
-		view.transform.SetParent (MapView.Instance.tiles, false);
-		view.transform.localPosition = new Vector3(view.position.x * MapView.TILE_SIZE, -view.position.y * MapView.TILE_SIZE, 0);
-		view.Init (this);
-	}
-	public override void OnDestroy() {
-		view.transform.SetParent (null);
-		GameObject.Destroy (view.gameObject);
+		view = ObjectView.Create<WallView> (this, "#", Color.white);
 	}
 
+	public override void OnDestroy() {
+		view.OnDestroy ();
+	}
+
+	public override void SetPosition(Object.Position position) {
+		view.SetPosition (position);
+		base.SetPosition (position);
+	}
 	public override void OnTrigger(Object obj) {
 		if (Type.HiddenDoor == type) {
 			int x = position.x;
