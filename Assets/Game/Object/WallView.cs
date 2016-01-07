@@ -32,7 +32,6 @@ public class WallView : ObjectView {
 	}
 
 	public void Init (Wall wall) {
-
 		/*
 		int x = wall.position.x;
 		int y = wall.position.y;
@@ -106,7 +105,7 @@ public class WallView : ObjectView {
 			}
 		}
 		*/
-        display.text = "#";
+        //display.text = "#";
 	}
 
 	public override void SetVisible (bool value)

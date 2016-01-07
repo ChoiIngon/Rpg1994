@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 
 public class Dungeon : MapImpl {
 	public int[] tiles;
 	public int group;
 	public int roomCount;
 	public List<Room> rooms;
-	public Object.Position enter;
-	public Object.Position exit;
-
+	public Object.Position start;
+	public JSONNode root;
 	public Dungeon(int width, int height, int roomCount)
+	{
+		Init (width, height, roomCount);
+	}
+
+	public void Init(int width, int height, int roomCount)
 	{
 		this.group = 1;
 		this.roomCount = roomCount;
@@ -23,7 +28,51 @@ public class Dungeon : MapImpl {
 			tiles[i] = 0;
 		}
 	}
-	
+
+	public Dungeon(JSONNode root){
+		this.root = root;
+		int width = root ["size"] ["width"].AsInt;
+		int height = root ["size"] ["height"].AsInt;
+		int roomCount = root ["room"] ["count"].AsInt;
+		Room.MIN_SIZE = root ["room"] ["min"].AsInt;
+		Room.MAX_SIZE = root ["room"] ["max"].AsInt;
+		Init (width, height, roomCount);
+	}
+	/*
+		JSONNode spots = root ["monster"];
+		for (int i=0; i<spots.Count; i++) {
+			MonsterSpawnSpot spot = new MonsterSpawnSpot();
+			spot.id = spots[i]["id"];
+			spot.count = spots[i]["count"].AsInt;
+			spot.interval = spots[i]["interval"].AsInt;
+			this.monsterSpawnSpots.Add (spot);
+		}
+
+		JSONNode gateways = root ["gateway"];
+		for (int i=0; i<gateways.Count; i++) {
+			Gateway gateway = new Gateway();
+			gateway.dest. = spots[i]["id"];
+			spot.count = spots[i]["count"].AsInt;
+			spot.interval = spots[i]["interval"].AsInt;
+			this.monsterSpawnSpots.Add (spot);
+		}
+	}
+*/
+	public List<MonsterSpawnSpot> GenerateMonster()
+	{
+		List<MonsterSpawnSpot> spots = new List<MonsterSpawnSpot> ();
+		JSONNode json = root ["monster"];
+		for (int i=0; i<json.Count; i++) {
+			MonsterSpawnSpot spot = new MonsterSpawnSpot();
+			spot.id = json[i]["id"];
+			spot.count = json[i]["count"].AsInt;
+			spot.interval = json[i]["interval"].AsInt;
+			Util.RangeInt roomID = new Util.RangeInt(json[i]["room"]);
+			spot.position = rooms[(int)roomID].GetRandomPosition();
+			spots.Add (spot);
+		}
+		return spots;
+	}
 	public int GetTileGroupID(int x, int y)
 	{
 		if (0 > x || x >= width || 0 > y || y >= height)
@@ -122,6 +171,8 @@ public class Dungeon : MapImpl {
     public class Room
     {
 		public Dungeon dungeon;
+		public static int MIN_SIZE;
+		public static int MAX_SIZE;
         public int left = 0;
         public int right = 0;
         public int top = 0;
@@ -298,10 +349,10 @@ public class Dungeon : MapImpl {
     {
 		for(int i=0; i<1000 && rooms.Count < this.roomCount; i++)
 		{
-			int x = Random.Range(1, this.width - 10);
-			int w = Random.Range(4, 9);
-			int y = Random.Range(1, this.height - 10);
-			int h = Random.Range(4, 9);
+			int x = Random.Range(1, this.width - Room.MAX_SIZE - 1);
+			int w = Random.Range(Room.MIN_SIZE, Room.MAX_SIZE);
+			int y = Random.Range(1, this.height - Room.MAX_SIZE - 1);
+			int h = Random.Range(Room.MIN_SIZE, Room.MAX_SIZE);
 			Room room = new Room (this, x, x + w, y, y + h);
 			room.Digging ();
 		}
@@ -375,6 +426,14 @@ public class Dungeon : MapImpl {
 			}
 		}
 
-		enter = rooms [0].GetRandomPosition ();
+		start = rooms [root ["start_room"].AsInt].GetRandomPosition ();
+		JSONNode gateways = root ["gateway"];
+		for (int i=0; i<gateways.Count; i++) {
+			Gateway gateway = new Gateway();
+			gateway.dest.id = gateways[i]["id"];
+			gateway.dest.name = gateways[i]["name"];
+			gateway.dest.map = gateways[i]["map"];
+			gateway.SetPosition(rooms[gateways[i]["room"].AsInt].GetRandomPosition());
+		}
     }
 }

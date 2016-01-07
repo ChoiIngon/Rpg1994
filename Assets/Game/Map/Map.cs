@@ -22,7 +22,7 @@ public class Map {
 	public Tile[] tiles;
 	public ItemData[] items;
     public List<MonsterSpawnSpot> monsterSpawnSpots;
-	public Object.Position enter;
+	public Object.Position start;
 	private void Init() {
 		view = GameObject.Find ("MapView").GetComponent<MapView>();
 		view.Init (this);
@@ -46,9 +46,6 @@ public class Map {
 		id = path;
 		name = root ["name"];
 		description = root ["description"];
-		width = root ["size"] ["width"].AsInt;
-		height = root ["size"] ["height"].AsInt;
-
 		/*
 		JSONNode tileNodes = root ["tile"];
 		for (int i=0; i<tileNodes.Count; i++) {
@@ -69,12 +66,13 @@ public class Map {
 			}
 		}
 		*/
-		Dungeon dungeon = new Dungeon (width, height, 7);
+		Dungeon dungeon = new Dungeon (root);
 		width = dungeon.width;
 		height = dungeon.height;
 		Init ();
 		dungeon.Generate();
-		enter = dungeon.enter;
+		monsterSpawnSpots = dungeon.GenerateMonster ();
+		start = dungeon.start;
 	}
 
 	public Tile GetTile(int x, int y) {

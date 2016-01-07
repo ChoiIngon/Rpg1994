@@ -22,60 +22,6 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 
 		map = new Map ();
 		map.Load ("Map/dungeon_001");
-		{
-			MonsterSpawnSpot spot = new MonsterSpawnSpot ();
-			spot.id = "monster_001";
-			spot.count = 0;
-			spot.deadTime = 0;
-			spot.interval = 5;
-			spot.position = new Object.Position (25, 5);
-            map.AddMonsterRegenSpot(spot);
-		}
-		{
-			MonsterSpawnSpot spot = new MonsterSpawnSpot ();
-			spot.id = "monster_002";
-			spot.count = 0;
-			spot.deadTime = 0;
-			spot.interval = 5;
-			spot.position = new Object.Position (6, 17);
-            map.AddMonsterRegenSpot(spot);
-		}
-		{
-			MonsterSpawnSpot spot = new MonsterSpawnSpot ();
-			spot.id = "monster_001";
-			spot.count = 0;
-			spot.deadTime = 0;
-			spot.interval = 5;
-			spot.position = new Object.Position (20, 15);
-            map.AddMonsterRegenSpot(spot);
-		}
-		{
-			MonsterSpawnSpot spot = new MonsterSpawnSpot ();
-			spot.id = "monster_002";
-			spot.count = 0;
-			spot.deadTime = 0;
-			spot.interval = 5;
-			spot.position = new Object.Position (24, 5);
-			map.AddMonsterRegenSpot (spot);
-		}
-		{
-			MonsterSpawnSpot spot = new MonsterSpawnSpot ();
-			spot.id = "monster_001";
-			spot.count = 0;
-			spot.deadTime = 0;
-			spot.interval = 5;
-			spot.position = new Object.Position (5, 6);
-            map.AddMonsterRegenSpot(spot);
-		}
-		{
-			MonsterSpawnSpot spot = new MonsterSpawnSpot ();
-			spot.id = "monster_001";
-			spot.count = 0;
-			spot.deadTime = 0;
-			spot.interval = 5;
-			spot.position = new Object.Position (11, 10);
-            map.AddMonsterRegenSpot(spot);
-		}
 		/*
 		testNpc = new Npc ();
 		testNpc.id = "npc_001";
@@ -126,18 +72,8 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_poison_001"));
 		
 		player.visible = true;
-		player.SetPosition (map.enter);
+		player.SetPosition (map.start);
 		/*
-		Wall wall = new Wall ();
-		wall.SetPosition(new Object.Position(3, 7));
-		wall.type = Wall.Type.HiddenDoor;
-		wall.OnCreate ();
-		//wall.view.Init (wall);
-		Gateway gateway = new Gateway ();
-		gateway.dest.mapID = "Map/dungeon_001";
-		gateway.dest.position = new Object.Position (5, 5);
-		gateway.SetPosition(new Object.Position(3, 3));
-
 		testNpc.OnCreate ();
 */
 	}

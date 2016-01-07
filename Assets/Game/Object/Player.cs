@@ -167,7 +167,7 @@ public class Player : Character
 	
 	public override void OnCreate()
 	{
-		view = ObjectView.Create<PlayerView> (this, "@", Color.green);
+		view = ObjectView.Create<ObjectView> (this, "@", Color.green);
 	}
 
 	public override void OnDestroy()
