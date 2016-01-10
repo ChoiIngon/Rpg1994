@@ -21,31 +21,17 @@ public class MonsterData : Character {
 	public MonsterData() {
 		category = Object.Category.Monster;
 	}
-
-	public override void Update() {
-		base.Update ();
-		if (true == IsVisible (GameManager.Instance.player.position)) {
-			if(range >= Vector2.Distance (position, GameManager.Instance.player.position)) {
-				Attack ();
-				return;
-			}
-			else {
-				Move ();
-				return;
-			}
-		}
-		Idle ();
-	}
+	
 	public virtual void Idle() {
 		this.direction = (Character.DirectionType)UnityEngine.Random.Range(0, (int)Character.DirectionType.Max);
 		Move (direction);
 		state = State.Idle;
 	}
 	public virtual void Move() {
-		float chaseWeight = (float)speed / GameManager.Instance.player.speed;
+		float chaseWeight = (float)speed / Player.Instance.speed;
 		if (UnityEngine.Random.Range(1, 100) < chaseWeight * 100) {
 			PathFind_AStar path = new PathFind_AStar ();
-			Object.Position next = path.FindNextPath (position, GameManager.Instance.player.position);
+			Object.Position next = path.FindNextPath (position, Player.Instance.position);
 			if (null != next) {
 				Move (next);
 			}
@@ -56,15 +42,15 @@ public class MonsterData : Character {
 		state = State.Chase;
 	}
 	public virtual void Attack() {
-		Attack(GameManager.Instance.player);
+		Attack(Player.Instance);
 		state = State.Fight;
 	}
 
 	public override void Destroy() {
 		state = State.Die;
 
-		GameManager.Instance.player.inventory.gold += reward.gold;
-		GameManager.Instance.player.exp += reward.exp;
+		Player.Instance.inventory.gold += reward.gold;
+		Player.Instance.exp += reward.exp;
 		foreach (ItemData item in reward.items) {
 			CreateItemStack (item, new Object.Position (position.x, position.y));
 			OnDropItem (item);
@@ -73,7 +59,6 @@ public class MonsterData : Character {
 		if (null != QuestManager.Instance.triggerKillMonster) {
 			QuestManager.Instance.triggerKillMonster (info.id);
 		}
-		MonsterManager.Instance.Remove (seq);
 		base.Destroy();
 	}
 
@@ -93,7 +78,7 @@ public class MonsterData : Character {
 		LogView.Instance.Write (name + " dodge your attack");
 	}
 	public override void OnDamage(Character attacker, int damage) {
-		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+		Tile tile = Map.Instance.GetTile (position.x, position.y);
 		tile.view.CreateFloatingMessage ("-" + damage.ToString(), Color.yellow);
 		LogView.Instance.Write ("<color=red>" + name + "[" + position.x + "," + position.y + "]</color>은(는) " + damage + "의 피해를 입었습니다.");
 	}
@@ -105,7 +90,22 @@ public class MonsterData : Character {
 	}
 
 	public override void OnTrigger(Object obj) {
-		GameManager.Instance.player.Attack (this);
+		Player.Instance.Attack (this);
+	}
+
+	public override void Update() {
+		base.Update ();
+		if (true == IsVisible (Player.Instance.position)) {
+			if(range >= Vector2.Distance (position, Player.Instance.position)) {
+				Attack ();
+				return;
+			}
+			else {
+				Move ();
+				return;
+			}
+		}
+		Idle ();
 	}
 }
 

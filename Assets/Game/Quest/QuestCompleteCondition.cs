@@ -59,7 +59,7 @@ public class QuestCompleteCondition_MeetNpc : QuestCompleteCondition {
 	}
 	
 	public override bool IsComplete() {
-		Object obj = GameManager.Instance.player.target;
+		Object obj = Player.Instance.target;
 		if(null != obj && Object.Category.NPC == obj.category) {
 			Npc npc = (Npc)obj;
 			if(npcID == npc.id)

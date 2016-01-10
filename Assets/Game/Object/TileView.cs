@@ -14,7 +14,7 @@ using System.Collections.Generic;
 public class TileView : ObjectView {
 	public override void SetVisible (bool value)
 	{
-		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+		Tile tile = Map.Instance.GetTile (position.x, position.y);
 		if(null == tile) {
 			throw new System.Exception("out of map position");
 		}

@@ -2,26 +2,28 @@
 	"type":"dungeon",
 	"name":"미궁1층", "description":"미궁이다...\n여기에 몹 존내 많음..ㅋㅋ", 
 	"size": {
-		"width":"33", "height":"27"
+		"width":"45", "height":"35"
 	},
 	"room": {
-		"count":5,
+		"count":10,
 		"min" : 3,
-		"max" : 6
+		"max" : 10
 	},
 	"start_room" : 0,
 	"monster" : [
-		{ "id" : "monster_001",	"count" : 0, "interval" : 5, "room":"1~4" },
-		{ "id" : "monster_001",	"count" : 0, "interval" : 3, "room":"1~4" },
-		{ "id" : "monster_001",	"count" : 0, "interval" : 5, "room":"1~4" },
-		{ "id" : "monster_001",	"count" : 0, "interval" : 5, "room":"1~4" },
-		{ "id" : "monster_002",	"count" : 0, "interval" : 5, "room":"1~4" },
-		{ "id" : "monster_002",	"count" : 0, "interval" : 5, "room":"1~4" },
-		{ "id" : "monster_002",	"count" : 0, "interval" : 7, "room":"1~4" },
-		{ "id" : "monster_002",	"count" : 0, "interval" : 6, "room":"1~4" }
+		{ "id" : "monster_001",	"count" : 0, "interval" : 5, "room":"1~9" },
+		{ "id" : "monster_001",	"count" : 0, "interval" : 3, "room":"1~9" },
+		{ "id" : "monster_001",	"count" : 0, "interval" : 5, "room":"1~9" },
+		{ "id" : "monster_001",	"count" : 0, "interval" : 5, "room":"1~9" },
+		{ "id" : "monster_002",	"count" : 0, "interval" : 5, "room":"1~9" },
+		{ "id" : "monster_002",	"count" : 0, "interval" : 5, "room":"1~9" },
+		{ "id" : "monster_002",	"count" : 0, "interval" : 7, "room":"1~9" },
+		{ "id" : "monster_002",	"count" : 0, "interval" : 6, "room":"1~9" }
+	],
+	"npc" : [
 	],
 	"gateway": [
 		{ "id" : "map_001", "name" : "village", "map" : "Map/map_001", "room":0 },
-		{ "id" : "dungeon_002", "name" : "next level", "map" : "Map/dungeon_002", "room":4 }
+		{ "id" : "dungeon_002", "name" : "next level", "map" : "Map/dungeon_002", "room":9 }
 	]
 }	

@@ -9,7 +9,7 @@ public class PathFind_AStar {
 	public class Node {
 		public int id {
 			get {
-				return position.x + position.y * GameManager.Instance.map.width;
+				return position.x + position.y * Map.Instance.width;
 			}
 		}
 		public int cost {
@@ -60,13 +60,13 @@ public class PathFind_AStar {
 
 			List<Node> children = new List<Node> ();
 			foreach (Object.Position childPosition in childPositions) {
-				if(0 > childPosition.x || 0 > childPosition.y || GameManager.Instance.map.width <= childPosition.x || GameManager.Instance.map.height <= childPosition.y)
+				if(0 > childPosition.x || 0 > childPosition.y || Map.Instance.width <= childPosition.x || Map.Instance.height <= childPosition.y)
 				{
 					//Debug.Log("out of range from map(child position:x" + childPosition.x + ", y:" + childPosition.y +")");
 					continue;
 				}
 
-				Tile tile = GameManager.Instance.map.GetTile(childPosition.x, childPosition.y);
+				Tile tile = Map.Instance.GetTile(childPosition.x, childPosition.y);
 				if(Tile.Type.Floor != tile.type)
 				{
 					//Debug.Log("not tile(child position:x" + childPosition.x + ", y:" + childPosition.y +")");

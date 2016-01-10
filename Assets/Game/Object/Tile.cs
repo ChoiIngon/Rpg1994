@@ -63,13 +63,10 @@ public class Tile : Object {
 	}
 
 	public virtual void SetPosition(Position position) {
-		if (GameManager.Instance.map.width <= position.x || 0 > position.x || GameManager.Instance.map.height <= position.y || 0 > position.y) {
+		if (Map.Instance.width <= position.x || 0 > position.x || Map.Instance.height <= position.y || 0 > position.y) {
 			return;
 		}
-		
-		if (this.position == position) {
-			return;
-		}
+
 		this.position.x = position.x;
 		this.position.y = position.y;
 		view.SetPosition (position);

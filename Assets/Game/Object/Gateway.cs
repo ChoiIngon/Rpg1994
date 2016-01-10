@@ -12,7 +12,7 @@ public class Gateway : Object {
 	public Destination dest = new Destination();
 
 	public Gateway() {
-		size = 1.0f;
+		size = 0.5f;
 	}
 
 	public override void OnCreate() {
@@ -24,6 +24,7 @@ public class Gateway : Object {
 		base.SetPosition (position);
 		view.SetPosition (position);
 	}
+
 	public override void OnDestroy() {
 	}
 

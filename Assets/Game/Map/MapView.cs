@@ -12,33 +12,43 @@ public class MapView : MonoBehaviour {
 	[HideInInspector]
 	public Transform tiles;
 
-	public void Init(Map map)
+	void Start()
 	{
+		RectTransform rect = GetComponent<RectTransform>();
+		VIEW_WIDTH = (int)rect.rect.width/TILE_SIZE;
+		VIEW_HEIGHT = (int)rect.rect.height/TILE_SIZE;
 		tiles = transform.FindChild ("Tiles");
+	}
+
+	public void Init()
+	{
 		while(0<tiles.childCount) {
 			Transform child = tiles.GetChild(0);
 			child.SetParent(null);
 			GameObject.Destroy(child.gameObject);
 		}
-		{
-			RectTransform rect = GetComponent<RectTransform>();
-			VIEW_WIDTH = (int)rect.rect.width/TILE_SIZE;
-			VIEW_HEIGHT = (int)rect.rect.height/TILE_SIZE;
+		RectTransform rect = tiles.GetComponent<RectTransform> ();
+		rect.sizeDelta = new Vector2 (Map.Instance.width * TILE_SIZE, Map.Instance.height * TILE_SIZE);
+
+		/*
+		foreach (Tile tile in Map.Instance.tiles) {
+			tile.OnCreate();
+			foreach(var v in tile.objects)
+			{
+				v.Value.OnCreate();
+			}
 		}
-		{
-			RectTransform rect = tiles.GetComponent<RectTransform> ();
-			rect.sizeDelta = new Vector2 (map.width * TILE_SIZE, map.height * TILE_SIZE);
-		}
+		*/
 	}
 
 	public void Center()
 	{
-		int x = GameManager.Instance.player.position.x - VIEW_WIDTH / 2;
-		int y = GameManager.Instance.player.position.y - VIEW_HEIGHT / 2;
+		int x = Player.Instance.position.x - VIEW_WIDTH / 2;
+		int y = Player.Instance.position.y - VIEW_HEIGHT / 2;
 		tiles.localPosition = new Vector3 (-x * TILE_SIZE, y * TILE_SIZE, 0);
 		for (int i=0; i<tiles.childCount; i++) {
 			ObjectView view = tiles.GetChild(i).GetComponent<ObjectView>();
-			Tile tile = GameManager.Instance.map.GetTile(view.position.x, view.position.y);
+			Tile tile = Map.Instance.GetTile(view.position.x, view.position.y);
 			if(null == tile) {
 				throw new System.Exception("out of map position");
 			}

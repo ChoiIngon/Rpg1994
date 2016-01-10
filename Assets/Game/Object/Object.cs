@@ -82,7 +82,6 @@ public abstract class Object {
 
 	public static List<Position> Raycast(Position s, Position e)
 	{
-		//Debug.Log ("start:{x:" + s.x + ", y:" + s.y + "}, end:{x:" + e.x + ", y:" + e.y + "}");
 		List<Position> positions = new List<Position> ();
 
 		int dx = Math.Abs(e.x - s.x);
@@ -104,7 +103,6 @@ public abstract class Object {
 			if(e.y < s.y) {
 				inc_y = -1;
 			}
-			//Debug.Log ("x:" + s.x + ", y:" + s.y + ", p:" + p);
 			for(int x=s.x; (e.x > s.x ? x <= e.x : x>=e.x) ; x += inc_x) {
 				if(0 >= p) {
 					p += 2 * dy;
@@ -115,7 +113,6 @@ public abstract class Object {
 				}
 				Position position = new Position(x, y);
 				positions.Add(position);
-				//Debug.Log ("x:" + x + ", y:" + y + ", p:" + p);
 			}
 		}
 		else {
@@ -130,7 +127,6 @@ public abstract class Object {
 			if(e.y < s.y) {
 				inc_y = -1;
 			}
-			//Debug.Log ("x:" + s.x + ", y:" + s.y + ", p:" + p);
 			for(int y=s.y; (e.y > s.y ? y <= e.y : y>=e.y) ; y += inc_y) {
 				if(0 >= p) {
 					p += 2 * dx;
@@ -141,28 +137,27 @@ public abstract class Object {
 				}
 				Position position = new Position(x, y);
 				positions.Add(position);
-				//Debug.Log ("x:" + x + ", y:" + y + ", p:" + p);
 			}
 		}
 		return positions;
 	}
 
 	public virtual void SetPosition(Position position) {
-		if (GameManager.Instance.map.width <= position.x || 0 > position.x || GameManager.Instance.map.height <= position.y || 0 > position.y) {
+		if (Map.Instance.width <= position.x || 0 > position.x || Map.Instance.height <= position.y || 0 > position.y) {
 			return;
 		}
 
 		if (this.position == position) {
 			return;
 		}
-		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+		Tile tile = Map.Instance.GetTile (position.x, position.y);
 		tile.AddObject(this);
 		this.position.x = position.x;
 		this.position.y = position.y;
 	}
 
 	public virtual void Destroy() {
-		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+		Tile tile = Map.Instance.GetTile (position.x, position.y);
 		tile.RemoveObject(this);
 		OnDestroy ();
 	}
@@ -175,7 +170,7 @@ public abstract class Object {
 				return;
 			}
 			
-			Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+			Tile tile = Map.Instance.GetTile (position.x, position.y);
 			tile.visit = true;
 			tile.visible = true;
 			foreach(var v in tile.objects) {
@@ -191,28 +186,28 @@ public abstract class Object {
 		Object.Position src = position;
 		{
 			int y = Math.Max(0, src.y - sight);
-			for(int x=Math.Max (0, src.x - sight); x < Math.Min (src.x + sight, GameManager.Instance.map.width); x++)
+			for(int x=Math.Max (0, src.x - sight); x < Math.Min (src.x + sight, Map.Instance.width); x++)
 			{
 				CheckVisible(new Object.Position(x, y));
 			}
 		}
 		{
-			int y = Math.Min(GameManager.Instance.map.height-1, src.y + sight);
-			for(int x=Math.Max (0, src.x - sight); x < Math.Min (src.x + sight, GameManager.Instance.map.width); x++)
+			int y = Math.Min(Map.Instance.height-1, src.y + sight);
+			for(int x=Math.Max (0, src.x - sight); x < Math.Min (src.x + sight, Map.Instance.width); x++)
 			{
 				CheckVisible(new Object.Position(x, y));
 			}
 		}
 		{
 			int x = Math.Max(0, src.x - sight);
-			for(int y=Math.Max (0, src.y - sight); y < Math.Min (src.y + sight, GameManager.Instance.map.height); y++)
+			for(int y=Math.Max (0, src.y - sight); y < Math.Min (src.y + sight, Map.Instance.height); y++)
 			{
 				CheckVisible(new Object.Position(x, y));
 			}
 		}
 		{
-			int x = Math.Min(GameManager.Instance.map.width-1, src.x + sight);
-			for(int y=Math.Max (0, src.y - sight); y < Math.Min (src.y + sight, GameManager.Instance.map.height); y++)
+			int x = Math.Min(Map.Instance.width-1, src.x + sight);
+			for(int y=Math.Max (0, src.y - sight); y < Math.Min (src.y + sight, Map.Instance.height); y++)
 			{
 				CheckVisible(new Object.Position(x, y));
 			}
@@ -221,4 +216,5 @@ public abstract class Object {
 	public virtual void OnCreate() {}
 	public virtual void OnDestroy() {}
 	public virtual void OnTrigger(Object obj) {}
+	public virtual void Update() {}
 }

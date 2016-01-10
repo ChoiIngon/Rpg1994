@@ -46,7 +46,7 @@ public class QuestData {
 			condition.Start ();
 		}
 		state = State.OnExecute;
-		GameManager.Instance.player.quests.Add (id, this);
+		Player.Instance.quests.Add (id, this);
 		QuestManager.Instance.OnStart (this);
 	}
 
@@ -60,12 +60,12 @@ public class QuestData {
 				return false;
 			}
 		}
-		GameManager.Instance.player.quests.Remove (id);
+		Player.Instance.quests.Remove (id);
 		state = State.BeforeStart;
-		GameManager.Instance.player.inventory.gold += reward.gold;
+		Player.Instance.inventory.gold += reward.gold;
 		foreach (ItemInfo info in reward.items) {
 			ItemData data = ItemManager.Instance.CreateInstance(info.id);
-			GameManager.Instance.player.inventory.Put (data);
+			Player.Instance.inventory.Put (data);
 		}
 		CompleteQuest complete = new CompleteQuest ();
 		complete.id = id;

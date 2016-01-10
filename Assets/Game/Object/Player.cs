@@ -12,7 +12,18 @@ public class Player : Character
 	public int exp = 0;
 	public Dictionary<string, QuestData> quests = null;
 
-	public Player() {
+	private static Player self_;
+	public static Player Instance {
+		get {
+			if (null == self_) {
+				self_ = new Player ();
+			}
+			return self_;
+		}
+		private set {}
+	}
+
+	private Player() {
 		category = Object.Category.Player;
 		inventory = new Inventory ();
 		quests = new Dictionary<string, QuestData>();
@@ -61,7 +72,7 @@ public class Player : Character
 
 	public void PickupItem(ItemStack stack)
 	{
-		GameManager.Instance.player.inventory.Put (stack.item);
+		Player.Instance.inventory.Put (stack.item);
 		OnPickupItem (stack.item);
 		stack.Destroy ();
 	}
@@ -86,7 +97,7 @@ public class Player : Character
 		}
 
 		base.Move (dest);
-		Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
+		Tile tile = Map.Instance.GetTile (dest.x, dest.y);
 		if(null != tile)
 		{
 			List<KeyValuePair<Object, Object>> list = tile.objects.ToList ();
@@ -106,7 +117,7 @@ public class Player : Character
 		view.SetPosition(position);
 		
 		DropItemView.Instance.gameObject.SetActive(false);
-		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+		Tile tile = Map.Instance.GetTile (position.x, position.y);
 		
 		List<ItemStack> stacks = new List<ItemStack> ();
 		foreach (var v in tile.objects) {
@@ -199,7 +210,7 @@ public class Player : Character
 		LogView.Instance.Write ("You dodge enemy's attack");
 	}
 	public override void OnDamage(Character attacker, int damage) {
-		Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+		Tile tile = Map.Instance.GetTile (position.x, position.y);
 		tile.view.CreateFloatingMessage ("-" + damage.ToString(), Color.red);
 		LogView.Instance.Write ("당신은 " + damage + "의 피해를 입었습니다.");
 	}

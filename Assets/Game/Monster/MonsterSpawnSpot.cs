@@ -25,10 +25,10 @@ public class MonsterSpawnSpot {
 			deadTime = GameManager.Instance.currentTurn;
 		}
 
-		if (GameManager.Instance.player.sight > Vector2.Distance (position, GameManager.Instance.player.position)) {
+		if (Player.Instance.sight > Vector2.Distance (position, Player.Instance.position)) {
 			return;
 		}
-		if (null == monster && GameManager.Instance.player.position != position && (deadTime + interval < GameManager.Instance.currentTurn || 0 == deadTime)) {
+		if (null == monster && Player.Instance.position != position && (deadTime + interval < GameManager.Instance.currentTurn || 0 == deadTime)) {
 			monster = MonsterManager.Instance.CreateInstance (id);
 			monster.SetPosition(position);
 		}

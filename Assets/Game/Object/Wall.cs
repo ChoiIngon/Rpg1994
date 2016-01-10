@@ -32,28 +32,28 @@ public class Wall : Object {
 			int y = position.y;
 			this.Destroy();
 			{
-				Tile t = GameManager.Instance.map.GetTile (x-1, y);
+				Tile t = Map.Instance.GetTile (x-1, y);
 				Wall w = t.FindObject<Wall>();
 				if(null != w) {
 					w.view.Init (w);
 				}
 			}
 			{
-				Tile t = GameManager.Instance.map.GetTile (x+1, y);
+				Tile t = Map.Instance.GetTile (x+1, y);
 				Wall w = t.FindObject<Wall>();
 				if(null != w) {
 					w.view.Init (w);
 				}
 			}
 			{
-				Tile t = GameManager.Instance.map.GetTile (x, y-1);
+				Tile t = Map.Instance.GetTile (x, y-1);
 				Wall w = t.FindObject<Wall>();
 				if(null != w) {
 					w.view.Init (w);
 				}
 			}
 			{
-				Tile t = GameManager.Instance.map.GetTile (x, y+1);
+				Tile t = Map.Instance.GetTile (x, y+1);
 				Wall w = t.FindObject<Wall>();
 				if(null != w) {
 					w.view.Init (w);

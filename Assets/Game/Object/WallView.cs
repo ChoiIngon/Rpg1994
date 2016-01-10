@@ -38,36 +38,36 @@ public class WallView : ObjectView {
 		int neighborDirection = NONE;
 		Tile neighborTile = null;
 		
-		neighborTile = GameManager.Instance.map.GetTile (x - 1, y);
+		neighborTile = Map.Instance.GetTile (x - 1, y);
 		if (null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			neighborDirection |= WEST;
 		}
-		neighborTile = GameManager.Instance.map.GetTile (x + 1, y);
+		neighborTile = Map.Instance.GetTile (x + 1, y);
 		if (null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			neighborDirection |= EAST;
 		}
-		neighborTile = GameManager.Instance.map.GetTile (x, y - 1);
+		neighborTile = Map.Instance.GetTile (x, y - 1);
 		if (null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			neighborDirection |= NORTH;
 		}
-		neighborTile = GameManager.Instance.map.GetTile (x, y + 1);
+		neighborTile = Map.Instance.GetTile (x, y + 1);
 		if (null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			neighborDirection |= SOUTH;
 		}
 		/*
-		neighborTile = GameManager.Instance.map.GetTile (x - 1, y - 1);
+		neighborTile = Map.Instance.GetTile (x - 1, y - 1);
 		if ((neighborDirection & (WEST|NORTH)) == (WEST|NORTH) && null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			throw new System.Exception("can't put the wall at " + wall.position.ToString());
 		}
-		neighborTile = GameManager.Instance.map.GetTile (x + 1, y - 1);
+		neighborTile = Map.Instance.GetTile (x + 1, y - 1);
 		if ((neighborDirection & (EAST|NORTH)) == (EAST|NORTH) && null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			throw new System.Exception("can't put the wall at " + wall.position.ToString());
 		}
-		neighborTile = GameManager.Instance.map.GetTile (x + 1, y + 1);
+		neighborTile = Map.Instance.GetTile (x + 1, y + 1);
 		if ((neighborDirection & (EAST|SOUTH)) == (EAST|SOUTH) && null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			throw new System.Exception("can't put the wall at " + wall.position.ToString());
 		}
-		neighborTile = GameManager.Instance.map.GetTile (x - 1, y + 1);
+		neighborTile = Map.Instance.GetTile (x - 1, y + 1);
 		if ((neighborDirection & (WEST|SOUTH)) == (WEST|SOUTH) && null != neighborTile && null != neighborTile.FindObject<Wall> ()) {
 			throw new System.Exception("can't put the wall at " + wall.position.ToString());
 		}
@@ -76,28 +76,28 @@ public class WallView : ObjectView {
 		if (display.text != PRESET [neighborDirection]) {
 			display.text = PRESET [neighborDirection];
 			if(0 != (WEST&neighborDirection)) {
-				Tile t = GameManager.Instance.map.GetTile (x-1, y);
+				Tile t = Map.Instance.GetTile (x-1, y);
 				Wall w = t.FindObject<Wall>();
 				if(null != w) {
 					w.view.Init (w);
 				}
 			}
 			if(0 != (EAST&neighborDirection)) {
-				Tile t = GameManager.Instance.map.GetTile (x+1, y);
+				Tile t = Map.Instance.GetTile (x+1, y);
 				Wall w = t.FindObject<Wall>();
 				if(null != w) {
 					w.view.Init (w);
 				}
 			}
 			if(0 != (NORTH&neighborDirection)) {
-				Tile t = GameManager.Instance.map.GetTile (x, y-1);
+				Tile t = Map.Instance.GetTile (x, y-1);
 				Wall w = t.FindObject<Wall>();
 				if(null != w) {
 					w.view.Init (w);
 				}
 			}
 			if(0 != (SOUTH&neighborDirection)) {
-				Tile t = GameManager.Instance.map.GetTile (x, y+1);
+				Tile t = Map.Instance.GetTile (x, y+1);
 				Wall w = t.FindObject<Wall>();
 				if(null != w) {
 					w.view.Init (w);
@@ -115,7 +115,7 @@ public class WallView : ObjectView {
 			display.color = new Color(display.color.r, display.color.g, display.color.b, 1.0f);
 		}
 		else {
-			Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+			Tile tile = Map.Instance.GetTile (position.x, position.y);
 			if(null == tile) {
 				throw new System.Exception("out of map position");
 			}

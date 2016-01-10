@@ -66,7 +66,7 @@ public class Character : Object {
 			case DirectionType.North : dest.y -= 1; break;
 			case DirectionType.South : dest.y += 1; break;
 			}
-			Tile tile = GameManager.Instance.map.GetTile(dest.x, dest.y);
+			Tile tile = Map.Instance.GetTile(dest.x, dest.y);
 			if(null == tile) {
 				return null;
 			}
@@ -130,7 +130,7 @@ public class Character : Object {
 		return equipedItem;
 	}
 
-	public virtual void Update() {
+	public override void Update() {
 		GetStatus ();
 	}
 
@@ -144,7 +144,7 @@ public class Character : Object {
 			if(position == dest) {
 				return true;
 			}
-			Tile tile = GameManager.Instance.map.GetTile(position.x, position.y);
+			Tile tile = Map.Instance.GetTile(position.x, position.y);
 			if(Tile.Type.Floor != tile.type)
 			{
 				return false;
@@ -167,12 +167,12 @@ public class Character : Object {
 
 	public void Move(Object.Position dest)
 	{
-		if (GameManager.Instance.map.width <= dest.x || 0 > dest.x || GameManager.Instance.map.height <= dest.y || 0 > dest.y) {
+		if (Map.Instance.width <= dest.x || 0 > dest.x || Map.Instance.height <= dest.y || 0 > dest.y) {
 			return;
 		}
 		
 		{
-			Tile tile = GameManager.Instance.map.GetTile (dest.x, dest.y);
+			Tile tile = Map.Instance.GetTile (dest.x, dest.y);
 			float size = 0.0f;
 			foreach(var v in tile.objects)
 			{
@@ -185,7 +185,7 @@ public class Character : Object {
 			tile.AddObject(this);
 		}
 		{
-			Tile tile = GameManager.Instance.map.GetTile (position.x, position.y);
+			Tile tile = Map.Instance.GetTile (position.x, position.y);
 			tile.RemoveObject(this);
 		}
 		position = dest;

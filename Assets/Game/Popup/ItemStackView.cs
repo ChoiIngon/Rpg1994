@@ -15,7 +15,7 @@ public class ItemStackView : MonoBehaviour {
 	}
 
 	public void OnPickup() {
-		GameManager.Instance.player.PickupItem (stack);
+		Player.Instance.PickupItem (stack);
 		transform.SetParent (null);
 		GameObject.Destroy (gameObject);
 		DropItemView.Instance.OnPickup ();

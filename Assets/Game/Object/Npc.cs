@@ -17,7 +17,7 @@ public class Npc : Character {
 	public override void OnCreate () {
 		view = ObjectView.Create<ObjectView> (this, "N", Color.green);
 		view.position = position;
-		view.transform.SetParent (GameManager.Instance.map.view.tiles, false);
+		view.transform.SetParent (Map.Instance.view.tiles, false);
 		view.transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
 	}
 

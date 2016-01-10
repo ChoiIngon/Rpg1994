@@ -95,7 +95,7 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 
 	public void OnEquip()
 	{
-		GameManager.Instance.player.EquipItem (slot.slot.index, slot.equipPart);
+		Player.Instance.EquipItem (slot.slot.index, slot.equipPart);
 		PlayerInfoView.Instance.Init ();
 		gameObject.SetActive (false);
 		LogView.Instance.Write ("You equiped " + item.info.name);
@@ -103,7 +103,7 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 
 	public void OnEquipLeftRing()
 	{
-		GameManager.Instance.player.EquipItem (slot.slot.index, Character.EquipPart.LeftRing);	
+		Player.Instance.EquipItem (slot.slot.index, Character.EquipPart.LeftRing);	
 		PlayerInfoView.Instance.Init ();
 		gameObject.SetActive (false);
 		LogView.Instance.Write ("You equiped " + item.info.name);
@@ -111,7 +111,7 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 
 	public void OnEquipRightRing()
 	{
-		GameManager.Instance.player.EquipItem (slot.slot.index, Character.EquipPart.RightRing);	
+		Player.Instance.EquipItem (slot.slot.index, Character.EquipPart.RightRing);	
 		PlayerInfoView.Instance.Init ();
 		gameObject.SetActive (false);
 		LogView.Instance.Write ("You equiped " + item.info.name);
@@ -122,7 +122,7 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 		if (null == equipment) {
 			throw new System.Exception("select item first");
 		}
-		GameManager.Instance.player.UnequipItem (equipment.equipment.part);
+		Player.Instance.UnequipItem (equipment.equipment.part);
 		PlayerInfoView.Instance.Init ();
 		gameObject.SetActive (false);
 	}
@@ -132,7 +132,7 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 		if (null == slot) {
 			throw new System.Exception ("select item first");
 		}
-		GameManager.Instance.player.UseItem (slot.slot.index);
+		Player.Instance.UseItem (slot.slot.index);
 		PlayerInfoView.Instance.Init ();
 		gameObject.SetActive (false);
 	}
@@ -140,14 +140,14 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 	public void OnDrop()
 	{
 		if (null != slot) {
-			GameManager.Instance.player.DropItem(slot.slot.index);
+			Player.Instance.DropItem(slot.slot.index);
 			PlayerInfoView.Instance.Init ();
 			gameObject.SetActive (false);
 			return;
 		}
 
 		if (null != equipment) {
-			GameManager.Instance.player.DropItem(equipment.equipment.part);
+			Player.Instance.DropItem(equipment.equipment.part);
 			PlayerInfoView.Instance.Init ();
 			gameObject.SetActive (false);
 			return;

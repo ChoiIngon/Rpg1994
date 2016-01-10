@@ -52,17 +52,17 @@ public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> {
 
 	private void InitStatus()
 	{
-		Character.Status status = GameManager.Instance.player.GetStatus ();
+		Character.Status status = Player.Instance.GetStatus ();
 		level.Value = "1";
-		health.Value = string.Format("{0}/{1}", status.health, GameManager.Instance.player.health.max);
-		stamina.Value = string.Format ("{0}/{1}", status.stamina, GameManager.Instance.player.stamina.max);
+		health.Value = string.Format("{0}/{1}", status.health, Player.Instance.health.max);
+		stamina.Value = string.Format ("{0}/{1}", status.stamina, Player.Instance.stamina.max);
 		attack.Value = status.attack.ToString();
 		defense.Value = status.defense.ToString ();
 		speed.Value = status.speed.ToString ();
 	}
 	private void InitEquipment()
 	{
-		EquipmentItemData [] equipments = GameManager.Instance.player.equipments;
+		EquipmentItemData [] equipments = Player.Instance.equipments;
 		for (int i=0; i<equipments.Length; i++) {
 			EquipmentItemData item = equipments[i];
 			if(null == item)
@@ -76,8 +76,8 @@ public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> {
 	}
 	private void InitInventory()
 	{
-		for (int i=0; i<GameManager.Instance.player.inventory.slots.Length; i++) {
-			global::Inventory.Slot slot = GameManager.Instance.player.inventory.slots[i];
+		for (int i=0; i<Player.Instance.inventory.slots.Length; i++) {
+			global::Inventory.Slot slot = Player.Instance.inventory.slots[i];
 			if(null == slot)
 			{
 				inventorySlots.GetChild(i).gameObject.SetActive(false);
@@ -88,7 +88,7 @@ public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> {
 			slotView.gameObject.SetActive(true);
 		}
 
-		gold.Value = GameManager.Instance.player.inventory.gold.ToString();
-		weight.Value = GameManager.Instance.player.inventory.weight.ToString () + "/" + GameManager.Instance.player.inventory.maxWeight.ToString();
+		gold.Value = Player.Instance.inventory.gold.ToString();
+		weight.Value = Player.Instance.inventory.weight.ToString () + "/" + Player.Instance.inventory.maxWeight.ToString();
 	}
 }

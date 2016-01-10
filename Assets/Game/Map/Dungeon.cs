@@ -4,63 +4,132 @@ using System.Collections.Generic;
 using SimpleJSON;
 
 public class Dungeon : MapImpl {
-	public int[] tiles;
-	public int group;
-	public int roomCount;
-	public List<Room> rooms;
-	public Object.Position start;
-	public JSONNode root;
-	public Dungeon(int width, int height, int roomCount)
-	{
-		Init (width, height, roomCount);
-	}
-
-	public void Init(int width, int height, int roomCount)
-	{
-		this.group = 1;
-		this.roomCount = roomCount;
-		this.width = (0 == width % 2 ? width + 1 : width);
-		this.height = (0 == height % 2 ? height + 1 : height);
-		this.rooms = new List<Room> ();
-		this.tiles = new int[this.width * this.height];
-		for (int i = 0; i < tiles.Length; i++)
-		{
-			tiles[i] = 0;
-		}
-	}
+	private int[] tiles_;
+	private int groupID;
+	private int roomCount;
+	private List<Room> rooms;
+	private List<MonsterSpawnSpot> spwanSpots;
+	private JSONNode root;
 
 	public Dungeon(JSONNode root){
 		this.root = root;
-		int width = root ["size"] ["width"].AsInt;
-		int height = root ["size"] ["height"].AsInt;
-		int roomCount = root ["room"] ["count"].AsInt;
+		this.groupID = 1;
 		Room.MIN_SIZE = root ["room"] ["min"].AsInt;
 		Room.MAX_SIZE = root ["room"] ["max"].AsInt;
-		Init (width, height, roomCount);
+		int w = root ["size"] ["width"].AsInt;
+		int h = root ["size"] ["height"].AsInt;
+		this.width = (0 == w % 2 ? w + 1 : w);
+		this.height = (0 == h % 2 ? h + 1 : h);
+		this.roomCount = root ["room"] ["count"].AsInt;
+		this.rooms = new List<Room> ();
+		this.tiles_ = new int[this.width * this.height];
+		for (int i = 0; i < tiles_.Length; i++)
+		{
+			tiles_[i] = 0;
+		}
+		this.tiles = new Tile[this.width * this.height];
 	}
-	/*
-		JSONNode spots = root ["monster"];
-		for (int i=0; i<spots.Count; i++) {
-			MonsterSpawnSpot spot = new MonsterSpawnSpot();
-			spot.id = spots[i]["id"];
-			spot.count = spots[i]["count"].AsInt;
-			spot.interval = spots[i]["interval"].AsInt;
-			this.monsterSpawnSpots.Add (spot);
+
+	public override void Generate()
+	{
+		GenerateTiles ();
+		GenerateMonsters ();
+		GenerateGateways ();
+	}
+
+	private void GenerateTiles()
+	{
+		for (int i = 0; i< this.tiles.Length; i++) {
+			Tile tile = new Tile();
+			tile.SetPosition(new Object.Position(i % this.width, i / this.width));
+			tiles[i] = tile;
 		}
 
-		JSONNode gateways = root ["gateway"];
-		for (int i=0; i<gateways.Count; i++) {
-			Gateway gateway = new Gateway();
-			gateway.dest. = spots[i]["id"];
-			spot.count = spots[i]["count"].AsInt;
-			spot.interval = spots[i]["interval"].AsInt;
-			this.monsterSpawnSpots.Add (spot);
+		for(int i=0; i<1000 && rooms.Count <= this.roomCount; i++)
+		{
+			int x = Random.Range(1, this.width - Room.MAX_SIZE - 1);
+			int w = Random.Range(Room.MIN_SIZE, Room.MAX_SIZE);
+			int y = Random.Range(1, this.height - Room.MAX_SIZE - 1);
+			int h = Random.Range(Room.MIN_SIZE, Room.MAX_SIZE);
+			Room room = new Room (this, x, x + w, y, y + h);
+			room.Digging ();
 		}
+		
+		for (int y=1; y<height-1; y++) {
+			for (int x=1; x<width-1; x++) {
+				if(1 == x%2 && 1 == y%2 && 0 == GetTileGroupID(x, y)) {
+					Maze maze = new Maze (this);
+					maze.Digging (Maze.DirectionType.West, x, y);
+				}
+			}
+		}
+		
+		foreach (Room room in rooms) {
+			room.Connect();
+		}
+		
+		bool delete = true;
+		while(delete) {
+			delete = false;
+			for (int y=1; y<height-1; y++) {
+				for (int x=1; x<width-1; x++) {
+					if(0 != GetTileGroupID(x, y))
+					{
+						int count = 0;
+						for (int dy = -1; dy <= 1; dy += 2)
+						{
+							if (0 == GetTileGroupID(x, y + dy))
+							{
+								count++;
+							}
+						}
+						for (int dx = -1; dx <= 1; dx += 2)
+						{
+							if (0 == GetTileGroupID(x + dx, y))
+							{
+								count++;
+							}   
+						}
+						
+						if(3 <= count)
+						{
+							tiles_[x + y * width] = 0;
+							delete = true;
+						}
+					}
+				}
+			}
+		}
+		
+		for (int y=0; y<height; y++) {
+			for (int x=0; x<width; x++) {
+				if(0 == this.GetTileGroupID(x, y))
+				{
+					int count = 0;
+					count += GetTileGroupID(x-1, y-1);
+					count += GetTileGroupID(x, y-1);
+					count += GetTileGroupID(x+1, y-1);
+					count += GetTileGroupID(x+1, y);
+					count += GetTileGroupID(x+1, y+1);
+					count += GetTileGroupID(x, y+1);
+					count += GetTileGroupID(x-1, y+1);
+					count += GetTileGroupID(x-1, y);
+					
+					if(0 != count)
+					{
+						Wall wall = new Wall();
+						wall.SetPosition(new Object.Position(x, y));
+					}
+				}
+			}
+		}
+		
+		start = rooms [root ["start_room"].AsInt].GetRandomPosition ();
 	}
-*/
-	public List<MonsterSpawnSpot> GenerateMonster()
+
+	public void GenerateMonsters()
 	{
-		List<MonsterSpawnSpot> spots = new List<MonsterSpawnSpot> ();
+		spwanSpots = new List<MonsterSpawnSpot> ();
 		JSONNode json = root ["monster"];
 		for (int i=0; i<json.Count; i++) {
 			MonsterSpawnSpot spot = new MonsterSpawnSpot();
@@ -69,17 +138,36 @@ public class Dungeon : MapImpl {
 			spot.interval = json[i]["interval"].AsInt;
 			Util.RangeInt roomID = new Util.RangeInt(json[i]["room"]);
 			spot.position = rooms[(int)roomID].GetRandomPosition();
-			spots.Add (spot);
+			spwanSpots.Add (spot);
 		}
-		return spots;
 	}
+
+	public void GenerateGateways() {
+		JSONNode gateways = root ["gateway"];
+		for (int i=0; i<gateways.Count; i++) {
+			Gateway gateway = new Gateway();
+			gateway.dest.id = gateways[i]["id"];
+			gateway.dest.name = gateways[i]["name"];
+			gateway.dest.map = gateways[i]["map"];
+			gateway.SetPosition(rooms[gateways[i]["room"].AsInt].GetRandomPosition());
+		}
+	}
+
+	public override void Update()
+	{
+		foreach (MonsterSpawnSpot spot in spwanSpots)
+		{
+			spot.Update();
+		}
+	}
+
 	public int GetTileGroupID(int x, int y)
 	{
 		if (0 > x || x >= width || 0 > y || y >= height)
 		{
 			return 0;
 		}
-		return tiles[x + y * width];
+		return tiles_[x + y * width];
 	}
 
 	public class Maze
@@ -88,13 +176,13 @@ public class Dungeon : MapImpl {
 		{
 			North, East, South, West, Max
 		}
-		public int group;
+		public int groupID;
 		public Dungeon dungeon;
 
 		public Maze(Dungeon dungeon)
 		{
 			this.dungeon = dungeon;
-			this.group = dungeon.group++;
+			this.groupID = dungeon.groupID++;
 		}
 		
 		public void Digging(DirectionType direction, int x, int y)
@@ -124,7 +212,7 @@ public class Dungeon : MapImpl {
 			{
 				return;
 			}
-			dungeon.tiles[x + y * dungeon.width] = group;
+			dungeon.tiles_[x + y * dungeon.width] = groupID;
 			
 			List<DirectionType> directions = new List<DirectionType>();
 
@@ -138,9 +226,9 @@ public class Dungeon : MapImpl {
 			}
 
 			directions.Add (direction);
-			//if (0 == Random.Range (0, 3)) {
+			if (0 == Random.Range (0, 2)) {
 				direction = directions [Random.Range (0, directions.Count)];
-			//}
+			}
 
 			while (0 < directions.Count)
 			{
@@ -180,7 +268,7 @@ public class Dungeon : MapImpl {
         public int width { get { return right - left; } }
         public int height { get { return bottom - top; } }
         public int area { get { return width * height; } }
-		public int group = 0;
+		public int groupID = 0;
 		public Room(Dungeon dungeon, int left, int right, int top, int bottom)
 		{
 			this.dungeon = dungeon;
@@ -222,18 +310,18 @@ public class Dungeon : MapImpl {
 			{
 				for (int x = this.left; x <= this.right; x++)
 				{
-					if(0 != dungeon.tiles[x + y * dungeon.width])
+					if(0 != dungeon.tiles_[x + y * dungeon.width])
 					{
 						return;
 					}
 				}
 			}
-			group = dungeon.group++;
+			groupID = dungeon.groupID++;
 			for(int y=this.top; y<=this.bottom; y++)
 			{
 				for (int x = this.left; x <= this.right; x++)
 				{
-					dungeon.tiles[x + y * dungeon.width] = group;
+					dungeon.tiles_[x + y * dungeon.width] = groupID;
 				}
 			}
 			dungeon.rooms.Add (this);
@@ -244,7 +332,7 @@ public class Dungeon : MapImpl {
 			for (int y=top; y<=bottom; y++) {
 				int other = 0;
 				other = dungeon.GetTileGroupID(left-2, y);
-				if(0 != other && group != other)
+				if(0 != other && groupID != other)
 				{
 					Connector connector = new Connector();
 					connector.x = left - 1;
@@ -253,7 +341,7 @@ public class Dungeon : MapImpl {
 					connectors.Add (connector);
 				}
 				other = dungeon.GetTileGroupID(right+2, y);
-				if(0 != other && group != other)
+				if(0 != other && groupID != other)
 				{
 					Connector connector = new Connector();
 					connector.x = right + 1;
@@ -265,7 +353,7 @@ public class Dungeon : MapImpl {
 			for (int x=left; x<=right; x++) {
 				int other = 0;
 				other = dungeon.GetTileGroupID(x, top-2);
-				if(0 != other && group != other)
+				if(0 != other && groupID != other)
 				{
 					Connector connector = new Connector();
 					connector.x = x;
@@ -274,7 +362,7 @@ public class Dungeon : MapImpl {
 					connectors.Add (connector);
 				}
 				other = dungeon.GetTileGroupID(x, bottom-2);
-				if(0 != other && group != other)
+				if(0 != other && groupID != other)
 				{
 					Connector connector = new Connector();
 					connector.x = x;
@@ -298,12 +386,12 @@ public class Dungeon : MapImpl {
 						int y = i/dungeon.width;
 						if(src != dest && dest == dungeon.GetTileGroupID(x, y))
 						{
-							dungeon.tiles[i] = src;
+							dungeon.tiles_[i] = src;
 							count++;
 						}
 					}
 					if(0 < count || 0 == Random.Range(0, 30)) {
-						dungeon.tiles[connector.x + connector.y * dungeon.width] = src;
+						dungeon.tiles_[connector.x + connector.y * dungeon.width] = src;
 					}
 				}
 				else
@@ -317,12 +405,12 @@ public class Dungeon : MapImpl {
 						int y = i/dungeon.width;
 						if(src != dest && dest == dungeon.GetTileGroupID(x, y))
 						{
-							dungeon.tiles[i] = src;
+							dungeon.tiles_[i] = src;
 							count++;
 						}
 					}
 					if(0 < count || 0 == Random.Range(0, 30)) {
-						dungeon.tiles[connector.x + connector.y * dungeon.width] = src;
+						dungeon.tiles_[connector.x + connector.y * dungeon.width] = src;
 					}
 				}
 				connectors.RemoveAt(index);
@@ -345,95 +433,5 @@ public class Dungeon : MapImpl {
 		Corridor
 	}
 
-    public override void Generate()
-    {
-		for(int i=0; i<1000 && rooms.Count < this.roomCount; i++)
-		{
-			int x = Random.Range(1, this.width - Room.MAX_SIZE - 1);
-			int w = Random.Range(Room.MIN_SIZE, Room.MAX_SIZE);
-			int y = Random.Range(1, this.height - Room.MAX_SIZE - 1);
-			int h = Random.Range(Room.MIN_SIZE, Room.MAX_SIZE);
-			Room room = new Room (this, x, x + w, y, y + h);
-			room.Digging ();
-		}
-
-		for (int y=1; y<height-1; y++) {
-			for (int x=1; x<width-1; x++) {
-				if(1 == x%2 && 1 == y%2 && 0 == GetTileGroupID(x, y)) {
-					Maze maze = new Maze (this);
-					maze.Digging (Maze.DirectionType.West, x, y);
-				}
-			}
-		}
-
-		foreach (Room room in rooms) {
-			room.Connect();
-		}
-
-		bool delete;
-		do {
-			delete = false;
-			for (int y=1; y<height-1; y++) {
-				for (int x=1; x<width-1; x++) {
-					if(0 != GetTileGroupID(x, y))
-					{
-						int count = 0;
-						for (int dy = -1; dy <= 1; dy += 2)
-						{
-							if (0 == GetTileGroupID(x, y + dy))
-							{
-								count++;
-							}
-						}
-						for (int dx = -1; dx <= 1; dx += 2)
-						{
-							if (0 == GetTileGroupID(x + dx, y))
-							{
-								count++;
-							}   
-						}
-
-						if(3 <= count)
-						{
-							tiles[x + y * width] = 0;
-							delete = true;
-						}
-					}
-				}
-			}
-		} while(delete);
-	
-		for (int y=0; y<height; y++) {
-			for (int x=0; x<width; x++) {
-				if(0 == this.tiles[x + y * this.width])
-				{
-					int count = 0;
-					count += GetTileGroupID(x-1, y-1);
-					count += GetTileGroupID(x, y-1);
-					count += GetTileGroupID(x+1, y-1);
-					count += GetTileGroupID(x+1, y);
-					count += GetTileGroupID(x+1, y+1);
-					count += GetTileGroupID(x, y+1);
-					count += GetTileGroupID(x-1, y+1);
-					count += GetTileGroupID(x-1, y);
-					
-					if(0 != count)
-					{
-						Wall wall = new Wall();
-						wall.SetPosition(new Object.Position(x, y));
-					}
-				}
-			}
-		}
-
-		start = rooms [root ["start_room"].AsInt].GetRandomPosition ();
-		JSONNode gateways = root ["gateway"];
-		for (int i=0; i<gateways.Count; i++) {
-			Gateway gateway = new Gateway();
-			gateway.dest.id = gateways[i]["id"];
-			gateway.dest.name = gateways[i]["name"];
-			gateway.dest.map = gateways[i]["map"];
-			gateway.SetPosition(rooms[gateways[i]["room"].AsInt].GetRandomPosition());
-		}
-    }
+    
 }

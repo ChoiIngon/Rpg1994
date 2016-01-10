@@ -2,9 +2,7 @@
 using System.Collections;
 
 public class GameManager : Util.UI.Singleton<GameManager> {
-	public Player player;
 	public Npc testNpc;
-	public Map map;
 	public Transform popupLayer;
 	private int lastTurn = 0;
 	public int currentTurn {
@@ -12,70 +10,57 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 	}
 
 	void Start() {
+		ItemManager.Instance.Init ();
+		MonsterManager.Instance.Init ();
+		QuestManager.Instance.Init ();
+		Map.Instance.Init ();
+		Player.Instance.name = "You";
+		Player.Instance.sight = 6;
+		Player.Instance.level = 1;
+		
+		Player.Instance.health.value = 150;
+		Player.Instance.health.max = 150;
+		Player.Instance.health.interval = 10;
+		Player.Instance.health.recovery = 3;
+		Player.Instance.health.time = 0;
+		
+		Player.Instance.stamina.value = 300;
+		Player.Instance.stamina.max = 300;
+		Player.Instance.stamina.interval = 0;
+		Player.Instance.stamina.recovery = 0;
+		Player.Instance.stamina.time = 0;
+		
+		Player.Instance.attack = 10;
+		Player.Instance.speed = 10;
+		Player.Instance.defense = 10;
+		Player.Instance.inventory.gold = 0;
+		Player.Instance.inventory.maxWeight = 30;
+		Player.Instance.inventory.weight = 0;
+		
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("weapon_sword_001"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("weapon_sword_002"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("weapon_sword_003"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("shield_001"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("shield_002"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("shield_003"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("shirt_001"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("shirt_002"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("shirt_003"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("ring_001"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("ring_002"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("ring_003"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("potion_heal_001"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("potion_stamina_001"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("potion_attack_001"));
+		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("potion_poison_001"));
+		
+		Player.Instance.visible = true;
 		Init ();
 	}
 
 	public void Init () {
-		ItemManager.Instance.Init ();
-		MonsterManager.Instance.Init ();
-		QuestManager.Instance.Init ();
 
-		map = new Map ();
-		map.Load ("Map/dungeon_001");
-		/*
-		testNpc = new Npc ();
-		testNpc.id = "npc_001";
-		testNpc.name = "npc a";
-		testNpc.visible = false;
-		testNpc.quests.Add ("quest_001");
-		testNpc.SetPosition (new Object.Position (12, 11));
-*/
-		player = new Player ();
-		player.name = "You";
-		player.sight = 6;
-		player.level = 1;
-
-		player.health.value = 150;
-		player.health.max = 150;
-		player.health.interval = 10;
-		player.health.recovery = 3;
-		player.health.time = 0;
-
-		player.stamina.value = 300;
-		player.stamina.max = 300;
-		player.stamina.interval = 0;
-		player.stamina.recovery = 0;
-		player.stamina.time = 0;
-
-		player.attack = 10;
-		player.speed = 10;
-		player.defense = 10;
-		player.inventory.gold = 0;
-		player.inventory.maxWeight = 30;
-		player.inventory.weight = 0;
-		
-		player.inventory.Put (ItemManager.Instance.CreateInstance("weapon_sword_001"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("weapon_sword_002"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("weapon_sword_003"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("shield_001"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("shield_002"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("shield_003"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("shirt_001"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("shirt_002"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("shirt_003"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("ring_001"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("ring_002"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("ring_003"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_heal_001"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_stamina_001"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_attack_001"));
-		player.inventory.Put (ItemManager.Instance.CreateInstance("potion_poison_001"));
-		
-		player.visible = true;
-		player.SetPosition (map.start);
-		/*
-		testNpc.OnCreate ();
-*/
+		Map.Instance.Load ("Map/dungeon_001");
 	}
 
 	void Update () {
@@ -86,12 +71,10 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 			return ;
 		}
 
-		map.Update ();
-		MonsterManager.Instance.Update ();
+		Map.Instance.Update ();
+
 //		testNpc.Update ();
-		player.Update ();
-		player.FieldOfView ();
-		map.view.Center ();
+
 		lastTurn = currentTurn;
 	}
 

@@ -5,15 +5,12 @@ using LitJson;
 using SimpleJSON;
 
 public class MonsterManager : Util.Singleton<MonsterManager> {
-	private int sequence;
 	private Dictionary<string, MonsterInfo> dictInfo = null;
-	public Dictionary<int, MonsterData> monsters = null;
+
 	public MonsterManager() {
 	}
 	public void Init() {
-		sequence = 1;
 		dictInfo = new Dictionary<string, MonsterInfo>();
-		monsters = new Dictionary<int, MonsterData>();
 		TextAsset resource = Resources.Load("Config/MonsterInfo") as TextAsset;
 		JSONNode root = JSON.Parse (resource.text);
 		JSONNode jMonsterInfos = root ["monster"];
@@ -72,18 +69,6 @@ public class MonsterManager : Util.Singleton<MonsterManager> {
 	}
 	public MonsterData CreateInstance(string id) {
 		MonsterData monster = dictInfo [id].CreateInstance ();
-		monster.seq = sequence++;
-		monsters.Add (monster.seq, monster);
 		return monster;
-	}
-	public void Remove(int seq) {
-		monsters.Remove (seq);
-	}
-	public void Update()
-	{
-		foreach (var v in monsters) {
-			MonsterData monster = v.Value;
-			monster.Update();
-		}
 	}
 }

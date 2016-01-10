@@ -11,16 +11,16 @@ public class StatusView : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (null == GameManager.Instance.player) {
+		if (null == Player.Instance) {
 			return;
 		}
 		player.color = Color.green;
-		if (GameManager.Instance.player.health.max / 3 > GameManager.Instance.player.health) {
+		if (Player.Instance.health.max / 3 > Player.Instance.health) {
 			player.color = Color.red;
 		}
-		health.Value = StatusBar (GameManager.Instance.player.health, GameManager.Instance.player.health.max, "#FF0000");
-		stamina.Value = StatusBar (GameManager.Instance.player.stamina, GameManager.Instance.player.stamina.max, "#3BB9FF");
-		location.text = GameManager.Instance.map.name;
+		health.Value = StatusBar (Player.Instance.health, Player.Instance.health.max, "#FF0000");
+		stamina.Value = StatusBar (Player.Instance.stamina, Player.Instance.stamina.max, "#3BB9FF");
+		location.text = Map.Instance.name;
 	}
 
 	string StatusBar(int current, int max, string color) {
