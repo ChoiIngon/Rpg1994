@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Chest : MonoBehaviour {
+public class Chest : Object {
 
 	// Use this for initialization
 	void Start () {

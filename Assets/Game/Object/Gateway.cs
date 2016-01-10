@@ -37,7 +37,7 @@ public class Gateway : Object {
 		PopupMessageView.Instance.gameObject.SetActive (true);
 	}
 	private void MoveMap() {
-		GameManager.Instance.Init ();
+		Map.Instance.Load (dest.map);
 	}
 
 }

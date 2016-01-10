@@ -1,0 +1,42 @@
+{
+ 	"quest": [
+		{
+			"id": "quest_001",
+			"name" : "first quest",
+			"start_condition": {
+	        	"level": 20,
+	       		“npc”:”npc_001”,
+	        	"incomplete_quest" : ["quest_001"]
+	      	},
+	      	"start_dialogue": [
+	        	{
+	          		"speaker": "촌장",
+	          		"script": "어서 오세요. 용사님. 누군가가 이 마을에 찾아 온건 참 오랜만이군요. 요즘 들어 부쩍 마을 근처 몬스터들이 사람들을 공격하는 횟수가 늘었 답니다. 마을 주변에서 슬라임을 처치해 주시지 않겠습니까?"
+	        	}
+	        ],
+	        "complete_condition": [
+		        {
+		        	"type": "kill_monster",
+		          	"monster_id": "monster_001",
+		          	"count": 5
+		        },
+		        {
+		          	"type": "meet_npc",
+		          	"npc_id": "npc_001"
+		        }
+	      	],
+	        "complete_dialogue": [
+	        	{
+	          		"speaker": "npc_001",
+	          		"script": "수고했네. 자 여기 보상"
+	        	}
+	      	],
+	      	"reward": [
+	        	{ "item": "potion_stamina_001", "count":1 },
+	        	{ "item": "potion_heal_001", "count":2 },        
+	        	{ "gold": 500  },
+	        	{ "exp": 30 }
+	      	]
+	    }
+  	]
+} 

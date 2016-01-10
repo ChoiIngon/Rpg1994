@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SimpleJSON;
 
 public class QuestData {
 	public enum State {
@@ -89,6 +90,48 @@ public class QuestManager : Util.Singleton<QuestManager> {
 	public void Init() {
 		completes = new Dictionary<string, CompleteQuest>();
 		quests = new Dictionary<string, QuestData>();
+
+		TextAsset resource = Resources.Load("Config/QuestInfo") as TextAsset;
+		JSONNode root = JSON.Parse (resource.text);
+		JSONNode jQuests = root ["quest"];
+		for (int i=0; i<jQuests.Count; i++) {
+			JSONNode jQuest = jQuests [i];
+			QuestData data = new QuestData ();
+			/* ["id"];
+			info.name = jMonsterInfo ["name"];
+			info.description = jMonsterInfo ["description"];
+			info.maxHealth.SetValue(jMonsterInfo["health"]["max"]);
+			info.health.recovery = jMonsterInfo["health"]["amount"].AsInt;
+			info.health.interval = jMonsterInfo["health"]["time"].AsInt;
+			info.attack.SetValue(jMonsterInfo["attack"]);
+			info.speed.SetValue(jMonsterInfo["speed"]);
+			info.defense.SetValue(jMonsterInfo["defense"]);
+			
+			info.equipments = InitItem (jMonsterInfo);
+			
+			JSONNode rewardInfos = jMonsterInfo["reward"];
+			for(int j=0; j<rewardInfos.Count; j++)
+			{
+				JSONNode rewardInfo = rewardInfos[j];
+				string rewardValue = rewardInfo["item"];
+				if(null != rewardValue)
+				{
+					info.reward.items.Add (ItemManager.Instance.Find (rewardValue));
+				}
+				rewardValue = rewardInfo["gold"];
+				if(null != rewardValue)
+				{
+					info.reward.gold.SetValue(rewardValue);
+				}
+				rewardValue = rewardInfo["exp"];
+				if(null != rewardValue)
+				{
+					info.reward.exp.SetValue(rewardValue);
+				}
+			}
+			dictInfo.Add (info.id, info);
+			*/
+		}
 
 		QuestData quest = new QuestData();
 		quest.id = "quest_001";

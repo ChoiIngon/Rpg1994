@@ -35,6 +35,17 @@ public class Dungeon : MapImpl {
 		GenerateTiles ();
 		GenerateMonsters ();
 		GenerateGateways ();
+		GenerateNPC ();
+	}
+
+	private void GenerateNPC()
+	{
+		JSONNode json = root ["npc"];
+		for (int i=0; i<json.Count; i++) {
+			Npc npc = new Npc();
+			npc.id = json[i]["id"];
+			npc.SetPosition(rooms[json[i]["room"].AsInt].GetRandomPosition());
+		}
 	}
 
 	private void GenerateTiles()

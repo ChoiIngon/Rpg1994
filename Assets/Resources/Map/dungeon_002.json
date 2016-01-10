@@ -1,6 +1,6 @@
 {
 	"type":"dungeon",
-	"name":"미궁1층", "description":"미궁이다...\n여기에 몹 존내 많음..ㅋㅋ", 
+	"name":"미궁2층", "description":"미궁이다...\n여기에 몹 존내 많음..ㅋㅋ", 
 	"size": {
 		"width":"45", "height":"35"
 	},
@@ -21,9 +21,9 @@
 		{ "id" : "monster_002",	"count" : 0, "interval" : 6, "room":"1~9" }
 	],
 	"npc" : [
-		{ "id" : "npc_001", "room" : 1 }
 	],
 	"gateway": [
+		{ "id" : "dungeon_001", "name" : "previous level", "map" : "Map/dungeon_001", "room":0 },
 		{ "id" : "dungeon_002", "name" : "next level", "map" : "Map/dungeon_002", "room":9 }
 	]
 }	
