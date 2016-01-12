@@ -11,12 +11,13 @@ public class MapView : MonoBehaviour {
 	public int VIEW_HEIGHT = 0;
 	[HideInInspector]
 	public Transform tiles;
-
+	[HideInInspector]
+	private Rect viewRect;
 	void Start()
 	{
-		RectTransform rect = GetComponent<RectTransform>();
-		VIEW_WIDTH = (int)rect.rect.width/TILE_SIZE;
-		VIEW_HEIGHT = (int)rect.rect.height/TILE_SIZE;
+		viewRect = GetComponent<RectTransform>().rect;
+		VIEW_WIDTH = (int)viewRect.width/TILE_SIZE;
+		VIEW_HEIGHT = (int)viewRect.height/TILE_SIZE;
 		tiles = transform.FindChild ("Tiles");
 	}
 
@@ -29,16 +30,6 @@ public class MapView : MonoBehaviour {
 		}
 		RectTransform rect = tiles.GetComponent<RectTransform> ();
 		rect.sizeDelta = new Vector2 (Map.Instance.width * TILE_SIZE, Map.Instance.height * TILE_SIZE);
-
-		/*
-		foreach (Tile tile in Map.Instance.tiles) {
-			tile.OnCreate();
-			foreach(var v in tile.objects)
-			{
-				v.Value.OnCreate();
-			}
-		}
-		*/
 	}
 
 	public void Center()
@@ -53,6 +44,22 @@ public class MapView : MonoBehaviour {
 				throw new System.Exception("out of map position");
 			}
 			view.SetVisible(tile.visible);
+		}
+	}
+
+	void Update()
+	{
+		for(int i=0; i<tiles.childCount; i++) {
+			Transform child = tiles.GetChild(i);
+			if(0 <= child.localPosition.x + tiles.localPosition.x && viewRect.width > child.localPosition.x + tiles.localPosition.x &&
+			   0 > child.localPosition.y + tiles.localPosition.y && viewRect.height > child.localPosition.y - tiles.localPosition.y
+			)
+			{
+				child.gameObject.SetActive(true);
+			}
+			else {
+				child.gameObject.SetActive(false);
+			}
 		}
 	}
 }

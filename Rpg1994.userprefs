@@ -1,43 +1,47 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Map/dungeon_001.json">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Game/Object/Object.cs">
     <Files>
-      <File FileName="Assets/Game/Map/Dungeon.cs" Line="40" Column="1" />
-      <File FileName="Assets/Game/Monster/MonsterManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Map/dungeon_002.json" Line="1" Column="1" />
-      <File FileName="Assets/Resources/Map/dungeon_001.json" Line="13" Column="15" />
+      <File FileName="Assets/Game/Object/Object.cs" Line="54" Column="1" />
+      <File FileName="Assets/Game/Object/Position.cs" Line="3" Column="34" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Game" expanded="True">
-              <Node name="Buff" expanded="True" />
-              <Node name="ControlPanel" expanded="True" />
-              <Node name="Map" expanded="True">
-                <Node name="Dungeon.cs" selected="True" />
-              </Node>
+              <Node name="Map" expanded="True" />
               <Node name="Monster" expanded="True" />
-              <Node name="Object" expanded="True" />
+              <Node name="Object" expanded="True">
+                <Node name="Object.cs" selected="True" />
+              </Node>
+              <Node name="PlayerInfoView" expanded="True">
+                <Node name="Script" expanded="True" />
+              </Node>
+              <Node name="Popup" expanded="True" />
               <Node name="Quest" expanded="True" />
+              <Node name="View" expanded="True">
+                <Node name="ControlView" expanded="True" />
+              </Node>
             </Node>
+            <Node name="Util" expanded="True" />
+          </Node>
+          <Node name="Assembly-CSharp-firstpass" expanded="True">
+            <Node name="Plugins" expanded="True" />
           </Node>
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
-          <Value>visible</Value>
-          <Value>position</Value>
-          <Value>player</Value>
-          <Value>tiles</Value>
-          <Value>view.position</Value>
-          <Value>tile</Value>
+          <Value>attr</Value>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/kukuta/workspace/Rpg1994/Assets/Plugins/SimpleJSON.cs" line="933" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

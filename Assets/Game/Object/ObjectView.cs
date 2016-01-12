@@ -4,7 +4,8 @@ using System.Collections;
 
 public class ObjectView : MonoBehaviour {
 	public Text display;
-	public Object.Position position;
+	public string text;
+	public Position position;
 	public ObjectView() {
 		Transform tileTextTransform = transform.FindChild ("Text");
 		if (null == tileTextTransform) {
@@ -14,7 +15,11 @@ public class ObjectView : MonoBehaviour {
 		transform.localPosition = new Vector3(-1 * MapView.TILE_SIZE, 1 * MapView.TILE_SIZE, 0);
 	}
 	public virtual void SetVisible(bool value) {
-		gameObject.SetActive (value);
+		if (true == value) {
+			display.text = text;
+		} else {
+			display.text = "";
+		}
 	}
 
 	public static T Create<T>(Object obj, string text, Color color) where T : ObjectView {
@@ -23,6 +28,7 @@ public class ObjectView : MonoBehaviour {
 		objectView.transform.SetParent (Map.Instance.view.tiles, false);
 		T tView = objectView.AddComponent<T> ();
 		tView.name = text;
+		tView.text = text;
 		tView.display.text = text;
 		tView.display.color = color;
 		tView.position = obj.position;
@@ -51,7 +57,7 @@ public class ObjectView : MonoBehaviour {
 		GameObject.Destroy (gameObject);
 	}
 
-	public void SetPosition(Object.Position position)
+	public void SetPosition(Position position)
 	{
 		this.position = position;
 		transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);

@@ -54,7 +54,7 @@ public class Player : Character
 		}
 		item.part = Character.EquipPart.Max;
 		equipments [(int)part] = null;
-		ItemStack stack = CreateItemStack (item, new Object.Position(position.x, position.y));
+		ItemStack stack = CreateItemStack (item, new Position(position.x, position.y));
 		OnDropItem (item);
 		return stack;
 	}
@@ -65,7 +65,7 @@ public class Player : Character
 		if (null == item) {
 			return null;
 		}
-		ItemStack stack = CreateItemStack (item, new Object.Position (position.x, position.y));
+		ItemStack stack = CreateItemStack (item, new Position (position.x, position.y));
 		OnDropItem (item);
 		return stack;
 	}
@@ -88,7 +88,7 @@ public class Player : Character
 	public void MoveTo(Character.DirectionType direction) {
 		this.direction = direction;
 
-		Object.Position dest = new Object.Position (position.x, position.y);
+		Position dest = new Position (position.x, position.y);
 		switch(direction) {
 		case DirectionType.East : dest.x += 1; break;
 		case DirectionType.West : dest.x -= 1; break;
@@ -186,7 +186,7 @@ public class Player : Character
 		//view.OnDestroy ();
 	}
 
-	public override void SetPosition(Object.Position position) {
+	public override void SetPosition(Position position) {
 		base.SetPosition (position);
 		view.SetPosition (position);
 	}

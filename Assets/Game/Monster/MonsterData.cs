@@ -31,7 +31,7 @@ public class MonsterData : Character {
 		float chaseWeight = (float)speed / Player.Instance.speed;
 		if (UnityEngine.Random.Range(1, 100) < chaseWeight * 100) {
 			PathFind_AStar path = new PathFind_AStar ();
-			Object.Position next = path.FindNextPath (position, Player.Instance.position);
+			Position next = path.FindNextPath (position, Player.Instance.position);
 			if (null != next) {
 				Move (next);
 			}
@@ -41,6 +41,7 @@ public class MonsterData : Character {
 		}
 		state = State.Chase;
 	}
+
 	public virtual void Attack() {
 		Attack(Player.Instance);
 		state = State.Fight;
@@ -52,7 +53,7 @@ public class MonsterData : Character {
 		Player.Instance.inventory.gold += reward.gold;
 		Player.Instance.exp += reward.exp;
 		foreach (ItemData item in reward.items) {
-			CreateItemStack (item, new Object.Position (position.x, position.y));
+			CreateItemStack (item, new Position (position.x, position.y));
 			OnDropItem (item);
 		}
 
@@ -95,7 +96,7 @@ public class MonsterData : Character {
 
 	public override void Update() {
 		base.Update ();
-		if (true == IsVisible (Player.Instance.position)) {
+		if (true == IsVisible (Player.Instance)) {
 			if(range >= Vector2.Distance (position, Player.Instance.position)) {
 				Attack ();
 				return;

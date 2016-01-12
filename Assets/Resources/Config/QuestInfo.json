@@ -3,11 +3,11 @@
 		{
 			"id": "quest_001",
 			"name" : "first quest",
-			"start_condition": {
-	        	"level": 20,
-	       		“npc”:”npc_001”,
-	        	"incomplete_quest" : ["quest_001"]
-	      	},
+			"start_condition": [
+	        	{ "level": 1 },
+	       		{ "npc_id" : "npc_001" },
+	        	{ "incomplete_quest" : "quest_001"}
+	      	],
 	      	"start_dialogue": [
 	        	{
 	          		"speaker": "촌장",
@@ -18,7 +18,7 @@
 		        {
 		        	"type": "kill_monster",
 		          	"monster_id": "monster_001",
-		          	"count": 5
+		          	"count": 1
 		        },
 		        {
 		          	"type": "meet_npc",
@@ -32,8 +32,8 @@
 	        	}
 	      	],
 	      	"reward": [
-	        	{ "item": "potion_stamina_001", "count":1 },
-	        	{ "item": "potion_heal_001", "count":2 },        
+	        	{ "item": "potion_stamina_001" },
+	        	{ "item": "potion_heal_001" },        
 	        	{ "gold": 500  },
 	        	{ "exp": 30 }
 	      	]

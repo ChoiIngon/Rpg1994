@@ -7,7 +7,7 @@ public class MonsterSpawnSpot {
 	public int interval;
 	public int deadTime;
 	public int count; // zero means infinity
-	public Object.Position position;
+	public Position position;
 
     public MonsterSpawnSpot()
     {
@@ -16,7 +16,7 @@ public class MonsterSpawnSpot {
 		interval = 0;
 		deadTime = 0;
 		count = 0;
-		position = new Object.Position (0, 0);
+		position = new Position (0, 0);
 	}
 
 	public void Update() {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PathFind_AStar {
 	public Dictionary<int, Node> openNodes = new Dictionary<int, Node>();
 	public Dictionary<int, Node> closeNodes = new Dictionary<int, Node>();
-	public Object.Position destination;
+	public Position destination;
 	public class Node {
 		public int id {
 			get {
@@ -19,11 +19,11 @@ public class PathFind_AStar {
 		}
 		public int path_cost = 0;
 		public int expect_cost = 0;
-		public Object.Position position;
+		public Position position;
 		public Node parent = null;
 		private PathFind_AStar finder;
 
-		public Node(PathFind_AStar finder, Node parent, Object.Position position, int path_cost)
+		public Node(PathFind_AStar finder, Node parent, Position position, int path_cost)
 		{
 			this.finder = finder;
 			this.position = position;
@@ -33,7 +33,7 @@ public class PathFind_AStar {
 			this.parent = parent;
 		}
 
-		public Object.Position FindNextPath() {
+		public Position FindNextPath() {
 			if (true == finder.openNodes.ContainsKey (id)) {
 				finder.openNodes.Remove (id);
 			}
@@ -52,14 +52,14 @@ public class PathFind_AStar {
 				return trace.position;
 			}
 
-			List<Object.Position> childPositions = new List<Object.Position> ();
-			childPositions.Add(new Object.Position(position.x-1, position.y)); 
-			childPositions.Add(new Object.Position(position.x+1, position.y)); 
-			childPositions.Add(new Object.Position(position.x, position.y-1)); 
-			childPositions.Add(new Object.Position(position.x, position.y+1)); 
+			List<Position> childPositions = new List<Position> ();
+			childPositions.Add(new Position(position.x-1, position.y)); 
+			childPositions.Add(new Position(position.x+1, position.y)); 
+			childPositions.Add(new Position(position.x, position.y-1)); 
+			childPositions.Add(new Position(position.x, position.y+1)); 
 
 			List<Node> children = new List<Node> ();
-			foreach (Object.Position childPosition in childPositions) {
+			foreach (Position childPosition in childPositions) {
 				if(0 > childPosition.x || 0 > childPosition.y || Map.Instance.width <= childPosition.x || Map.Instance.height <= childPosition.y)
 				{
 					//Debug.Log("out of range from map(child position:x" + childPosition.x + ", y:" + childPosition.y +")");
@@ -110,11 +110,11 @@ public class PathFind_AStar {
 		}
 	}
 
-	public Object.Position FindNextPath(Object.Position start, Object.Position dest)
+	public Position FindNextPath(Position start, Position dest)
 	{
 		destination = dest;
 		Node node = new Node (this, null, start, 0);
-		Object.Position position = node.FindNextPath ();
+		Position position = node.FindNextPath ();
 		if (null != position) {
 			Debug.Log ("find destination(x:" + position.x + ", y:" + position.y + ")");
 			return position;

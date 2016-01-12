@@ -87,54 +87,104 @@ public class QuestManager : Util.Singleton<QuestManager> {
 	public Dictionary<string, CompleteQuest> completes = new Dictionary<string, CompleteQuest>();
 	public Dictionary<string, QuestData> quests = new Dictionary<string, QuestData>();
 
+	private delegate QuestStartCondition CreateStartConditionInstance(JSONNode attr);
+	private delegate QuestCompleteCondition CreateCompleteConditionInstance (JSONNode attr);
 	public void Init() {
 		completes = new Dictionary<string, CompleteQuest>();
 		quests = new Dictionary<string, QuestData>();
 
+
+		Dictionary<string, CreateStartConditionInstance> startConditions = new Dictionary<string, CreateStartConditionInstance>();
+		startConditions ["npc_id"] = (JSONNode attr) => { 
+			QuestStartCondition_MeetNpc condition = new QuestStartCondition_MeetNpc ();
+			condition.npcID = attr;
+			return condition;
+		};
+		startConditions ["level"] = (JSONNode attr) => { 
+			QuestStartCondition_Level condition = new QuestStartCondition_Level ();
+			condition.level = attr.AsInt;
+			return condition;
+		};
+		startConditions ["complete_quest"] = (JSONNode attr) => { 
+			QuestStartCondition_Complete condition = new QuestStartCondition_Complete ();
+			condition.questID = attr;
+			return condition;
+		};
+		startConditions ["incomplete_quest"] = (JSONNode attr) => { 
+			QuestStartCondition_Incomplete condition = new QuestStartCondition_Incomplete ();
+			condition.questID = attr;
+			return condition;
+		};
+
+		Dictionary<string, CreateCompleteConditionInstance> completeConditions = new Dictionary<string, CreateCompleteConditionInstance> ();
+		completeConditions ["kill_monster"] = (JSONNode attr) => {
+			QuestCompleteCondition_KillMonster condition = new QuestCompleteCondition_KillMonster();
+			condition.monsterID = attr["monster_id"];
+			condition.goalKillCount = attr["count"].AsInt;
+			return condition;
+		};
+		completeConditions ["meet_npc"] = (JSONNode attr) => {
+			QuestCompleteCondition_MeetNpc condition = new QuestCompleteCondition_MeetNpc();
+			condition.npcID = attr["npc_id"];
+			return condition;
+		};
 		TextAsset resource = Resources.Load("Config/QuestInfo") as TextAsset;
 		JSONNode root = JSON.Parse (resource.text);
 		JSONNode jQuests = root ["quest"];
 		for (int i=0; i<jQuests.Count; i++) {
 			JSONNode jQuest = jQuests [i];
 			QuestData data = new QuestData ();
-			/* ["id"];
-			info.name = jMonsterInfo ["name"];
-			info.description = jMonsterInfo ["description"];
-			info.maxHealth.SetValue(jMonsterInfo["health"]["max"]);
-			info.health.recovery = jMonsterInfo["health"]["amount"].AsInt;
-			info.health.interval = jMonsterInfo["health"]["time"].AsInt;
-			info.attack.SetValue(jMonsterInfo["attack"]);
-			info.speed.SetValue(jMonsterInfo["speed"]);
-			info.defense.SetValue(jMonsterInfo["defense"]);
-			
-			info.equipments = InitItem (jMonsterInfo);
-			
-			JSONNode rewardInfos = jMonsterInfo["reward"];
-			for(int j=0; j<rewardInfos.Count; j++)
+			data.id = jQuest["id"];
+			data.name = jQuest["name"];
+
+			JSONNode jStartConditions = jQuest["start_condition"];
+			for(int j=0; j<jStartConditions.Count; j++)
 			{
-				JSONNode rewardInfo = rewardInfos[j];
-				string rewardValue = rewardInfo["item"];
-				if(null != rewardValue)
+				JSONClass jStartCondition = jStartConditions[j].AsObject;
+				foreach(KeyValuePair<string, JSONNode> pair in jStartCondition)
 				{
-					info.reward.items.Add (ItemManager.Instance.Find (rewardValue));
-				}
-				rewardValue = rewardInfo["gold"];
-				if(null != rewardValue)
-				{
-					info.reward.gold.SetValue(rewardValue);
-				}
-				rewardValue = rewardInfo["exp"];
-				if(null != rewardValue)
-				{
-					info.reward.exp.SetValue(rewardValue);
+					data.startConditions.Add (startConditions[pair.Key](pair.Value));
 				}
 			}
-			dictInfo.Add (info.id, info);
-			*/
-		}
 
+			JSONNode jStartDialouges = jQuest["start_dialogue"];
+			for(int j=0; j<jStartDialouges.Count; j++)
+			{
+				JSONNode jStartDialouge = jStartDialouges[j];
+				data.startDialouges.Add (new QuestData.Dialouge() { speacker=jStartDialouge["speaker"], script=jStartDialouge["script"]});
+			}
+			JSONNode jCompleteConditions = jQuest["complete_condition"];
+			for(int j=0; j<jCompleteConditions.Count; j++)
+			{
+				JSONNode jCompleteCondition = jCompleteConditions[j];
+				data.completeConditions.Add (completeConditions[jCompleteCondition["type"]](jCompleteCondition));
+			}
+			JSONNode jCompleteDialouges = jQuest["complete_dialogue"];
+			for(int j=0; j<jCompleteDialouges.Count; j++)
+			{
+				JSONNode jCompleteDialouge = jCompleteDialouges[j];
+				data.completeDialouges.Add (new QuestData.Dialouge() { speacker=jCompleteDialouge["speaker"], script=jCompleteDialouge["script"]});
+			}
+			JSONNode jRewards = jQuest["reward"];
+			for(int j=0; j<jRewards.Count; j++)
+			{
+				JSONNode jReward = jRewards[j];
+				string sGold = jReward["gold"];
+				if(null != sGold)
+				{
+					data.reward.gold.SetValue(sGold);
+				}
+				string sItem = jReward["item"];
+				if(null != sItem)
+				{
+					data.reward.items.Add(ItemManager.Instance.Find(sItem));
+				}
+			}
+			quests.Add (data.id, data);
+		}
+		/*
 		QuestData quest = new QuestData();
-		quest.id = "quest_001";
+		quest.id = "quest_002";
 		quest.name = "first quest";
 		quest.startConditions.Add (new QuestStartCondition_Level () { level = 1 } );
 		quest.startConditions.Add (new QuestStartCondition_MeetNpc() { npcID = "npc_001" });
@@ -147,7 +197,9 @@ public class QuestManager : Util.Singleton<QuestManager> {
 		quest.reward.gold = new Util.RangeInt("100");
 		quest.reward.items.Add(ItemManager.Instance.Find("shield_001"));
 		quests.Add (quest.id, quest);
+		*/
 	}
+	
 	public QuestData Find(string questID)
 	{ 
 		return quests.ContainsKey (questID) ? quests [questID] : null;

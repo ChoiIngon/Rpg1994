@@ -7,7 +7,7 @@ using SimpleJSON;
 
 namespace MapEditor {
 	public class Tile : MonoBehaviour, IPointerClickHandler {
-		public Object.Position position;
+		public Position position;
 		public TileImpl impl;
 		private Text _text;
 
@@ -18,7 +18,7 @@ namespace MapEditor {
 			}
 			impl = null;
 			_text = trans.GetComponent<Text>();
-			position = new Object.Position (0, 0);
+			position = new Position (0, 0);
 		}
 
 		public string type {

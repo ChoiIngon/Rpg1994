@@ -15,7 +15,7 @@ public class ItemStack : Object {
 		view = ObjectView.Create<ObjectView>(this, "$", Color.yellow);
 	}
 
-	public override void SetPosition(Object.Position position) {
+	public override void SetPosition(Position position) {
 		view.SetPosition (position);
 		base.SetPosition (position);
 	}

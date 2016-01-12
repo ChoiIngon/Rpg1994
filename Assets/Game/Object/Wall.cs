@@ -22,7 +22,7 @@ public class Wall : Object {
 		view.OnDestroy ();
 	}
 
-	public override void SetPosition(Object.Position position) {
+	public override void SetPosition(Position position) {
 		view.SetPosition (position);
 		base.SetPosition (position);
 	}

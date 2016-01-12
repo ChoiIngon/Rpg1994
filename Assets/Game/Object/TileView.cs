@@ -20,7 +20,6 @@ public class TileView : ObjectView {
 		}
 		display.text = ".";
 		if(true == value) {
-			gameObject.SetActive(true);
 			display.color = new Color(display.color.r, display.color.g, display.color.b, 1.0f);
 			if(0 < tile.objects.Count)
 			{
@@ -30,11 +29,10 @@ public class TileView : ObjectView {
 		else {
 			if(true == tile.visit)
 			{
-				gameObject.SetActive(true);
 				display.color = new Color(display.color.r, display.color.g, display.color.b, 0.5f);
 			}
 			else{
-				gameObject.SetActive(false);
+				display.text = "";
 			}
 		}
 	}

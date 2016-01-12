@@ -52,7 +52,7 @@ public class Dungeon : MapImpl {
 	{
 		for (int i = 0; i< this.tiles.Length; i++) {
 			Tile tile = new Tile();
-			tile.SetPosition(new Object.Position(i % this.width, i / this.width));
+			tile.SetPosition(new Position(i % this.width, i / this.width));
 			tiles[i] = tile;
 		}
 
@@ -129,7 +129,7 @@ public class Dungeon : MapImpl {
 					if(0 != count)
 					{
 						Wall wall = new Wall();
-						wall.SetPosition(new Object.Position(x, y));
+						wall.SetPosition(new Position(x, y));
 					}
 				}
 			}
@@ -310,9 +310,9 @@ public class Dungeon : MapImpl {
 			this.bottom = (0 == this.bottom % 2) ? this.bottom - 1 : this.bottom;
 		}
 
-		public Object.Position GetRandomPosition()
+		public Position GetRandomPosition()
 		{
-			return new Object.Position(Random.Range (left, right), Random.Range (top, bottom));
+			return new Position(Random.Range (left, right), Random.Range (top, bottom));
 		}
 
 		public void Digging()
@@ -436,13 +436,4 @@ public class Dungeon : MapImpl {
 		public int x, y;
 		public DirectionType direction;
 	}
-	public enum TileType {
-		Unused,
-		Wall,
-		Door,
-		Floor,
-		Corridor
-	}
-
-    
 }

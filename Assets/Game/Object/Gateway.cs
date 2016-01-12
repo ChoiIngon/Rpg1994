@@ -19,7 +19,7 @@ public class Gateway : Object {
 		view = ObjectView.Create<WallView> (this, ">", Color.white);
 	}
 
-	public override void SetPosition(Object.Position position)
+	public override void SetPosition(Position position)
 	{
 		base.SetPosition (position);
 		view.SetPosition (position);

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 
 public abstract class QuestStartCondition
 {
@@ -21,6 +22,7 @@ public class QuestStartCondition_MeetNpc : QuestStartCondition {
 		return false;
 	}
 }
+
 public class QuestStartCondition_Level : QuestStartCondition
 {
 	public int level;

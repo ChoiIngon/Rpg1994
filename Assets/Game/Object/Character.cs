@@ -59,7 +59,7 @@ public class Character : Object {
 	public DirectionType direction;
 	public Object target {
 		get {
-			Object.Position dest = new Object.Position (position.x, position.y);
+			Position dest = new Position (position.x, position.y);
 			switch(direction) {
 			case DirectionType.East : dest.x += 1; break;
 			case DirectionType.West : dest.x -= 1; break;
@@ -134,27 +134,26 @@ public class Character : Object {
 		GetStatus ();
 	}
 
-	public bool IsVisible(Object.Position dest) {
-		if(sight < Vector2.Distance (new Vector2 (this.position.x, this.position.y), new Vector2 (dest.x, dest.y))) {
+	public bool IsVisible(Object dest) {
+		if(sight < Vector2.Distance (new Vector2 (this.position.x, this.position.y), new Vector2 (dest.position.x, dest.position.y))) {
 			return false;
 		}
-		
-		List<Object.Position> positions = Raycast(new Object.Position(dest.x, dest.y));
-		foreach(Object.Position position in positions) {
-			if(position == dest) {
-				return true;
-			}
-			Tile tile = Map.Instance.GetTile(position.x, position.y);
-			if(Tile.Type.Floor != tile.type)
-			{
-				return false;
+
+		List<Position> positions = Position.Raycast(this.position, dest.position);
+		foreach(Position position in positions) {
+			Tile tile = Map.Instance.GetTile (position.x, position.y);
+			foreach(var v in tile.objects) {
+				if(1.0f < v.Value.size)
+				{
+					return false;
+				}
 			}
 		}
-		return false;
+		return true;
 	}
 
 	public void Move(DirectionType direction) {
-		Object.Position dest = new Object.Position (position.x, position.y);
+		Position dest = new Position (position.x, position.y);
 		switch(direction) {
 		case DirectionType.East : dest.x += 1; break;
 		case DirectionType.West : dest.x -= 1; break;
@@ -165,7 +164,7 @@ public class Character : Object {
 		Move (dest);
 	}
 
-	public void Move(Object.Position dest)
+	public void Move(Position dest)
 	{
 		if (Map.Instance.width <= dest.x || 0 > dest.x || Map.Instance.height <= dest.y || 0 > dest.y) {
 			return;
@@ -238,7 +237,7 @@ public class Character : Object {
 			Destroy();
 		}
 	}
-	public ItemStack CreateItemStack(ItemData item, Object.Position at) {
+	public ItemStack CreateItemStack(ItemData item, Position at) {
 		ItemStack stack = new ItemStack ();
 		stack.item = item;
 		stack.count = 1;

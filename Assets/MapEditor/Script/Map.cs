@@ -111,7 +111,7 @@ namespace MapEditor {
 				for (int x=0; x<width; x++) {
 					MapEditor.Tile tile = Instantiate<MapEditor.Tile>(tilePref);
 					tile.Init ();
-					tile.position = new Object.Position(x, y);
+					tile.position = new Position(x, y);
 					tile.transform.SetParent (contents.transform, false);
 					tile.transform.localPosition = new Vector3(x * TILE_SIZE, -y * TILE_SIZE, 0);
 				}

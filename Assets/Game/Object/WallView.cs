@@ -110,8 +110,8 @@ public class WallView : ObjectView {
 
 	public override void SetVisible (bool value)
 	{
+		display.text = text;
 		if(true == value) {
-			gameObject.SetActive(true);
 			display.color = new Color(display.color.r, display.color.g, display.color.b, 1.0f);
 		}
 		else {
@@ -121,11 +121,10 @@ public class WallView : ObjectView {
 			}
 			if(true == tile.visit)
 			{
-				gameObject.SetActive(true);
 				display.color = new Color(display.color.r, display.color.g, display.color.b, 0.5f);
 			}
-			else{
-				gameObject.SetActive(false);
+			else {
+				display.text = "";
 			}
 		}
 	}

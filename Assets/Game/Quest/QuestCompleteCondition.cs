@@ -25,7 +25,6 @@ public class QuestCompleteCondition_KillMonster : QuestCompleteCondition {
 
 	public QuestCompleteCondition_KillMonster() {
 		type = QuestCompleteCondition.Type.KillMonster;
-
 	}
 
 	public void Trigger(string monsterID) {

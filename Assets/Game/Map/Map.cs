@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ public abstract class MapImpl {
 	public int width;
 	public int height;
 	public Tile[] tiles;
-	public Object.Position start;
+	public Position start;
 
 	public abstract void Generate();
 	public abstract void Update();
@@ -25,7 +26,7 @@ public class Map : Util.Singleton<Map> {
 	public int width { get { return impl.width; } }
 	public int height { get { return impl.height; } }
 	public Tile[] tiles { get { return impl.tiles; } }
-	public Object.Position start { get { return impl.start; } }
+	public Position start { get { return impl.start; } }
 	
 	public void Init() {
 		view = GameObject.Find ("MapView").GetComponent<MapView>();
@@ -52,9 +53,6 @@ public class Map : Util.Singleton<Map> {
 		Player.Instance.OnCreate ();
 		Player.Instance.SetPosition (Map.Instance.start);
 		Update ();
-
-		Player.Instance.FieldOfView ();
-		view.Center ();
 	}
 
 	public Tile GetTile(int x, int y) {
@@ -66,24 +64,73 @@ public class Map : Util.Singleton<Map> {
 
 	public void Update()
 	{
+		List<Object> objects = new List<Object> ();
 		foreach(Tile tile in tiles) {
 			tile.visible = false;
-			tile.Update ();
-			List<Object> objects = new List<Object>();
 			foreach(var v in tile.objects) {
 				v.Value.visible = false;
-				objects.Add (v.Value);
-			}
-
-			foreach(Object obj in objects)
-			{
-				obj.Update();
+				objects.Add(v.Value);
 			}
 		}
 
+		foreach (Object obj in objects) {
+			obj.Update();
+		}
 		impl.Update ();
 
-		Player.Instance.FieldOfView ();
+		Map.Instance.FieldOfView (Player.Instance.position, Player.Instance.sight);
 		view.Center ();
+	}
+
+	public void LineOfView(Position src, Position dest, int range)
+	{
+		List<Position> positions = Position.Raycast(src, dest);
+		foreach(Position position in positions) {
+			if(range < Vector2.Distance(src, position)) {
+				return;
+			}
+			
+			Tile tile = GetTile (position.x, position.y);
+			tile.visit = true;
+			tile.visible = true;
+			foreach(var v in tile.objects) {
+				v.Value.visible = true;
+				if(1.0f < v.Value.size)
+				{
+					return;
+				}
+			}
+		}
+	}
+
+	public void FieldOfView(Position src, int range) {
+		{
+			int y = Math.Max(0, src.y - range);
+			for(int x=Math.Max (0, src.x - range); x < Math.Min (src.x + range, width); x++)
+			{
+				LineOfView(src, new Position(x, y), range);
+			}
+		}
+		{
+			int y = Math.Min(height-1, src.y + range);
+			for(int x=Math.Max (0, src.x - range); x < Math.Min (src.x + range, width); x++)
+			{
+				LineOfView(src, new Position(x, y), range);
+			}
+		}
+		{
+			int x = Math.Max(0, src.x - range);
+			for(int y=Math.Max (0, src.y - range); y < Math.Min (src.y + range, height); y++)
+			{
+				LineOfView(src, new Position(x, y), range);
+			}
+		}
+		{
+			int x = Math.Min(Map.Instance.width-1, src.x + range);
+			for(int y=Math.Max (0, src.y - range); y < Math.Min (src.y + range, height); y++)
+			{
+				LineOfView(src, new Position(x, y), range);
+			}
+		}
 	}
 }
