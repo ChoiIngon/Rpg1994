@@ -24,6 +24,7 @@ public class Player : Character
 	}
 
 	private Player() {
+		size = 0.0f;
 		category = Object.Category.Player;
 		inventory = new Inventory ();
 		quests = new Dictionary<string, QuestData>();

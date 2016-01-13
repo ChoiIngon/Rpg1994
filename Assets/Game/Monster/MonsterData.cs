@@ -36,9 +36,6 @@ public class MonsterData : Character {
 				Move (next);
 			}
 		}
-		if (null != view) {
-			view.SetVisible (visible);
-		}
 		state = State.Chase;
 	}
 

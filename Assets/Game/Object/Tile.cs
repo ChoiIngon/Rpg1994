@@ -3,45 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Tile : Object {
-	public enum Type {
-		Unused,
-		Floor,
-		Corridor,
-		Wall,
-		ClosedDoor,
-		OpenDoor,
-		UpStairs,
-		DownStairs,
-		Tree,
-		EnterPoint,
-		Max
-	}
-	
-	public Type type;
-	public string id;
-	public Color color;
 	public bool visit;
+	public bool visible;
 	public Dictionary<Object, Object> objects;
 	public TileView view;
 	public Tile() {
-		category = Object.Category.Tile;
 		visit = false;
-		type = Type.Floor;
+		visible = false;
 		objects = new Dictionary<Object, Object> ();
-	}
-	
-	public static Type ToType(string type)
-	{
-		if ("Floor" == type) {
-			return Tile.Type.Floor;
-		} else if ("Wall" == type) {
-			return Tile.Type.Wall;
-		} else if ("Tree" == type) {
-			return Tile.Type.Tree;
-		} else if ("EnterPoint" == type) {
-			return Tile.Type.Floor;
-		}
-		throw new System.Exception("invalid tile type(" + type + ")");
+		OnCreate ();
 	}
 
 	public void AddObject(Object obj) {
@@ -72,15 +42,20 @@ public class Tile : Object {
 		view.SetPosition (position);
 	}
 
-	public override void OnCreate ()
+	public void OnCreate ()
 	{
 		view = ObjectView.Create<TileView> (this, ".", Color.white);
 	}
-	public override void OnDestroy() {
+
+	public void OnDestroy() {
 		view.OnDestroy ();
 	}
 
-	public override void Destroy() {
-		OnDestroy ();
+	public float GetObjectSize() {
+		float size = 0.0f;
+		foreach (var v in objects) {
+			size += v.Value.size;
+		}
+		return size;
 	}
 };

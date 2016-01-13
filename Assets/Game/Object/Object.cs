@@ -8,7 +8,6 @@ public abstract class Object {
 	public enum Category
 	{
 		Invalid,
-		Tile,
 		Monster,
 		Player,
 		NPC,
@@ -16,14 +15,12 @@ public abstract class Object {
 		Wall
 	}
 	public Position position;
-	public bool visible;
 	public Category category;
 	public float size;
 	public int sight;
 	public Object() {
 		category = Category.Invalid;
 		position = new Position(0, 0);
-		visible = true;
 		sight = 1;
 		size = 0.0f;
 		OnCreate ();

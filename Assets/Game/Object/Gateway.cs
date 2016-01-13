@@ -12,7 +12,7 @@ public class Gateway : Object {
 	public Destination dest = new Destination();
 
 	public Gateway() {
-		size = 0.5f;
+		size = 0.0f;
 	}
 
 	public override void OnCreate() {

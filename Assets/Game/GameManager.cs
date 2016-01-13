@@ -23,7 +23,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		Player.Instance.health.interval = 10;
 		Player.Instance.health.recovery = 3;
 		Player.Instance.health.time = 0;
-		
+
 		Player.Instance.stamina.value = 300;
 		Player.Instance.stamina.max = 300;
 		Player.Instance.stamina.interval = 0;
@@ -54,7 +54,6 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("potion_attack_001"));
 		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("potion_poison_001"));
 		
-		Player.Instance.visible = true;
 		Init ();
 	}
 

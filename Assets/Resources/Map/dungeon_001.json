@@ -24,6 +24,6 @@
 		{ "id" : "npc_001", "room" : 0 }
 	],
 	"gateway": [
-		{ "id" : "dungeon_002", "name" : "next level", "map" : "Map/dungeon_002", "room":9 }
+		{ "id" : "dungeon_002", "name" : "next level", "map" : "Map/dungeon_002", "room":0 }
 	]
 }	

@@ -67,7 +67,7 @@ public class PathFind_AStar {
 				}
 
 				Tile tile = Map.Instance.GetTile(childPosition.x, childPosition.y);
-				if(Tile.Type.Floor != tile.type)
+				if(1.0 < tile.GetObjectSize())
 				{
 					//Debug.Log("not tile(child position:x" + childPosition.x + ", y:" + childPosition.y +")");
 					continue;

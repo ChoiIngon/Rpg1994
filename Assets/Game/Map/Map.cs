@@ -68,7 +68,6 @@ public class Map : Util.Singleton<Map> {
 		foreach(Tile tile in tiles) {
 			tile.visible = false;
 			foreach(var v in tile.objects) {
-				v.Value.visible = false;
 				objects.Add(v.Value);
 			}
 		}
@@ -93,12 +92,9 @@ public class Map : Util.Singleton<Map> {
 			Tile tile = GetTile (position.x, position.y);
 			tile.visit = true;
 			tile.visible = true;
-			foreach(var v in tile.objects) {
-				v.Value.visible = true;
-				if(1.0f < v.Value.size)
-				{
-					return;
-				}
+			if(1.0f < tile.GetObjectSize())
+			{
+				return;
 			}
 		}
 	}
