@@ -81,25 +81,7 @@ public class Map : Util.Singleton<Map> {
 		view.Center ();
 	}
 
-	public void LineOfView(Position src, Position dest, int range)
-	{
-		List<Position> positions = Position.Raycast(src, dest);
-		foreach(Position position in positions) {
-			if(range < Vector2.Distance(src, position)) {
-				return;
-			}
-			
-			Tile tile = GetTile (position.x, position.y);
-			tile.visit = true;
-			tile.visible = true;
-			if(1.0f < tile.GetObjectSize())
-			{
-				return;
-			}
-		}
-	}
-
-    public void FieldOfView(Position src, int range)
+	public void FieldOfView(Position src, int range)
     {
         Util.BresenhamCircle2D circle = new Util.BresenhamCircle2D(src, range);
         foreach (Position circumference in circle)
