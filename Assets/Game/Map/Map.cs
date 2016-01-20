@@ -99,34 +99,22 @@ public class Map : Util.Singleton<Map> {
 		}
 	}
 
-	public void FieldOfView(Position src, int range) {
-		{
-			int y = Math.Max(0, src.y - range);
-			for(int x=Math.Max (0, src.x - range); x < Math.Min (src.x + range, width); x++)
-			{
-				LineOfView(src, new Position(x, y), range);
-			}
-		}
-		{
-			int y = Math.Min(height-1, src.y + range);
-			for(int x=Math.Max (0, src.x - range); x < Math.Min (src.x + range, width); x++)
-			{
-				LineOfView(src, new Position(x, y), range);
-			}
-		}
-		{
-			int x = Math.Max(0, src.x - range);
-			for(int y=Math.Max (0, src.y - range); y < Math.Min (src.y + range, height); y++)
-			{
-				LineOfView(src, new Position(x, y), range);
-			}
-		}
-		{
-			int x = Math.Min(Map.Instance.width-1, src.x + range);
-			for(int y=Math.Max (0, src.y - range); y < Math.Min (src.y + range, height); y++)
-			{
-				LineOfView(src, new Position(x, y), range);
-			}
-		}
-	}
+    public void FieldOfView(Position src, int range)
+    {
+        Util.BresenhamCircle2D circle = new Util.BresenhamCircle2D(src, range);
+        foreach (Position circumference in circle)
+        {
+            Util.BresenhamLine2D line = new Util.BresenhamLine2D(src, circumference);
+            foreach (Position position in line)
+            {
+                Tile tile = GetTile(position.x, position.y);
+                tile.visit = true;
+                tile.visible = true;
+                if (1.0f < tile.GetObjectSize())                          
+                {
+                    break;
+                }
+            }
+        }
+    }
 }
