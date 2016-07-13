@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using LitJson;
 using SimpleJSON;
 
 public class MonsterManager : Util.Singleton<MonsterManager> {
