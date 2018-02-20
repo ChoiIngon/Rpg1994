@@ -11,22 +11,22 @@ namespace MapEditor {
 		}
 		public string name {
 			set {
-				InputField input = transform.FindChild ("NameInput").GetComponent<InputField>();
+				InputField input = transform.Find ("NameInput").GetComponent<InputField>();
 				input.text = value;
 			}
 			get {
-				InputField input = transform.FindChild ("NameInput").GetComponent<InputField>();
+				InputField input = transform.Find ("NameInput").GetComponent<InputField>();
 				return input.text;
 			}
 		}
 		public string description
 		{
 			set {
-				InputField input = transform.FindChild ("DescInput").GetComponent<InputField>();
+				InputField input = transform.Find ("DescInput").GetComponent<InputField>();
 				input.text = value;
 			}
 			get {
-				InputField input = transform.FindChild ("DescInput").GetComponent<InputField>();
+				InputField input = transform.Find ("DescInput").GetComponent<InputField>();
 				return input.text;
 			}
 		}

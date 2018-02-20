@@ -9,6 +9,7 @@ public class MonsterManager : Util.Singleton<MonsterManager> {
 	public MonsterManager() {
 	}
 	public void Init() {
+		/*
 		dictInfo = new Dictionary<string, MonsterInfo>();
 		TextAsset resource = Resources.Load("Config/MonsterInfo") as TextAsset;
 		JSONNode root = JSON.Parse (resource.text);
@@ -51,7 +52,9 @@ public class MonsterManager : Util.Singleton<MonsterManager> {
 			dictInfo.Add (info.id, info);
 		}
 		Debug.Log ("init complete MonsterManager");
+		*/
 	}
+	/*
 	ItemInfo[] InitItem(JSONNode jInfo)
 	{
 		ItemInfo[] items = new ItemInfo[(int)Character.EquipPart.Max];
@@ -62,12 +65,12 @@ public class MonsterManager : Util.Singleton<MonsterManager> {
 		}
 		return items;
 	}
-
+	*/
 	public MonsterInfo Find(string id) {
 		return dictInfo [id];
 	}
 	public MonsterData CreateInstance(string id) {
-		MonsterData monster = dictInfo [id].CreateInstance ();
+		MonsterData monster = null;// = dictInfo [id].CreateInstance ();
 		return monster;
 	}
 }

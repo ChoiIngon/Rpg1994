@@ -10,7 +10,7 @@ public class WallView : ObjectView {
 	static int EAST = 0x0100;
 	static int WEST = 0x1000;
 	public static Dictionary<int, string> PRESET = null;
-	
+	/*
 	static WallView() {
 		PRESET = new Dictionary<int, string>();
 		PRESET [NONE] = "─";
@@ -30,7 +30,7 @@ public class WallView : ObjectView {
 		PRESET [EAST|WEST|NORTH] = "┴";
 		PRESET [NORTH|SOUTH|EAST|WEST] = "┼";
 	}
-
+	*/
 	public void Init (Wall wall) {
 		/*
 		int x = wall.position.x;
@@ -107,7 +107,7 @@ public class WallView : ObjectView {
 		*/
         //display.text = "#";
 	}
-
+	/*
 	public override void SetVisible (bool value)
 	{
 		display.text = text;
@@ -128,4 +128,5 @@ public class WallView : ObjectView {
 			}
 		}
 	}
+	*/
 }

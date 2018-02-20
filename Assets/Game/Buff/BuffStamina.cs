@@ -16,6 +16,7 @@ public class StaminaBuffData : BuffData {
 	public override bool IsValid() {
 		return count > 0;
 	}
+	/*
 	public override Character.Status ApplyBuff(Character character)
 	{
 		int amount = ((StaminaBuffInfo)info).amount;
@@ -25,5 +26,6 @@ public class StaminaBuffData : BuffData {
 		count--;
 		return status;
 	}
+	*/
 }
 

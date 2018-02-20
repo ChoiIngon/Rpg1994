@@ -11,6 +11,7 @@ public class StatusView : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		/*
 		if (null == Player.Instance) {
 			return;
 		}
@@ -21,6 +22,7 @@ public class StatusView : MonoBehaviour {
 		health.Value = StatusBar (Player.Instance.health, Player.Instance.health.max, "#FF0000");
 		stamina.Value = StatusBar (Player.Instance.stamina, Player.Instance.stamina.max, "#3BB9FF");
 		location.text = Map.Instance.name;
+		*/
 	}
 
 	string StatusBar(int current, int max, string color) {

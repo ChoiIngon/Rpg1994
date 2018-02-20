@@ -12,7 +12,7 @@ namespace MapEditor {
 		private Text _text;
 
 		public void Init() {
-			Transform trans = transform.FindChild ("Text");
+			Transform trans = transform.Find ("Text");
 			if (null == trans) {
 				throw new System.Exception ("can't find Text object");
 			}

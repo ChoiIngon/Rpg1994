@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Util
+namespace Map
 {
     public class BresenhamCircle2D : IEnumerable
     {

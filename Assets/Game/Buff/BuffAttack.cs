@@ -17,10 +17,12 @@ public class AttackBuffData : BuffData {
 	public override bool IsValid() {
 		return GameManager.Instance.currentTurn < expire;
 	}
+	/*
 	public override Character.Status ApplyBuff (Character character) {
 		Character.Status status = new Character.Status ();
 		status.attack += ((AttackBuffInfo)info).attack;
 		return status;
 	}
+	*/
 }
 

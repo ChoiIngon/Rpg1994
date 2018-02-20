@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using LitJson;
 
 public class MonsterInfo {
+	/*
 	public string id;
 	public string name;
 	public string description;
@@ -36,4 +37,5 @@ public class MonsterInfo {
 		}
 		return data;
 	}
+	*/
 }

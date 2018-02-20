@@ -47,8 +47,8 @@ public class ItemManager : Util.Singleton<ItemManager> {
 			itemInfo.cost = jsonInfo["cost"].AsInt;
 			itemInfo.weight = jsonInfo["weight"].AsInt;
 			itemInfo.description = jsonInfo["description"];
-			itemInfo.defense = jsonInfo["defense"].AsInt;
-			itemInfo.speed = jsonInfo["speed"].AsInt;
+			//itemInfo.defense = jsonInfo["defense"].AsInt;
+			//itemInfo.speed = jsonInfo["speed"].AsInt;
 			dictItemInfo.Add (itemInfo.id, itemInfo);
 		}
 	}
@@ -132,7 +132,9 @@ public class ItemManager : Util.Singleton<ItemManager> {
 	public ItemInfo Find(string id) {
 		return dictItemInfo [id];
 	}
+	/*
 	public ItemData CreateInstance(string id) {
 		return dictItemInfo [id].CreateInstance ();
 	}
+	*/
 }

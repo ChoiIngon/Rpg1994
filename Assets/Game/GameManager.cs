@@ -13,6 +13,7 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		ItemManager.Instance.Init ();
 		MonsterManager.Instance.Init ();
 		QuestManager.Instance.Init ();
+		/*
 		Map.Instance.Init ();
 		Player.Instance.name = "You";
 		Player.Instance.sight = 6;
@@ -53,13 +54,13 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("potion_stamina_001"));
 		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("potion_attack_001"));
 		Player.Instance.inventory.Put (ItemManager.Instance.CreateInstance("potion_poison_001"));
-		
+		*/
 		Init ();
 	}
 
 	public void Init () {
 
-		Map.Instance.Load ("Map/dungeon_001");
+		//Map.Instance.Load ("Map/dungeon_001");
 	}
 
 	void Update () {
@@ -70,9 +71,8 @@ public class GameManager : Util.UI.Singleton<GameManager> {
 			return ;
 		}
 
-		Map.Instance.Update ();
-
-//		testNpc.Update ();
+		//Map.Instance.Update ();
+	
 
 		lastTurn = currentTurn;
 	}

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Character : Object {
+	/*
 	private static Dictionary<EquipPart, ItemInfo.Category> ItemPartMap = new Dictionary<EquipPart, ItemInfo.Category>();
 	static Character() {
 		ItemPartMap.Add(EquipPart.Weapon, ItemInfo.Category.Weapon);
@@ -253,4 +254,5 @@ public class Character : Object {
 	public virtual void OnUnequipItem(ItemData item) {}
 	public virtual void OnDropItem(ItemData item) {}
 	public virtual void OnPickupItem(ItemData item) {}
+	*/
 }

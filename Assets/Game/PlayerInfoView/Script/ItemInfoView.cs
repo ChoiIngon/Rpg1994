@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
+	/*
 	public enum ButtonType
 	{
 		Equip,
@@ -155,4 +156,5 @@ public class ItemInfoView : Util.UI.Singleton<ItemInfoView> {
 
 		throw new System.Exception("select item first");
 	}
+	*/
 }

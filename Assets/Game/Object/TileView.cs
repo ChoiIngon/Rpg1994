@@ -12,8 +12,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class TileView : ObjectView {
-	public override void SetVisible (bool value)
+	public void SetVisible (bool value)
 	{
+		/*
 		Tile tile = Map.Instance.GetTile (position.x, position.y);
 		if(null == tile) {
 			throw new System.Exception("out of map position");
@@ -35,6 +36,7 @@ public class TileView : ObjectView {
 				display.text = "";
 			}
 		}
+		*/
 	}
 }
 

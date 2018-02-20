@@ -8,15 +8,18 @@ public class WeaponItemInfo : ItemInfo {
 	public WeaponItemInfo() {
 		category = ItemInfo.Category.Weapon;
 	}
+	/*
 	public override ItemData CreateInstance()
 	{
 		WeaponItemData data = new WeaponItemData ();
 		data.info = this;
 		return data;
 	}
+	*/
 };
 
 public class WeaponItemData : EquipmentItemData {
+	/*
 	public override Character.Status GetStatus()
 	{
 		WeaponItemInfo weapon = (WeaponItemInfo)this.info;
@@ -25,4 +28,5 @@ public class WeaponItemData : EquipmentItemData {
 		status.speed = weapon.speed;
 		return status;
 	}
+	*/
 }

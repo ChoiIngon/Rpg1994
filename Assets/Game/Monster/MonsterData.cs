@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MonsterData : Character {
+	/*
 	public enum State
 	{
 		Idle,
@@ -105,5 +106,6 @@ public class MonsterData : Character {
 		}
 		Idle ();
 	}
+	*/
 }
 

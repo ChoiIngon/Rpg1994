@@ -6,6 +6,7 @@ using System.Linq;
 
 public class Player : Character
 {
+	/*
 	public Inventory inventory = null;
 	public ObjectView view = null;
 	public int level = 1;
@@ -215,4 +216,5 @@ public class Player : Character
 		tile.view.CreateFloatingMessage ("-" + damage.ToString(), Color.red);
 		LogView.Instance.Write ("당신은 " + damage + "의 피해를 입었습니다.");
 	}
+	*/
 }

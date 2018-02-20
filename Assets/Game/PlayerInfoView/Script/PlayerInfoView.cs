@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> { 
+	/*
 	public EquipmentView[] equipmentViews = new EquipmentView[(int)Character.EquipPart.Max];
 	public Transform inventorySlots;
 	public SlotView slotViewPref;
@@ -19,11 +20,11 @@ public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> {
 		transform.localPosition = Vector3.zero;
 		gameObject.SetActive (false);
 		//transform.localScale = new Vector3 (0, 0, 0);
-		equipmentViews[(int)Character.EquipPart.Weapon] = transform.FindChild ("Background/Content/Avata/Content/Weapon").GetComponent<EquipmentView> ();
-		equipmentViews[(int)Character.EquipPart.Shield] = transform.FindChild("Background/Content/Avata/Content/Shield").GetComponent<EquipmentView>();
-		equipmentViews[(int)Character.EquipPart.LeftRing] = transform.FindChild("Background/Content/Avata/Content/LeftRing").GetComponent<EquipmentView>();
-		equipmentViews[(int)Character.EquipPart.RightRing] = transform.FindChild("Background/Content/Avata/Content/RightRing").GetComponent<EquipmentView>();
-		equipmentViews[(int)Character.EquipPart.Shirt] = transform.FindChild("Background/Content/Avata/Content/Shirt").GetComponent<EquipmentView>();
+		equipmentViews[(int)Character.EquipPart.Weapon] = transform.Find ("Background/Content/Avata/Content/Weapon").GetComponent<EquipmentView> ();
+		equipmentViews[(int)Character.EquipPart.Shield] = transform.Find("Background/Content/Avata/Content/Shield").GetComponent<EquipmentView>();
+		equipmentViews[(int)Character.EquipPart.LeftRing] = transform.Find("Background/Content/Avata/Content/LeftRing").GetComponent<EquipmentView>();
+		equipmentViews[(int)Character.EquipPart.RightRing] = transform.Find("Background/Content/Avata/Content/RightRing").GetComponent<EquipmentView>();
+		equipmentViews[(int)Character.EquipPart.Shirt] = transform.Find("Background/Content/Avata/Content/Shirt").GetComponent<EquipmentView>();
 
 		for (int i=0; i<Inventory.MAX_SLOT_COUNT; i++) {
 			SlotView slotView = Instantiate<SlotView>(slotViewPref);
@@ -91,4 +92,5 @@ public class PlayerInfoView : Util.UI.Singleton<PlayerInfoView> {
 		gold.Value = Player.Instance.inventory.gold.ToString();
 		weight.Value = Player.Instance.inventory.weight.ToString () + "/" + Player.Instance.inventory.maxWeight.ToString();
 	}
+	*/
 }

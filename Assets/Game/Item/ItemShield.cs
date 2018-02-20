@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class ShieldItemInfo : ItemInfo {
+	/*
 	public int defense;
 	public int speed;
 
@@ -13,9 +14,11 @@ public class ShieldItemInfo : ItemInfo {
 		data.info = this;
 		return data;
 	}
+	*/
 }
 
 public class ShieldItemData : EquipmentItemData {
+	/*
 	public override Character.Status GetStatus()
 	{
 		ShieldItemInfo shild = (ShieldItemInfo)this.info;
@@ -24,4 +27,5 @@ public class ShieldItemData : EquipmentItemData {
 		status.speed = shild.speed;
 		return status;
 	}
+	*/
 };

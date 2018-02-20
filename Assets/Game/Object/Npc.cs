@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Npc : Object {
+	/*
 	public List<string> quests = new List<string>();
 	public ObjectView view;
 	public string id;
@@ -30,4 +31,5 @@ public class Npc : Object {
 	{
 		view.OnDestroy ();
 	}
+	*/
 }

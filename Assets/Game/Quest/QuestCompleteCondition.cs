@@ -58,6 +58,7 @@ public class QuestCompleteCondition_MeetNpc : QuestCompleteCondition {
 	}
 	
 	public override bool IsComplete() {
+		/*
 		Object obj = Player.Instance.target;
 		if(null != obj && Object.Category.NPC == obj.category) {
 			Npc npc = (Npc)obj;
@@ -66,6 +67,7 @@ public class QuestCompleteCondition_MeetNpc : QuestCompleteCondition {
 				return true;
 			}
 		}
+		*/
 		return false;
 	}
 }

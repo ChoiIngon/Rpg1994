@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MapView : MonoBehaviour {
+	/*
 	public static int TILE_SIZE = 45;
 	[HideInInspector]
 	public int VIEW_WIDTH = 0;
@@ -18,7 +19,7 @@ public class MapView : MonoBehaviour {
 		viewRect = GetComponent<RectTransform>().rect;
 		VIEW_WIDTH = (int)viewRect.width/TILE_SIZE;
 		VIEW_HEIGHT = (int)viewRect.height/TILE_SIZE;
-		tiles = transform.FindChild ("Tiles");
+		tiles = transform.Find ("Tiles");
 	}
 
 	public void Init()
@@ -62,4 +63,5 @@ public class MapView : MonoBehaviour {
 			}
 		}
 	}
+	*/
 }

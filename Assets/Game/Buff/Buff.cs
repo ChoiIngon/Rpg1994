@@ -9,5 +9,5 @@ public abstract class BuffInfo {
 public abstract class BuffData {
 	public BuffInfo info;
 	public abstract bool IsValid ();
-	public abstract Character.Status ApplyBuff (Character character);
+	//public abstract Character.Status ApplyBuff (Character character);
 }

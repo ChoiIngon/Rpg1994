@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Gateway : Object {
+	/*
 	public class Destination {
 		public string name;
 		public string id;
@@ -39,5 +40,5 @@ public class Gateway : Object {
 	private void MoveMap() {
 		Map.Instance.Load (dest.map);
 	}
-
+	*/
 }

@@ -19,6 +19,7 @@ public class PoisonBuffData : BuffData {
 	public override bool IsValid() {
 		return GameManager.Instance.currentTurn < expire;
 	}
+	/*
 	public override Character.Status ApplyBuff (Character character) {
 		Character.Status status = new Character.Status ();
 		if (current < GameManager.Instance.currentTurn) {
@@ -30,4 +31,5 @@ public class PoisonBuffData : BuffData {
 		}
 		return status;
 	}
+	*/
 }

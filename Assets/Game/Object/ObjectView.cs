@@ -3,11 +3,12 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class ObjectView : MonoBehaviour {
+	/*
 	public Text display;
 	public string text;
 	public Position position;
 	public ObjectView() {
-		Transform tileTextTransform = transform.FindChild ("Text");
+		Transform tileTextTransform = transform.Find ("Text");
 		if (null == tileTextTransform) {
 			throw new System.Exception ("can't find text object");
 		}
@@ -24,7 +25,7 @@ public class ObjectView : MonoBehaviour {
 
 	public static T Create<T>(Object obj, string text, Color color) where T : ObjectView {
 		GameObject objectView = GameObject.Instantiate(Resources.Load("Prefab/Map/ObjectView", typeof(GameObject)) ) as GameObject;
-		objectView.transform.FindChild("Text").GetComponent<Text> ().fontSize = MapView.TILE_SIZE;
+		objectView.transform.Find("Text").GetComponent<Text> ().fontSize = MapView.TILE_SIZE;
 		objectView.transform.SetParent (Map.Instance.view.tiles, false);
 		T tView = objectView.AddComponent<T> ();
 		tView.name = text;
@@ -62,4 +63,5 @@ public class ObjectView : MonoBehaviour {
 		this.position = position;
 		transform.localPosition = new Vector3(position.x * MapView.TILE_SIZE, -position.y * MapView.TILE_SIZE, 0);
 	}
+	*/
 }

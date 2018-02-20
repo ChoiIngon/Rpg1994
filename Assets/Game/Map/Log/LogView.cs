@@ -11,7 +11,7 @@ public class LogView : Util.UI.Singleton<LogView> {
 	public Transform contents;
 	public const int MAX_LINE_COUNT = 30;
 	void Start() {
-		contents = transform.FindChild ("Contents");
+		contents = transform.Find ("Contents");
 		if (null == contents) {
 			throw new System.Exception ("can't find contents object");
 		}
@@ -30,12 +30,12 @@ public class LogView : Util.UI.Singleton<LogView> {
 		}
 		GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
 	}
-
+	/*
 	public void Write(QuestData.Dialouge data)
 	{
 		Transform view = Instantiate<Transform> (dialougePref);
-		view.FindChild ("Speaker").GetComponent<Text> ().text = data.speacker;
-		view.FindChild ("Script").GetComponent<Text> ().text = data.script;
+		view.Find ("Speaker").GetComponent<Text> ().text = data.speacker;
+		view.Find ("Script").GetComponent<Text> ().text = data.script;
 		view.SetParent (contents, false);
 
 		while (MAX_LINE_COUNT < contents.childCount) {
@@ -45,4 +45,5 @@ public class LogView : Util.UI.Singleton<LogView> {
 		}
 		GetComponent<ScrollRect>().verticalNormalizedPosition = 0;
 	}
+	*/
 }

@@ -14,7 +14,7 @@ public class RewardInfo {
 		foreach (ItemInfo item in items) {
 			if(UnityEngine.Random.Range(1, 10) <= 3)
 			{
-				data.items.Add(ItemManager.Instance.CreateInstance(item.id));
+				//data.items.Add(ItemManager.Instance.CreateInstance(item.id));
 			}
 		}
 		return data;

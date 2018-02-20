@@ -19,7 +19,7 @@ public class AttributeView : MonoBehaviour {
 		set {
 			if(null == _value)
 			{
-				_value = transform.FindChild("Value").GetComponent<Text>();
+				_value = transform.Find("Value").GetComponent<Text>();
 			}
 			_value.text = value;
 		}
@@ -29,7 +29,7 @@ public class AttributeView : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-		_name = transform.FindChild ("Name").GetComponent<Text> ();
-		_value = transform.FindChild ("Value").GetComponent<Text> ();
+		_name = transform.Find ("Name").GetComponent<Text> ();
+		_value = transform.Find ("Value").GetComponent<Text> ();
 	}
 }

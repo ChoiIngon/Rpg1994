@@ -16,6 +16,7 @@ public class HealBuffData : BuffData {
 	public override bool IsValid() {
 		return count > 0;
 	}
+	/*
 	public override Character.Status ApplyBuff(Character character)
 	{
 		int amount = ((HealBuffInfo)info).amount;
@@ -25,5 +26,6 @@ public class HealBuffData : BuffData {
 		count--;
 		return status;
 	}
+	*/
 }
 

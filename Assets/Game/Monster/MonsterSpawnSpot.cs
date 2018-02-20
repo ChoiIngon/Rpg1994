@@ -20,6 +20,7 @@ public class MonsterSpawnSpot {
 	}
 
 	public void Update() {
+		/*
 		if (null != monster && MonsterData.State.Die == monster.state) {
 			monster = null;
 			deadTime = GameManager.Instance.currentTurn;
@@ -32,5 +33,6 @@ public class MonsterSpawnSpot {
 			monster = MonsterManager.Instance.CreateInstance (id);
 			monster.SetPosition(position);
 		}
+		*/
 	}
 }

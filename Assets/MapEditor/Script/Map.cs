@@ -32,7 +32,7 @@ namespace MapEditor {
 		}
 
 		public void Save(string path) {
-			Transform contents = transform.FindChild ("Contents");
+			Transform contents = transform.Find ("Contents");
 			if (null == contents) {
 				throw new System.Exception ("can't find contents object");
 			}
@@ -96,7 +96,7 @@ namespace MapEditor {
 		}
 
 		void Init(int width, int height) {
-			Transform contents = transform.FindChild ("Contents");
+			Transform contents = transform.Find ("Contents");
 			if (null == contents) {
 				throw new System.Exception ("can't find contents object");
 			}
@@ -123,7 +123,7 @@ namespace MapEditor {
 			RectTransform rectTransform = GetComponent<RectTransform> ();
 			int width = (int)rectTransform.rect.width;
 			int height = (int)rectTransform.rect.height;
-			Transform contents = transform.FindChild ("Contents");
+			Transform contents = transform.Find ("Contents");
 			int x = (int)contents.localPosition.x;
 			int y = (int)contents.localPosition.y;
 
@@ -146,7 +146,7 @@ namespace MapEditor {
 			if (0 > x || MAP_WIDTH <= x || 0 > y || MAP_HEIGHT <= y) {
 				return null;
 			}
-			Transform contents = transform.FindChild ("Contents");
+			Transform contents = transform.Find ("Contents");
 			return contents.GetChild (x + y * MAP_WIDTH).GetComponent<Tile>();
 		}
 	}

@@ -5,6 +5,7 @@ using System.Linq;
 using SimpleJSON;
 
 public class QuestData {
+	/*
 	public enum State {
 		BeforeStart,
 		OnExecute,
@@ -47,7 +48,7 @@ public class QuestData {
 			condition.Start ();
 		}
 		state = State.OnExecute;
-		Player.Instance.quests.Add (id, this);
+		//Player.Instance.quests.Add (id, this);
 		QuestManager.Instance.OnStart (this);
 	}
 
@@ -61,12 +62,12 @@ public class QuestData {
 				return false;
 			}
 		}
-		Player.Instance.quests.Remove (id);
+		//Player.Instance.quests.Remove (id);
 		state = State.BeforeStart;
-		Player.Instance.inventory.gold += reward.gold;
+		//Player.Instance.inventory.gold += reward.gold;
 		foreach (ItemInfo info in reward.items) {
 			ItemData data = ItemManager.Instance.CreateInstance(info.id);
-			Player.Instance.inventory.Put (data);
+			//Player.Instance.inventory.Put (data);
 		}
 		CompleteQuest complete = new CompleteQuest ();
 		complete.id = id;
@@ -75,6 +76,7 @@ public class QuestData {
 		QuestManager.Instance.OnComplete (this);
 		return true;
 	}
+	*/
 }
 
 public class CompleteQuest {
@@ -90,6 +92,7 @@ public class QuestManager : Util.Singleton<QuestManager> {
 	private delegate QuestStartCondition CreateStartConditionInstance(JSONNode attr);
 	private delegate QuestCompleteCondition CreateCompleteConditionInstance (JSONNode attr);
 	public void Init() {
+		/*
 		completes = new Dictionary<string, CompleteQuest>();
 		quests = new Dictionary<string, QuestData>();
 
@@ -214,7 +217,7 @@ public class QuestManager : Util.Singleton<QuestManager> {
 		foreach(var v in quests)
 		{
 			QuestData quest = v.Value;
-			if(true == quest.IsAvailable())
+			//if(true == quest.IsAvailable())
 			{
 				return quest;
 			}
@@ -227,7 +230,7 @@ public class QuestManager : Util.Singleton<QuestManager> {
 		List<KeyValuePair<string, QuestData>> list = this.quests.ToList ();
 		foreach (KeyValuePair<string, QuestData> pair in list)
 		{
-			if(true == pair.Value.IsComplete())
+			//if(true == pair.Value.IsComplete())
 			{
 				return pair.Value;
 			}
@@ -237,10 +240,11 @@ public class QuestManager : Util.Singleton<QuestManager> {
 
 	public void OnStart (QuestData quest)
 	{
-		LogView.Instance.Write ("[" + quest.name + "] starts");
+		//LogView.Instance.Write ("[" + quest.name + "] starts");
 	}
 	public void OnComplete(QuestData quest)
 	{
+		/*
 		foreach (QuestData.Dialouge dialouge in quest.completeDialouges) {
 			LogView.Instance.Write (dialouge);
 		}
@@ -249,6 +253,7 @@ public class QuestManager : Util.Singleton<QuestManager> {
 		foreach (ItemInfo info in quest.reward.items) {
 			LogView.Instance.Write ("You get " + info.name);
 		}
+		*/
 	}
 }
 

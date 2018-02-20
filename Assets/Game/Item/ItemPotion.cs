@@ -7,14 +7,17 @@ public class PotionItemInfo : ItemInfo {
 	public PotionItemInfo() {
 		category = ItemInfo.Category.Potion;
 	}
+	/*
 	public override ItemData CreateInstance() {
 		PotionItemData data = new PotionItemData ();
 		data.info = this;
 		return data;
 	}
+	*/
 }
 
 public class PotionItemData : ItemData {
+	/*
 	public override Character.Status Use (Character character) {
 		Character.Status state = new Character.Status ();
 		PotionItemInfo info = (PotionItemInfo)this.info;
@@ -27,4 +30,5 @@ public class PotionItemData : ItemData {
 		}
 		return state;
 	}
+	*/
 }

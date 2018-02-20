@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class ItemStack : Object {
+	/*
 	public ItemData item;
 	public int count;
 	private ObjectView view;
@@ -24,4 +25,5 @@ public class ItemStack : Object {
 	{
 		view.OnDestroy ();
 	}
+	*/
 }

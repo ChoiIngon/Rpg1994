@@ -8,14 +8,17 @@ public class ShirtItemInfo : ItemInfo {
 	public ShirtItemInfo() {
 		category = ItemInfo.Category.Shirt;
 	}
+	/*
 	public override ItemData CreateInstance() {
 		ShirtItemData data = new ShirtItemData ();
 		data.info = this;
 		return data;
 	}
+	*/
 }
 
 public class ShirtItemData : EquipmentItemData {
+	/*
 	public override Character.Status GetStatus()
 	{
 		ShirtItemInfo shirt = (ShirtItemInfo)this.info;
@@ -24,4 +27,5 @@ public class ShirtItemData : EquipmentItemData {
 		status.speed = shirt.speed;
 		return status;
 	}
+	*/
 };

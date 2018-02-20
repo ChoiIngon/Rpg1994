@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PathFind_AStar {
+	/*
 	public Dictionary<int, Node> openNodes = new Dictionary<int, Node>();
 	public Dictionary<int, Node> closeNodes = new Dictionary<int, Node>();
 	public Position destination;
@@ -121,6 +122,7 @@ public class PathFind_AStar {
 		}
 		return null;
 	}
+	*/
 }
 
 public class PathFind
