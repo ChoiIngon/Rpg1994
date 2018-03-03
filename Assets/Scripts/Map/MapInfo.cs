@@ -9,8 +9,8 @@ namespace Map
 		public string name;
 		public string description;
 
-		public int width = 20;
-		public int height = 20;
+		public int width = 15;
+		public int height = 15;
 		public int room_count = 4;
 
 		public MapData CreateInstance()
@@ -19,43 +19,32 @@ namespace Map
 			height = (0 == this.height % 2 ? this.height + 1 : this.height);
 
 			MapData mapData = new MapData (this);
+
 			List<Room> rooms = new List<Room> ();
-
-			for(int i=0; i<1000 && rooms.Count < room_count; i++)
+			for(int i=0; i<100 && rooms.Count < room_count; i++)
 			{
-				int x = Random.Range(1, this.width - Room.MAX_SIZE - 1);
-				int w = Random.Range(Room.MIN_SIZE, Room.MAX_SIZE);
-				int y = Random.Range(1, this.height - Room.MAX_SIZE - 1);
-				int h = Random.Range(Room.MIN_SIZE, Room.MAX_SIZE);
-
-				int left = Mathf.Max (1, x);
-				int right = Mathf.Min(left + w, width - 1);
-				int top = Mathf.Max(1, y);
-				int bottom = Mathf.Min(top + h, height - 1);
-
 				Room room = new Room (mapData);
-				if (true == room.Digging (left, right, top, bottom)) {
-					Debug.Log ("group_id:" + mapData.group_id + ", x:" + x + ", w:" + w + ", y:" + y + ", h:" + h +
-						", left:" + left + ", right:" + right + ", top:" + top + ", bottom:" + bottom);
+				if (true == room.Digging ()) {
 					rooms.Add (room);
 				}
 			}
-
+			mapData.group_id++;
 			for (int y=1; y<height-1; y++) {
 				for (int x=1; x<width-1; x++) {
 					Tile tile = mapData.GetTile (x, y);
 					if(1 == x % 2 && 1 == y % 2 && 0 == tile.group_id) {
 						Maze maze = new Maze (mapData);
 						maze.Digging (x, y);
-						mapData.group_id++;
 					}
 				}
 			}
+			mapData.group_id++;
+			Debug.Log ("digging count:" + Maze.DIGGING_COUNT);
 
 			foreach (Room room in rooms) {
-				room.Connect();
+				room.Connect ();
 			}
-			/*
+
 			bool delete = true;
 			while (delete) {
 				delete = false;
@@ -75,14 +64,15 @@ namespace Map
 							}
 
 							if (3 <= count) {
-								//tiles_ [x + y * width] = 0;
+								Tile tile = mapData.GetTile (x, y);
+								tile.group_id = 0;
 								delete = true;
 							}
 						}
 					}
 				}
 			}
-			*/
+
 			return mapData;
 		}
 

@@ -9,7 +9,9 @@ namespace Map {
 		public bool visible = false;
 		public List<Object> objects = new List<Object>();
 		public int group_id = 0;
-
+		#if UNITY_EDITOR
+		public Color color = Color.white;
+		#endif
 		public void AddObject(Object obj) {
 			objects.Add (obj);
 		}

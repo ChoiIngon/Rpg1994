@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Map {
 	public class Maze
 	{
+		public static int DIGGING_COUNT = 0;
 		public enum DirectionType
 		{
 			North, East, South, West, Max
@@ -18,37 +19,34 @@ namespace Map {
 
 		public void Digging(int x, int y)
 		{
-			if (1 > x || x >= map_data.info.width-1 || 1 > y || y >= map_data.info.height-1)
-			{
-				Debug.Log ("fail to dig maze(x:" + x + ", y:" + y + ")");
+			DIGGING_COUNT++;
+			if (1 > x || x >= map_data.info.width - 1 || 1 > y || y >= map_data.info.height - 1) {
 				return;
 			}
-
-			int count = 0;
+			int openDirectionCount = 0;
 			for (int dy = -1; dy <= 1; dy += 2)
 			{
 				Tile tile = map_data.GetTile (x, y + dy);
 				if (tile == null || 0 == tile.group_id) {
-					count++;
+					openDirectionCount++;
 				}
 			}
 			for (int dx = -1; dx <= 1; dx += 2)
 			{
 				Tile tile = map_data.GetTile (x + dx, y);
 				if (tile == null || 0 == tile.group_id) {
-					count++;
+					openDirectionCount++;
 				}
 			}
 
-			if(3 > count)
+			if(3 > openDirectionCount)
 			{
-				Debug.Log ("dig maze count under 3(x:" + x + ", y:" + y + ")");
 				return;
 			}
 
 			{
 				Tile tile = map_data.GetTile (x, y);
-				tile.group_id = map_data.group_id++;
+				tile.group_id = map_data.group_id;
 			}
 
 			List<DirectionType> directions = new List<DirectionType>();
@@ -61,12 +59,10 @@ namespace Map {
 				directions.Add (DirectionType.South);
 			}
 
-			//directions.Add (direction);
-			DirectionType direction = directions [Random.Range (0, directions.Count)];
-
 			while (0 < directions.Count)
 			{
-				directions.Remove(direction);
+				DirectionType direction = directions [Random.Range (0, directions.Count)];
+
 				switch (direction)
 				{
 				case DirectionType.North:
@@ -82,12 +78,9 @@ namespace Map {
 					Digging(x - 1, y);
 					break;
 				}
-				if (0 == directions.Count)
-				{
-					return;
-				}
-				direction = directions[Random.Range (0, directions.Count)];
+				directions.Remove(direction);
 			}
+			//map_data.group_id++;
 			return;
 		}
 	}
